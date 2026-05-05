@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest --watch"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
@@ -24,8 +25,10 @@
     "@types/jest": "^30.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "eslint-config-prettier": "^10.1.8",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
+    "prettier": "^3.8.3",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2"
   }
