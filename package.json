@@ -2,15 +2,15 @@
   "name": "codebook",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "test": "jest --watch",
-    "format": "prettier --write .",
-    "db:attach": "docker exec -it postgres_db psql -U myuser -d codebook"
-  },
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint",
+  "test": "jest --watch",
+  "format": "prettier --write .",
+  "db:attach": "docker exec -it postgres_db psql -U myuser -d codebook"
+},
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "next": "16.2.4",
