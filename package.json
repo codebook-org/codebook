@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest --watch",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "db:attach": "docker exec -it postgres_db psql -U myuser -d codebook"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
