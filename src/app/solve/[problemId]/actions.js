@@ -14,19 +14,20 @@ export async function getResults(submissionId) {
   return await CodebookDBHelpers.getResultsById(submissionId);
 }
 
-export async function runCode(language, code) {
+export async function runCode(language, code, input) {
   try {
     const response = await fetch("http://localhost:2000/api/v2/execute", {
       method: "POST",
-      headers: { "Content-Type": "applicatoin/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         language: language,
         version: "*",
-        files: [{ content: code }]
-      })
+        files: [{ content: code }],
+        stdin: String(input),
+      }),
     });
 
-    const data = await response.json()
+    const data = await response.json();
     return data.run;
   } catch (error) {
     return { error: "Piston is unreachable" };

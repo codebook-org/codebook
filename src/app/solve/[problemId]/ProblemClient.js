@@ -1,10 +1,18 @@
 "use client";
 import { useState, useRef } from "react";
-import { saveCode, getResults } from "./actions";
+import { saveCode, getResults, runCode } from "./actions";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
+
+// fake test cases
+// multiply input by 2
+const testcases = [
+  { input: "1", expectedOut: "2" },
+  { input: "2", expectedOut: "4" },
+  { input: "50", expectedOut: "100" },
+];
 
 export default function ProblemClient({ problem }) {
   const editorRef = useRef(null);
@@ -13,14 +21,27 @@ export default function ProblemClient({ problem }) {
 
   const handleSubmit = async () => {
     if (!editorRef.current) return;
-    setStatus("Submitting code...");
     const code = editorRef.current.getValue();
 
-    //console.log(`submitting the following code:\n ${code}`);
-
+    setStatus("Submitting code...");
     const submissionId = await saveCode(problem.id, code);
 
     setStatus("Running tests...");
+    for (const test of testcases) {
+      // hardcoding cpp for now...
+      const run = await runCode("cpp", code, test.input);
+      const actualOut = run.stdout.trim();
+      if (test.expectedOut === actualOut) {
+        console.log(
+          `Accepted: expected output: ${test.expectedOut}, actual output: ${actualOut}`,
+        );
+      } else {
+        console.log(
+          `Wrong Answer: expected output: ${test.expectedOut}, actual output: ${actualOut}`,
+        );
+      }
+    }
+
     const pollInterval = setInterval(async () => {
       const data = await getResults(submissionId);
       if (data.status !== "pending") {
