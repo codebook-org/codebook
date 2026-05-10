@@ -5,14 +5,7 @@ import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
-
-// fake test cases
-// multiply input by 2
-const testcases = [
-  { input: "1", expectedOut: "2" },
-  { input: "2", expectedOut: "4" },
-  { input: "50", expectedOut: "100" },
-];
+import TestcaseBlock from "../../../components/TestcaseBlock";
 
 export default function ProblemClient({ problem }) {
   const editorRef = useRef(null);
@@ -27,29 +20,10 @@ export default function ProblemClient({ problem }) {
     const submissionId = await saveCode(problem.id, code);
 
     setStatus("Running tests...");
-    for (const test of testcases) {
-      // hardcoding cpp for now...
-      const run = await runCode("cpp", code, test.input);
-      const actualOut = run.stdout.trim();
-      if (test.expectedOut === actualOut) {
-        console.log(
-          `Accepted: expected output: ${test.expectedOut}, actual output: ${actualOut}`,
-        );
-      } else {
-        console.log(
-          `Wrong Answer: expected output: ${test.expectedOut}, actual output: ${actualOut}`,
-        );
-      }
-    }
+    const data = await runCode(1, "cpp", code);
 
-    const pollInterval = setInterval(async () => {
-      const data = await getResults(submissionId);
-      if (data.status !== "pending") {
-        setResults(data);
-        setStatus("Done");
-        clearInterval(pollInterval);
-      }
-    }, 2000);
+    setResults(data);
+    setStatus("Done");
   };
 
   return (
@@ -77,19 +51,20 @@ export default function ProblemClient({ problem }) {
           </Card>
           <Card>
             <h1>Test Result</h1>
-            <p>{status}</p>
+            {!results && <p>{status}</p>}
             {results && (
-              <div
-                className={
-                  results.verdict === "Accepted"
-                    ? "text-green-500"
-                    : "text-red-500"
-                }
-              >
-                {results.verdict}
-              </div>
+              <>
+                <h2
+                  className={`mb-4 text-xl font-bold ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
+                >
+                  {results.verdict}
+                </h2>
+                {results.results.map((test, index) => (
+                  <TestcaseBlock key={index} test={test} index={index} />
+                ))}
+              </>
             )}
-          </Card>
+          </Card>{" "}
         </div>
       }
       layout="standard"

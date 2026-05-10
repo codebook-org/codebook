@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import "./globals.css";
+import "./global.css";
 
 export const metadata = {
   title: "CodeBook",
