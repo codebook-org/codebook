@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SignIn from "@/components/SignIn"
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -24,6 +25,7 @@ export default function Navbar() {
           </li>
         ))}
       </ul>
+      <SignIn></SignIn>
     </nav>
   );
 }
