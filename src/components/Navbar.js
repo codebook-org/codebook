@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import AuthManager from "@/components/logincomponents/AuthManager";
-import SignIn from "@/components/logincomponents/SignIn"
-import SignOut from "@/components/logincomponents/SignOut"
+import SignIn from "@/components/logincomponents/SignIn";
+import SignOut from "@/components/logincomponents/SignOut";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },

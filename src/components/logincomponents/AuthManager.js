@@ -7,9 +7,11 @@ import ProfilePicture from "@/components/logincomponents/ProfilePicture";
 import { SessionProvider } from "next-auth/react";
 
 export default function AuthManager() {
-  return (<SessionProvider>
-    <SignIn></SignIn>
-    <SignOut></SignOut>
-    <ProfilePicture></ProfilePicture>
-  </SessionProvider>);
+  return (
+    <SessionProvider>
+      <SignIn></SignIn>
+      <SignOut></SignOut>
+      <ProfilePicture></ProfilePicture>
+    </SessionProvider>
+  );
 }

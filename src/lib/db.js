@@ -37,7 +37,7 @@ try {
         `;
   }
 } catch (error) {
-    console.error("DB Initialization failed:", error);
+  console.error("DB Initialization failed:", error);
 }
 
 // Insert test problems if they don't exist yet (init)
