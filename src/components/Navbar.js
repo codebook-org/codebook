@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SignIn from "@/components/SignIn"
+
+import AuthManager from "@/components/logincomponents/AuthManager";
+import SignIn from "@/components/logincomponents/SignIn"
+import SignOut from "@/components/logincomponents/SignOut"
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -25,7 +28,7 @@ export default function Navbar() {
           </li>
         ))}
       </ul>
-      <SignIn></SignIn>
+      <AuthManager></AuthManager>
     </nav>
   );
 }

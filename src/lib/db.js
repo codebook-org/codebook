@@ -10,7 +10,7 @@ const sql = postgres({
 });
 
 // Eventually move to docker compose or something if we can
-{
+try {
   // Create the problems table if it doesn't exist yet
   await sql`
         CREATE TABLE IF NOT EXISTS Problems (
@@ -36,6 +36,8 @@ const sql = postgres({
             VALUES('Two Sum', '...')
         `;
   }
+} catch (error) {
+    console.error("DB Initialization failed:", error);
 }
 
 // Insert test problems if they don't exist yet (init)
