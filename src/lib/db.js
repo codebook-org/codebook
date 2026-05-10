@@ -77,6 +77,17 @@ export class CodebookDBHelpers {
       verdict: "Accepted",
     };
   }
+  static async getTestcasesById(problemId) {
+    // this is a stub
+    // should return all test cases which belong to problem with id problemId
+    // something like...
+    // let result = await sql`SELECT * FROM Testcases WHERE problem_id = ${problemId}`;
+    // placeholder return for now:
+    return [
+      { input: "1", expectedOut: "2" },
+      { input: "2", expectedOut: "4" },
+    ];
+  }
 
   // Isabelle added this!
   static async resetProblems() {

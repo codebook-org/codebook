@@ -1,10 +1,11 @@
 "use client";
 import { useState, useRef } from "react";
-import { saveCode, getResults } from "./actions";
+import { saveCode, getResults, runCode } from "./actions";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
+import TestcaseBlock from "../../../components/TestcaseBlock";
 
 export default function ProblemClient({ problem }) {
   const editorRef = useRef(null);
@@ -13,22 +14,16 @@ export default function ProblemClient({ problem }) {
 
   const handleSubmit = async () => {
     if (!editorRef.current) return;
-    setStatus("Submitting code...");
     const code = editorRef.current.getValue();
 
-    //console.log(`submitting the following code:\n ${code}`);
-
+    setStatus("Submitting code...");
     const submissionId = await saveCode(problem.id, code);
 
     setStatus("Running tests...");
-    const pollInterval = setInterval(async () => {
-      const data = await getResults(submissionId);
-      if (data.status !== "pending") {
-        setResults(data);
-        setStatus("Done");
-        clearInterval(pollInterval);
-      }
-    }, 2000);
+    const data = await runCode(1, "cpp", code);
+
+    setResults(data);
+    setStatus("Done");
   };
 
   return (
@@ -56,19 +51,20 @@ export default function ProblemClient({ problem }) {
           </Card>
           <Card>
             <h1>Test Result</h1>
-            <p>{status}</p>
+            {!results && <p>{status}</p>}
             {results && (
-              <div
-                className={
-                  results.verdict === "Accepted"
-                    ? "text-green-500"
-                    : "text-red-500"
-                }
-              >
-                {results.verdict}
-              </div>
+              <>
+                <h2
+                  className={`mb-4 text-xl font-bold ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
+                >
+                  {results.verdict}
+                </h2>
+                {results.results.map((test, index) => (
+                  <TestcaseBlock key={index} test={test} index={index} />
+                ))}
+              </>
             )}
-          </Card>
+          </Card>{" "}
         </div>
       }
       layout="standard"
