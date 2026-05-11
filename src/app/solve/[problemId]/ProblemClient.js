@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { saveCode, getResults, runCode } from "./actions";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
@@ -9,8 +9,31 @@ import TestcaseBlock from "../../../components/TestcaseBlock";
 
 export default function ProblemClient({ problem }) {
   const editorRef = useRef(null);
+  const vimInstanceRef = useRef(null);
   const [results, setResults] = useState(null);
   const [status, setStatus] = useState("");
+  const [vimEnabled, setVimEnabled] = useState(false);
+
+  useEffect(() => {
+    const handleVim = async () => {
+      if (!editorRef.current) return;
+
+      if (vimEnabled) {
+        const { initVimMode } = await import("monaco-vim");
+        const status = document.getElementById("vim-status-bar");
+        vimInstanceRef.current = initVimMode(editorRef.current, status);
+        editorRef.current.focus();
+      } else {
+        if (vimInstanceRef.current) {
+          vimInstanceRef.current.dispose();
+          vimInstanceRef.current = null;
+          editorRef.current.focus();
+        }
+      }
+    };
+
+    handleVim();
+  }, [vimEnabled]);
 
   const handleSubmit = async () => {
     if (!editorRef.current) return;
@@ -37,6 +60,13 @@ export default function ProblemClient({ problem }) {
       right={
         <div className="flex flex-col gap-4">
           <Card>
+            {/*TODO: temporary button -- keybind preferences (vim, emacs, etc.) should be in a dropdown eventually*/}
+            <button
+              onClick={() => setVimEnabled(!vimEnabled)}
+              className={`mb-2 px-2 py-1 font-mono rounded ${vimEnabled ? "bg-green-700" : "bg-gray-700"} text-white`}
+            >
+              vim: {vimEnabled ? "on" : "off"}
+            </button>
             <Editor
               onMount={(editor) => (editorRef.current = editor)}
               height="400px"
@@ -45,7 +75,22 @@ export default function ProblemClient({ problem }) {
               value=""
               options={{
                 minimap: { enabled: false },
+                scrollbar: {
+                  vertical: "hidden",
+                  horizontal: "hidden",
+                  handleMouseWheel: true,
+                },
+                overviewRulerLanes: 0,
+                hideCursorInOverviewRuler: true,
+                overviewRulerBorder: false,
+                renderLineHighlight: "none",
+                glyphMargin: false,
+                lineNumbers: vimEnabled ? "relative" : "on",
               }}
+            />
+            <div
+              id="vim-status-bar"
+              className="bg-[#1e1e1e] text-white text-xs h-6 px-2 flex items-center font-mono"
             />
             <Button type="submit" text="Submit" onClick={handleSubmit} />
           </Card>
