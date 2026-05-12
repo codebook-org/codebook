@@ -108,27 +108,6 @@ export namespace CodebookDatabaseAPI {
       await sql`SELECT * FROM Testcases WHERE problem_id = ${problemId}`;
     return Array.from(result.values()) as TestCase[];
   }
-
-  // Isabelle added this!
-  export async function resetProblems() {
-    try {
-      // Reset the problems Database. This is quite dangerous, but works for this situation.
-      await sql`TRUNCATE TABLE Problems RESTART IDENTITY CASCADE`;
-
-      // Reinsert the base data
-      await sql`
-                INSERT INTO Problems (title, description)
-                VALUES 
-                ('N-Queens', '...'),
-                ('Two Sum', '...')
-            `;
-
-      console.log("Database reset successful");
-    } catch (error) {
-      console.error("Failed to reset database:", error);
-      throw error;
-    }
-  }
 }
 
 // console.log(await CodebookDatabaseAPI.getProblemById(1))

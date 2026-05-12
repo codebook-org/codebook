@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { problems } from "@/lib/data";
-import { addProblem, resetDB } from "./actions";
+import { addProblem } from "./actions";
 
 export default function Publish() {
   // Using useState helps a lot in this case. We can quickly adapt or remove.
@@ -59,11 +59,6 @@ export default function Publish() {
     }
 
     setTimeout(() => setNotification({ message: "", type: "" }), 3000);
-  };
-
-  const handleReset = async (e) => {
-    e.preventDefault();
-    await resetDB();
   };
 
   // Adds a case
@@ -364,13 +359,6 @@ export default function Publish() {
 
         <button type="submit" style={{ cursor: "pointer" }}>
           Submit
-        </button>
-      </form>
-
-      {/* This is the evil RESET DB button. YOU WILL RESET THE DATABASE TO THE ORIGINAL MOCK DATA. BE WARNED. */}
-      <form onSubmit={resetDB}>
-        <button type="submit" style={{ cursor: "pointer" }}>
-          Reset Database
         </button>
       </form>
     </main>

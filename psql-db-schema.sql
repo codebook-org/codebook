@@ -36,12 +36,12 @@ INSERT INTO Problems (title, description)
 SELECT 'Triple Number', 'Input: a single integer -- n\nOutput: three times the value of n'
 WHERE (SELECT COUNT(*) FROM Problems) < 2;
 -- Default Test Cases (for testing)
-INSERT INTO TestCases (problem_id, input, expected_out)
+INSERT INTO TestCases (problem_id, input, expected_out, visible)
 SELECT * FROM (
     VALUES
-        (1, '1', '2'),
-        (1, '2', '4'),
-        (2, '1', '3'),
-        (2, '2', '6')
+        (1, '1', '2', TRUE),
+        (1, '2', '4', FALSE),
+        (2, '1', '3', TRUE),
+        (2, '2', '6', FALSE)
 ) AS new_rows(problem_id, input, expected_out)
 WHERE (SELECT COUNT(*) FROM TestCases) < 4;
