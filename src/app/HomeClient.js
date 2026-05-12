@@ -164,9 +164,9 @@ const styles = `
 
 // ── CARD ─────────────────────────────────────────────────────────────────────
 function ProblemCard({ problem }) {
-  const { problem_id, title, description, tags } = problem;
+  const { problemId, title, description, tags } = problem;
   return (
-    <Link href={`/solve/${problem_id}`} className="card">
+    <Link href={`/solve/${problemId}`} className="card">
       <div className="card-left">
         <div className="card-title">{title}</div>
         <div className="card-desc">{description}</div>
@@ -219,7 +219,7 @@ export default function HomeClient({ problems }) {
           {visible.length === 0 ? (
             <p className="empty">No problems match your search.</p>
           ) : (
-            visible.map((p) => <ProblemCard key={p.problem_id} problem={p} />)
+            visible.map((p) => <ProblemCard key={p.problemId} problem={p} />)
           )}
         </div>
       </div>
