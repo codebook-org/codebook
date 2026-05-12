@@ -2,9 +2,9 @@ import { promises as fs } from "fs";
 import path from "path";
 import HomeClient from "./HomeClient";
 
-import { CodebookDBHelpers } from "@/lib/db";
+import { CodebookDatabaseAPI } from "@/lib/db";
 
 export default async function HomePage() {
-  const problems = await CodebookDBHelpers.getProblems();
+  const problems = await CodebookDatabaseAPI.getProblems();
   return <HomeClient problems={problems} />;
 }

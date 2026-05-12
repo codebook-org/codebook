@@ -1,10 +1,11 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import SolvePage from "./page.js";
+import { CodebookDatabaseAPI } from "@/lib/db.js";
 
 // intercepts any requests to db.js
 jest.mock("../../../lib/db.js", () => ({
-  CodebookDBHelpers: {
+  CodebookDatabaseAPI: {
     getProblemById: jest.fn().mockResolvedValue({
       title: "Mock Title",
       description: "This is a mock description.",

@@ -1,8 +1,8 @@
 "use server";
-import { CodebookDBHelpers } from "@/lib/db";
+import { CodebookDatabaseAPI } from "@/lib/db";
 
 export async function saveCode(problemId, code) {
-  const submission = await CodebookDBHelpers.createSubmission({
+  const submission = await CodebookDatabaseAPI.createSubmission({
     problemId: problemId,
     code: code,
   });
@@ -11,11 +11,11 @@ export async function saveCode(problemId, code) {
 }
 
 export async function getResults(submissionId) {
-  return await CodebookDBHelpers.getResultsById(submissionId);
+  return await CodebookDatabaseAPI.getResultsById(submissionId);
 }
 
 export async function runCode(problemId, language, code) {
-  const testcases = await CodebookDBHelpers.getTestcasesById(problemId);
+  const testcases = await CodebookDatabaseAPI.getTestCasesById(problemId);
 
   let passed = 0;
   let results = [];

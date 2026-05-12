@@ -3,14 +3,31 @@ services:
     image: postgres:latest
     container_name: postgres_db
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: codebook
+      POSTGRES_USER: ${LOCAL_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${LOCAL_POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${LOCAL_POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./psql-db-schema.sql:/schema/schema.sql:ro
     restart: always
+    entrypoint:
+      - bash
+      - -c
+      - |
+        function run_schema_check() {
+          echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"; do
+            sleep 3
+          done
+          echo "Running postgres schema enforcement..."
+          psql -v ON_ERROR_STOP=1 -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f /schema/schema.sql
+          echo "Postgres schema check complete."
+        }
+
+        run_schema_check &
+        exec docker-entrypoint.sh postgres
 
   piston:
     image: ghcr.io/engineer-man/piston:latest
