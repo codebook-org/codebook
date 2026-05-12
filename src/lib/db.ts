@@ -1,9 +1,10 @@
-console.log("db.ts INIT - SHOULD NEVER SEE ON CLIENT");
+import "server-only";
 
 import postgres from "postgres";
 
 const sql = postgres({
-  host: "localhost:" + process.env.LOCAL_POSTGRES_PORT,
+  host: "localhost:",
+  port: Number(process.env.LOCAL_POSTGRES_PORT),
   user: process.env.LOCAL_POSTGRES_USER,
   password: process.env.LOCAL_POSTGRES_PASSWORD,
   database: process.env.LOCAL_POSTGRES_DB,
@@ -29,18 +30,19 @@ export namespace CodebookDatabaseAPI {
   // }
 
   export type TestCaseData = {
-    problem_id: number;
+    problemId: number;
     input: string;
-    expected_out: string;
+    expectedOut: string;
+    visible: boolean;
   };
-  export type TestCase = TestCaseData & { testcase_id: number };
+  export type TestCase = TestCaseData & { testcaseId: number };
 
   export type ProblemData = {
     title: string;
     description: string;
-    user_id?: number;
+    userId?: number;
   };
-  export type Problem = ProblemData & { problem_id: number };
+  export type Problem = ProblemData & { problemId: number };
 
   export type SubmissionData = {
     problemId: number;
@@ -48,7 +50,7 @@ export namespace CodebookDatabaseAPI {
   };
   export type SubmissionDataResponse = SubmissionData & { id: number };
 
-  export async function getProblems(): Promise<[Problem]> {
+  export async function getProblems(): Promise<Problem[]> {
     let result = await sql`SELECT json_agg(u) FROM Problems u`;
     return result[0]["json_agg"];
   }
@@ -66,7 +68,7 @@ export namespace CodebookDatabaseAPI {
   export async function createProblem(data: ProblemData) {
     let result = await sql`
       INSERT INTO Problems (title, description, user_id)
-      VALUES(${data.title}, ${data.description}, ${data.user_id ?? null})
+      VALUES(${data.title}, ${data.description}, ${data.userId ?? null})
     `;
     console.log(result);
   }
@@ -93,18 +95,18 @@ export namespace CodebookDatabaseAPI {
 
   export async function createTestCase(data: TestCaseData) {
     let result = await sql`
-      INSERT INTO TestCases (problem_id, input, expected_out)
-      VALUES(${data.problem_id}, ${data.input}, ${data.expected_out})
+      INSERT INTO TestCases (problem_id, input, expected_out, visible)
+      VALUES(${data.problemId}, ${data.input}, ${data.expectedOut}, ${data.visible})
     `;
     console.log(result);
   }
 
   export async function getTestCasesById(
     problemId: number,
-  ): Promise<[TestCase]> {
+  ): Promise<TestCase[]> {
     let result =
       await sql`SELECT * FROM Testcases WHERE problem_id = ${problemId}`;
-    return Array.from(result.values()) as [TestCase];
+    return Array.from(result.values()) as TestCase[];
   }
 
   // Isabelle added this!

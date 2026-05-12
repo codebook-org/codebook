@@ -24,15 +24,16 @@ CREATE TABLE IF NOT EXISTS TestCases (
     problem_id               INT NOT NULL,
     FOREIGN KEY (problem_id) REFERENCES Problems(problem_id) ON DELETE CASCADE ON UPDATE CASCADE,
     input                    TEXT NOT NULL,
-    expected_out              TEXT NOT NULL
+    expected_out             TEXT NOT NULL,
+    visible                  BOOLEAN NOT NULL
 );
 
 -- Default Problems, add if "missing"/not enough problems in table
 INSERT INTO Problems (title, description)
-SELECT 'N-Queens', 'Default DB Init Problem #1: N-Queens'
+SELECT 'Double Number', 'Input: a single integer -- n\nOutput: twice the value of n'
 WHERE (SELECT COUNT(*) FROM Problems) < 1;
 INSERT INTO Problems (title, description)
-SELECT 'Two Sum', 'Default DB Init Problem #2: Two Sum'
+SELECT 'Triple Number', 'Input: a single integer -- n\nOutput: three times the value of n'
 WHERE (SELECT COUNT(*) FROM Problems) < 2;
 -- Default Test Cases (for testing)
 INSERT INTO TestCases (problem_id, input, expected_out)
@@ -40,7 +41,7 @@ SELECT * FROM (
     VALUES
         (1, '1', '2'),
         (1, '2', '4'),
-        (2, '1', '2'),
-        (2, '2', '4')
+        (2, '1', '3'),
+        (2, '2', '6')
 ) AS new_rows(problem_id, input, expected_out)
 WHERE (SELECT COUNT(*) FROM TestCases) < 4;
