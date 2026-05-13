@@ -21,7 +21,8 @@ export async function runCode(problemId, language, code) {
   let results = [];
 
   for (const test of testcases) {
-    const response = await fetch("http://localhost:2000/api/v2/execute", {
+    const pistonHost = process.env.PISTON_URL || "http://localhost:2000";
+    const response = await fetch(`${pistonHost}/api/v2/execute`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
