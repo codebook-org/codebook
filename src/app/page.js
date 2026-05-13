@@ -1,5 +1,5 @@
 // to prevent crash due to pre-rendering pages during build
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 import { promises as fs } from "fs";
 import path from "path";
