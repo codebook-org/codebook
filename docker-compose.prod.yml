@@ -1,0 +1,82 @@
+services:
+  web:
+    image: mp248/codebook:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - LOCAL_POSTGRES_PORT=5432
+      - LOCAL_POSTGRES_USER=${LOCAL_POSTGRES_USER}
+      - LOCAL_POSTGRES_PASSWORD=${LOCAL_POSTGRES_PASSWORD}
+      - LOCAL_POSTGRES_DB=${LOCAL_POSTGRES_DB}
+      - PISTON_URL=http://piston:2000
+      - AUTH_SECRET=${AUTH_SECRET}
+      - AUTH_TRUST_HOST=true
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${LOCAL_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${LOCAL_POSTGRES_DB}
+    volumes:
+      - postgres_production_data:/var/lib/postgresql/data
+      - ./psql-db-schema.sql:/schema/schema.sql:ro
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    entrypoint:
+      - bash
+      - -c
+      - |
+        function run_schema_check() {
+          echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"; do
+            sleep 3
+          done
+          echo "Running postgres schema enforcement..."
+          psql -v ON_ERROR_STOP=1 -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f /schema/schema.sql
+          echo "Postgres schema check complete."
+        }
+
+        run_schema_check &
+        exec docker-entrypoint.sh postgres
+
+  piston:
+    image: ghcr.io/engineer-man/piston:latest
+    restart: always
+    privileged: true
+    volumes:
+      - piston_production_packages:/piston/packages
+
+  piston_setup:
+    image: alpine:latest
+    depends_on:
+      - piston
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        apk add --no-cache curl
+        install_language() {
+          if ! curl -s http://piston:2000/api/v2/runtimes | grep -q "$1"; then
+            curl -s -X POST http://piston:2000/api/v2/packages \
+                 -H "Content-Type: application/json" \
+                 -d "{\"language\": \"$1\", \"version\": \"$2\"}"
+          fi
+        }
+        sleep 5
+        install_language "gcc" "10.2.0"
+        install_language "python" "3.12.0"
+        install_language "java" "15.0.2"
+
+volumes:
+  postgres_production_data:
+  piston_production_packages:

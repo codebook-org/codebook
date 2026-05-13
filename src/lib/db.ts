@@ -3,7 +3,7 @@ import "server-only";
 import postgres from "postgres";
 
 const sql = postgres({
-  host: "localhost",
+  host: process.env.DB_HOST || "localhost",
   port: Number(process.env.LOCAL_POSTGRES_PORT),
   user: process.env.LOCAL_POSTGRES_USER,
   password: process.env.LOCAL_POSTGRES_PASSWORD,
