@@ -10,6 +10,7 @@ import SignOut from "@/components/logincomponents/SignOut";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/publish", label: "Publish" },
+  { href: "/profile", label: "Account" },
 ];
 
 export default function Navbar() {
