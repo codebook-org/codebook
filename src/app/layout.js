@@ -1,3 +1,6 @@
+// to prevent crash due to pre-rendering pages during build
+export const dynamic = "force-dynamic";
+
 import Navbar from "@/components/Navbar";
 import "./global.css";
 
