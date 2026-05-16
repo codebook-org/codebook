@@ -9,7 +9,7 @@ import SignOut from "@/components/logincomponents/SignOut";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "problems-library", label: "Browse Problems" },
+  { href: "/problems-library", label: "Browse Problems" },
   { href: "/publish", label: "Publish" },
   { href: "/profile", label: "Account" },
 ];
