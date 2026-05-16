@@ -59,16 +59,24 @@ export default function ProblemClient({ problem }) {
       }
       right={
         <div className="flex flex-col gap-2">
-          <Card title="Code">
-            <div className="border-b border-monaco-mid flex">
-              {/*TODO: temporary button -- keybind preferences (vim, emacs, etc.) should be in a dropdown eventually*/}
-              <button
-                onClick={() => setVimEnabled(!vimEnabled)}
-                className={`mb-2 px-2 py-1 font-mono rounded ${vimEnabled ? "bg-green-700" : "bg-gray-700"} text-white`}
+          <Card
+            title="Code"
+            optionsRight={
+              <button onClick={() => setVimEnabled(!vimEnabled)}
+                className={`rounded transition-all duration-150 hover:text-white ${
+        vimEnabled ? "text-white" : "text-monaco-muted"
+}`
+                }
               >
-                vim: {vimEnabled ? "on" : "off"}
+                <svg
+                  viewBox="0 0 15 15"
+                  className="w-6 h-5 fill-current"
+                >
+                  <path d="M7 1H1V4H2V14H5.74031L14 3.67539V1H8V4H9.43248L6 8.11898V4H7V1Z" />
+                </svg>
               </button>
-            </div>
+            }
+          >
             <Editor
               onMount={(editor) => (editorRef.current = editor)}
               height="400px"
@@ -90,10 +98,9 @@ export default function ProblemClient({ problem }) {
                 lineNumbers: vimEnabled ? "relative" : "on",
               }}
             />
-            <div
-              id="vim-status-bar"
-              className="bg-[#1e1e1e] text-white text-xs h-6 px-2 flex items-center font-mono"
-            />
+            <div className={`text-monaco-txt text-xs h-6 px-2 flex items-center font-mono -mx-4 ${vimEnabled ? "bg-monaco-mid" : "bg-monaco-dark"}`}>
+            <div className="px-4" id="vim-status-bar"/>
+            </div>
             <Button type="submit" text="Submit" onClick={handleSubmit} />
           </Card>
           <Card title="Test Result">

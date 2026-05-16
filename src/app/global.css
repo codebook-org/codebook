@@ -72,9 +72,3 @@ body {
   color: #ffffff;
   font-weight: 700;
 }
-#vim-status-bar input {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent;
-}
