@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <Link href="/" className="logo">
-        CodeBook
+        codebook
       </Link>
       <ul className="nav-links">
         {NAV_LINKS.map(({ href, label }) => (

@@ -1,4 +1,3 @@
-// to prevent crash due to pre-rendering pages during build
 export const dynamic = "force-dynamic";
 
 import Navbar from "@/components/Navbar";
@@ -12,9 +11,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-monaco-dark text-monaco-txt">
         <Navbar />
-        <main className="p-2 min-h-screen">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );
