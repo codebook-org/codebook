@@ -12,16 +12,16 @@ export const submissions = [
 ];
 
 export const users = [
-    {
-        email: "email123@gmail.com",
-        password: "password123"
-    },
-    {
-        email: "bobjoe@gmail.com",
-        password: "12345"
-    },
-    {
-        email: "hitman@gmail.com",
-        password: "hitmen"
-    }
-]
+  {
+    email: "email123@gmail.com",
+    password: "password123",
+  },
+  {
+    email: "bobjoe@gmail.com",
+    password: "12345",
+  },
+  {
+    email: "hitman@gmail.com",
+    password: "hitmen",
+  },
+];

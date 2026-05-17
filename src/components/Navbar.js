@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import UserMenu from "@/components/logincomponents/UserMenu";
 import { SessionProvider } from "next-auth/react";
 
+import { useSession } from "next-auth/react";
+
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/problems-library", label: "Browse Problems" },
@@ -16,13 +18,33 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
+
+  const { status } = useSession();
+
+  const visibleLinks = NAV_LINKS.filter((link) => {
+    // If the user is logged in, don't show the Login link
+    if (status == "authenticated" && link.href == "/login") {
+      return false;
+    }
+
+    // If the user isn't logged in, let's be safe and not let them see the publish page.
+    if (
+      status == "unauthenticated" &&
+      (link.href == "/profile" || link.href == "/publish")
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+
   return (
     <nav className="nav">
       <Link href="/" className="logo">
         CodeBook
       </Link>
       <ul className="nav-links">
-        {NAV_LINKS.map(({ href, label }) => (
+        {visibleLinks.map(({ href, label }) => (
           <li key={href}>
             <Link href={href} className={pathname === href ? "active" : ""}>
               {label}
@@ -30,11 +52,9 @@ export default function Navbar() {
           </li>
         ))}
       </ul>
-    
-    {/* When we wnat to use Sessions, we need Session Provider. But I think we could move this??? */}
-    <SessionProvider>
-        <UserMenu></UserMenu>
-    </SessionProvider>
+
+      {/* Moved Session Provider out to the Layout, so everything will obtain acces to SessionProvider. */}
+      <UserMenu></UserMenu>
     </nav>
   );
 }
