@@ -8,11 +8,9 @@ import SignOut from "@/components/logincomponents/SignOut";
 import CredSignIn from "@/components/logincomponents/CredSignIn";
 import CredRegister from "@/components/logincomponents/CredRegister";
 
-import { fakeUsers } from "@/lib/data";
-
 import { useState } from "react";
 
-export default function loginPage() {
+export default function LoginPage() {
   // Do we want to log in (default) or register a new credential login?
   const [mode, setMode] = useState("login");
 
