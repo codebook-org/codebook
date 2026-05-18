@@ -13,6 +13,29 @@ jest.mock("../../../lib/db.ts", () => ({
   },
 }));
 
+jest.mock("./taunts.js", () => ({
+  __esModule: true,
+  default: ["Mocked Taunt Message"]
+}));
+
+jest.mock("../../../components/SplitPane", () => {
+  return function MockSplitPane({ left, right }) {
+    return (
+      <div data-testid="mock-split-pane">
+        <div>{left}</div>
+        <div>{right}</div>
+      </div>
+    );
+  };
+});
+
+jest.mock("react-resizable-panels", () => ({
+  Group: ({ children }) => <div data-testid="mock-group">{children}</div>,
+  PanelGroup: ({ children }) => <div data-testid="mock-panel-group">{children}</div>,
+  Panel: ({ children }) => <div data-testid="mock-panel">{children}</div>,
+  Separator: () => <div data-testid="mock-separator" />,
+}));
+
 // tests whether SolvePage component displays problem title and description correctly
 test("displays problem details", async () => {
   const mockParams = Promise.resolve({ problemId: "1" });
