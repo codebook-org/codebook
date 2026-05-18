@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { saveCode, getResults, runCode } from "./actions";
+import { Group, Panel, Separator } from "react-resizable-panels";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
@@ -66,51 +67,56 @@ export default function ProblemClient({ problem }) {
           </div>
         }
         right={
-          <div className="flex flex-col gap-2 h-full overflow-y-auto">
-            <Card
-              title="Code"
-              optionsRight={
-                <button
-                  onClick={() => setVimEnabled(!vimEnabled)}
-                  className={`rounded transition-all duration-150 hover:text-white ${
-                    vimEnabled ? "text-white" : "text-monaco-muted"
-                  }`}
-                >
-                  <svg viewBox="0 0 15 15" className="w-6 h-5 fill-current">
-                    <path d="M7 1H1V4H2V14H5.74031L14 3.67539V1H8V4H9.43248L6 8.11898V4H7V1Z" />
-                  </svg>
-                </button>
-              }
-              statusBar={
-                <div
-                  className={`text-monaco-txt text-xs h-6 px-2 flex items-center font-mono -mx-4 ${vimEnabled ? "bg-monaco-mid" : "bg-monaco-dark"}`}
-                >
-                  <div className="px-4" id="vim-status-bar" />
-                </div>
-              }
-            >
-              <Editor
-                onMount={(editor) => (editorRef.current = editor)}
-                height="100%"
-                defaultLanguage="cpp"
-                theme="vs-dark"
-                value=""
-                options={{
-                  minimap: { enabled: false },
-                  scrollbar: {
-                    vertical: "hidden",
-                    horizontal: "hidden",
-                    handleMouseWheel: true,
-                  },
-                  overviewRulerLanes: 0,
-                  hideCursorInOverviewRuler: true,
-                  overviewRulerBorder: false,
-                  renderLineHighlight: "none",
-                  glyphMargin: false,
-                  lineNumbers: vimEnabled ? "relative" : "on",
-                }}
-              />
-            </Card>
+          <Group
+            orientation="vertical"
+            className="flex flex-col gap-2 h-full overflow-y-auto"
+          >
+            <Panel defaultSize="80%" minSize="20%" maxSize="80%">
+              <Card
+                title="Code"
+                optionsRight={
+                  <button
+                    onClick={() => setVimEnabled(!vimEnabled)}
+                    className={`rounded transition-all duration-150 hover:text-white ${
+                      vimEnabled ? "text-white" : "text-monaco-muted"
+                    }`}
+                  >
+                    <svg viewBox="0 0 15 15" className="w-6 h-5 fill-current">
+                      <path d="M7 1H1V4H2V14H5.74031L14 3.67539V1H8V4H9.43248L6 8.11898V4H7V1Z" />
+                    </svg>
+                  </button>
+                }
+                statusBar={
+                  <div
+                    className={`text-monaco-txt text-xs h-6 px-2 flex items-center font-mono -mx-4 ${vimEnabled ? "bg-monaco-mid" : "bg-monaco-dark"}`}
+                  >
+                    <div className="px-4" id="vim-status-bar" />
+                  </div>
+                }
+              >
+                <Editor
+                  onMount={(editor) => (editorRef.current = editor)}
+                  height="100%"
+                  defaultLanguage="cpp"
+                  theme="vs-dark"
+                  value=""
+                  options={{
+                    minimap: { enabled: false },
+                    scrollbar: {
+                      vertical: "hidden",
+                      horizontal: "hidden",
+                      handleMouseWheel: true,
+                    },
+                    overviewRulerLanes: 0,
+                    hideCursorInOverviewRuler: true,
+                    overviewRulerBorder: false,
+                    renderLineHighlight: "none",
+                    glyphMargin: false,
+                    lineNumbers: vimEnabled ? "relative" : "on",
+                  }}
+                />
+              </Card>
+            </Panel>
             <div className="w-full flex">
               <button
                 type="submit"
@@ -134,22 +140,27 @@ export default function ProblemClient({ problem }) {
                 <span>Submit</span>
               </button>
             </div>
-            <Card title="Test Result">
-              {!results && <p>{status}</p>}
-              {results && (
-                <>
-                  <h2
-                    className={`mb-4 text-xl font-bold ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
-                  >
-                    {results.verdict}
-                  </h2>
-                  {results.results.map((test, index) => (
-                    <TestcaseBlock key={index} test={test} index={index} />
-                  ))}
-                </>
-              )}
-            </Card>
-          </div>
+            <Separator className="group h-1 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
+              <div className="h-1 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
+            </Separator>
+            <Panel defaultSize="20%" minSize="20%" maxSize="80%">
+              <Card title="Test Result">
+                {!results && <p>{status}</p>}
+                {results && (
+                  <>
+                    <h2
+                      className={`mb-4 text-xl font-bold ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
+                    >
+                      {results.verdict}
+                    </h2>
+                    {results.results.map((test, index) => (
+                      <TestcaseBlock key={index} test={test} index={index} />
+                    ))}
+                  </>
+                )}
+              </Card>
+            </Panel>
+          </Group>
         }
         layout="standard"
       />
