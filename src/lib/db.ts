@@ -12,23 +12,22 @@ const sql = postgres({
 });
 
 export namespace CodebookDatabaseAPI {
-  // export type UserCreationInformation = {
-  //   username: string,
-  //   email?: string,
-  //   password_hash: string,
-  //   display_name?: string,
-  //   bio?: string,
-  // }
-  // export type User = {
-  //   user_id: number,
-  //   username: string,
-  //   email?: string,
-  //   password_hash: string,
-  //   created_at: TIMESTAMP NOT NULL,
-  //   display_name?: string,
-  //   bio?: string,
-  //   creation_ids?: number[]
-  // }
+  // Isabelle here, I uncommented and changed some minor stuff.
+  export type UserCreationInformation = {
+    username: string;
+    email: string;
+    passwordHash: string;
+  };
+
+  export type User = {
+    userId: number;
+    username: string;
+    email: string;
+    passwordHash: string;
+    displayName?: string;
+    oAuthId?: string;
+    bio?: string;
+  };
 
   export type TestCaseData = {
     problemId: number;
@@ -108,6 +107,39 @@ export namespace CodebookDatabaseAPI {
     let result =
       await sql`SELECT * FROM Testcases WHERE problem_id = ${problemId}`;
     return Array.from(result.values()) as TestCase[];
+  }
+
+  // Stubs for login. Uh... I don't know if this is right?
+  export async function getUserByEmail(email: string): Promise<User | null> {
+    // For now, I have some ugly ass stubs. Bear with me here.
+    if (email === "bobjoe@gmail.com") {
+      return {
+        userId: 2,
+        username: "bobjoe",
+        email: "bobjoe@gmail.com",
+        passwordHash: "12345", // For now, we're plaintexting it. I KNOW, ITS UNSAFE :(
+        displayName: "evil bob joe",
+      };
+    } else if (email === "hitman@gmail.com") {
+      return {
+        userId: 3,
+        username: "hitman",
+        email: "hitman@gmail.com",
+        passwordHash: "hitmen", // Gosh, I love being unsafe.
+        // This example does not have a display name.
+      };
+    }
+
+    // Looks for an email, returns the most vital information for display.
+
+    return null;
+  }
+
+  export async function registerUser(data: UserCreationInformation) {
+    // No need to check if they already exist; we already check if they exist beforehand, so its implied that we're a new guy.
+
+    // All we need to do is to add all the information. :)
+    return null;
   }
 }
 

@@ -1,7 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import Navbar from "@/components/Navbar";
+import { SessionProvider } from "next-auth/react"; // I need to stop putting SessionProvider everywhere LMAO
+
 import "./global.css";
+import { Session } from "node:inspector";
 
 export const metadata = {
   title: "CodeBook",
@@ -12,8 +15,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-monaco-dark text-monaco-txt">
-        <Navbar />
-        <main>{children}</main>
+        {/* Everything that requires the session (which is anything involving profiles) */}
+        <SessionProvider refetchOnWindowFocus={true} refetchWhenOffline={false}>
+          <Navbar />
+        </SessionProvider>
+        <SessionProvider refetchOnWindowFocus={true} refetchWhenOffline={false}>
+          <main>{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
