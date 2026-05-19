@@ -2,16 +2,32 @@
 
 export default function TestcaseBlock({ test, index }) {
   return (
-    <details className="group rounded-lg bg-neutral-700 overflow-hidden mb-2">
-      <summary className="flex items-center justify-between p-4 cursor-pointer list-none hover:bg-neutral-600 transition-colors">
-        <div className="flex items-center gap-3">
-          <span className="font-bold">Test Case {index + 1}</span>
-          <span className={test.passed ? "text-green-500" : "text-red-500"}>
-            {test.passed ? "● Accepted" : "● Wrong Answer"}
-          </span>
-        </div>
+    <details className="group rounded-lg bg-monaco-light overflow-hidden mb-2">
+      <summary className="flex items-center justify-between px-4 py-3 cursor-pointer list-none hover:bg-neutral-600 transition-colors">
+        <span className="font-bold text-monaco-txt group-hover:text-white">
+          Test Case {index + 1}
+        </span>
+        <span>
+          {test.passed ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              className="w-5 h-5 fill-current text-green-500"
+            >
+              <path d="M96 448Q82 448 73 439 64 430 64 416L64 96Q64 82 73 73 82 64 96 64L416 64Q430 64 439 73 448 82 448 96L448 416Q448 430 439 439 430 448 416 448L96 448ZM367 192L331 160 230 282 177 229 145 261 234 350 367 192Z" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              className="w-5 h-5 fill-current text-red-500"
+            >
+              <path d="M96 448Q82 448 73 439 64 430 64 416L64 96Q64 82 73 73 82 64 96 64L416 64Q430 64 439 73 448 82 448 96L448 416Q448 430 439 439 430 448 416 448L96 448ZM256 288L320 352 352 320 288 256 352 192 320 160 256 224 192 160 160 192 224 256 160 320 192 352 256 288Z" />
+            </svg>
+          )}
+        </span>
       </summary>
-      <div className="p-4 pt-4 border-t border-neutral-700 bg-neutral-950 font-mono text-sm space-y-3">
+      <div className="p-4 pt-4 bg-neutral-950 font-mono text-sm space-y-3">
         <div>
           <p className="text-neutral-500 text-xs mb-1">Input</p>
           <pre className="bg-neutral-900 p-2 rounded">{test.input}</pre>

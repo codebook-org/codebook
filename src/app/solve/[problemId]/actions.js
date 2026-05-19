@@ -50,6 +50,7 @@ export async function runCode(problemId, language, code) {
 
   return {
     verdict: passed === testcases.length ? "Accepted" : "Wrong Answer",
+    passedCount: passed,
     results: results,
   };
 }

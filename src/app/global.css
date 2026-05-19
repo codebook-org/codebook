@@ -10,6 +10,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-monaco-dark: #1e1e1e;
+  --color-monaco-mid: #2d2d2d;
+  --color-monaco-light: #3c3c3c;
+  --color-monaco-txt: #d4d4d4;
+  --color-monaco-muted: #858585;
+  --color-monaco-blue: #4fc1ff;
+  --color-monaco-green: #4ec9b0;
+  --color-monaco-yellow: #dcdcaa;
+  --color-code-success: #10b981;
+  --color-code-error: #ef4444;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -63,10 +73,4 @@ body {
 .nav-links a.active {
   color: #ffffff;
   font-weight: 700;
-}
-#vim-status-bar input {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent;
 }
