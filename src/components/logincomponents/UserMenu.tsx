@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
+import Image from "next/image"; // Required for Next.js image.
+
 export default function UserMenu() {
   const { data: session, status } = useSession();
 
@@ -40,10 +42,12 @@ export default function UserMenu() {
         style={{ background: "none", border: "none", padding: 0 }}
       >
         {session.user.image ? (
-          <img
+          <Image
             className="h-14 w-14 rounded-full mb-2 border border-zinc-700 object-cover"
             src={session.user.image}
             alt="Profile"
+            width={56}
+            height={56}
           />
         ) : (
           <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
@@ -58,10 +62,12 @@ export default function UserMenu() {
         <div className="absolute right-0 top-full mt-2 w-64 z-[9999] bg-[#111] border border-zinc-800 shadow-2xl rounded-lg overflow-hidden">
           <div className="flex flex-col items-center p-4 border-b border-zinc-800">
             {session.user.image ? (
-              <img
+              <Image
                 className="h-14 w-14 rounded-full mb-2 border border-zinc-700 object-cover"
                 src={session.user.image}
                 alt="Profile"
+                width={56}
+                height={56}
               />
             ) : (
               <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
