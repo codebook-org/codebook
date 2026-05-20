@@ -115,6 +115,7 @@ export namespace CodebookDatabaseAPI {
     return Array.from(result.values()) as TestCase[];
   }
 
+  // Note: currently, email is case sensitive
   export async function getUserByEmail(email: string): Promise<User | null> {
     let result = await sql`SELECT * FROM Users WHERE email = ${email}`;
     if (result.length > 0) {
@@ -136,6 +137,9 @@ export namespace CodebookDatabaseAPI {
     }
   }
 
+  // Note: currently, there is no check for case sensitivity on usernames or emails
+  // Postgres only cares if usernames and emails are unique with case sensitivity
+  // In the future, there will be checks and an internal id will be used instead
   export async function registerUser(data: UserCreationInformation) {
     let result = await sql`
       INSERT INTO Users (username, email, password_hash, google_oauth_id)
