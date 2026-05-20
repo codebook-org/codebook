@@ -41,7 +41,7 @@ export default function Navbar() {
   });
 
   return (
-    <nav className="nav">
+    <nav className="nav h-18">
       <Link href="/" className="logo">
         codebook
       </Link>
