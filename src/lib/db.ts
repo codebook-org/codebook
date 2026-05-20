@@ -1,6 +1,8 @@
 import "server-only";
 
 import postgres from "postgres";
+import { register } from "node:module";
+import { DANGEROUSLY_runPendingImmediatesAfterCurrentTask } from "next/dist/server/node-environment-extensions/fast-set-immediate.external";
 
 const sql = postgres({
   host: process.env.DB_HOST || "localhost",
@@ -15,8 +17,9 @@ export namespace CodebookDatabaseAPI {
   // Isabelle here, I uncommented and changed some minor stuff.
   export type UserCreationInformation = {
     username: string;
-    email: string;
-    passwordHash: string;
+    email?: string;
+    passwordHash?: string;
+    googleOauthId?: string;
   };
 
   export type User = {
@@ -25,7 +28,7 @@ export namespace CodebookDatabaseAPI {
     email: string;
     passwordHash: string;
     displayName?: string;
-    oAuthId?: string;
+    googleOauthId?: string;
     bio?: string;
   };
 
@@ -55,7 +58,9 @@ export namespace CodebookDatabaseAPI {
     return result[0]["jsonAgg"];
   }
 
-  export async function getProblemById(problemId: number): Promise<Problem> {
+  export async function getProblemById(
+    problemId: number,
+  ): Promise<Problem | null> {
     let result =
       await sql`SELECT * FROM Problems WHERE problem_id = ${problemId}`;
     if (result.length > 0) {
@@ -73,6 +78,7 @@ export namespace CodebookDatabaseAPI {
     console.log(result);
   }
 
+  // TODO: Still Stubs
   export async function createSubmission(
     data: SubmissionData,
   ): Promise<SubmissionDataResponse> {
@@ -109,42 +115,55 @@ export namespace CodebookDatabaseAPI {
     return Array.from(result.values()) as TestCase[];
   }
 
-  // Stubs for login. Uh... I don't know if this is right?
   export async function getUserByEmail(email: string): Promise<User | null> {
-    // For now, I have some ugly ass stubs. Bear with me here.
-    if (email === "bobjoe@gmail.com") {
-      return {
-        userId: 2,
-        username: "bobjoe",
-        email: "bobjoe@gmail.com",
-        passwordHash: "12345", // For now, we're plaintexting it. I KNOW, ITS UNSAFE :(
-        displayName: "evil bob joe",
-      };
-    } else if (email === "hitman@gmail.com") {
-      return {
-        userId: 3,
-        username: "hitman",
-        email: "hitman@gmail.com",
-        passwordHash: "hitmen", // Gosh, I love being unsafe.
-        // This example does not have a display name.
-      };
+    let result = await sql`SELECT * FROM Users WHERE email = ${email}`;
+    if (result.length > 0) {
+      return result[0] as User;
+    } else {
+      return null;
     }
+  }
 
-    // Looks for an email, returns the most vital information for display.
-
-    return null;
+  export async function getUserByGoogleOauthId(
+    googleOauthId: string,
+  ): Promise<User | null> {
+    let result =
+      await sql`SELECT * FROM Users WHERE google_oauth_id = ${googleOauthId}`;
+    if (result.length > 0) {
+      return result[0] as User;
+    } else {
+      return null;
+    }
   }
 
   export async function registerUser(data: UserCreationInformation) {
-    // No need to check if they already exist; we already check if they exist beforehand, so its implied that we're a new guy.
-
-    // All we need to do is to add all the information. :)
-    return null;
+    let result = await sql`
+      INSERT INTO Users (username, email, password_hash, google_oauth_id)
+      VALUES(${data.username}, ${data.email ?? null}, ${data.passwordHash ?? null}, ${data.googleOauthId ?? null})
+    `;
+    console.log(result);
   }
 }
 
-// console.log(await CodebookDatabaseAPI.getProblemById(1))
-// console.log(await CodebookDatabaseAPI.createProblem("TestTitle", "testDesc"))
-// console.log(await CodebookDatabaseAPI.getProblems())
+// if it isn't clear by now, these are DEBUG STUFF FOR THE DATABASE MAN
+if (false) {
+  // console.log(await CodebookDatabaseAPI.getProblemById(1))
+  // console.log(await CodebookDatabaseAPI.createProblem("TestTitle", "testDesc"))
+  // console.log(await CodebookDatabaseAPI.getProblems())
+  // console.log(await CodebookDatabaseAPI.getUserByEmail("test@test.test"))
+  // console.log(await CodebookDatabaseAPI.getUserByGoogleOauth("iamtheadmin"))
+  // if (await CodebookDatabaseAPI.getUserByEmail("email@insert.test") == null) {
+  //   await CodebookDatabaseAPI.registerUser({username: "emailInsertTest", email: "email@insert.test", passwordHash: "notimportantbro"})
+  //   console.log(await CodebookDatabaseAPI.getUserByEmail("email@insert.test"))
+  // } else {
+  //   console.log(await CodebookDatabaseAPI.getUserByEmail("email@insert.test"))
+  // }
+  // if (await CodebookDatabaseAPI.getUserByGoogleOauth("insertTest") == null) {
+  //   await CodebookDatabaseAPI.registerUser({username: "googleOauthInsertTest", googleOauthId: "insertTest"})
+  //   console.log(await CodebookDatabaseAPI.getUserByGoogleOauth("insertTest"))
+  // } else {
+  //   console.log(await CodebookDatabaseAPI.getUserByGoogleOauth("insertTest"))
+  // }
+}
 
 export default sql;
