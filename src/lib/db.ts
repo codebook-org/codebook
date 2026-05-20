@@ -143,6 +143,25 @@ export namespace CodebookDatabaseAPI {
     }
   }
 
+  export async function getUserById(
+    userId: number,
+  ): Promise<User | null> {
+    let result = await sql`SELECT * FROM Users WHERE user_id = ${userId}`;
+    if (result.length > 0) {
+      return result[0] as User;
+    } else {
+      return null;
+    }
+  }
+
+  export async function getProblemByUserId(
+    userId: number,
+  ): Promise<Problem[]> {
+    let result =
+      await sql`SELECT * FROM Problems WHERE user_id = ${userId}`;
+    return Array.from(result.values()) as Problem[];
+  }
+
   // Note: currently, there is no check for case sensitivity on usernames or emails
   // Postgres only cares if usernames and emails are unique with case sensitivity
   // In the future, there will be checks and an internal id will be used instead

@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { problems } from "@/lib/data";
-import { addProblem } from "./actions";
+import { addProblem, addTestCasedb } from "./actions";
+import { useSession } from "next-auth/react";
 
 export default function Publish() {
+    const { data: session } = useSession();
   // Using useState helps a lot in this case. We can quickly adapt or remove.
 
   //    Variable      "Set method"          Init value
@@ -47,10 +49,12 @@ export default function Publish() {
 
       return;
     } else {
-      const result = pullTestCases(); // "Pull" the test cases. If it's successful, we'll get a "success" notification.
+      const result = verifyTestCases(); // "Pull" the test cases. If it's successful, we'll get a "success" notification.
+      console.log("Submitted problem under " + session.user.id);
 
       if (result == "success") {
-        await addProblem(tTitle, tDescription); // Actually add to the SQL database.
+        let probData = await addProblem(tTitle, tDescription, session.user.id); // Actually add to the SQL database.
+        addAllTestCases(probData);
         setNotification({ message: "Problem submitted!", type: "success" });
         return;
       } else {
@@ -105,7 +109,15 @@ export default function Publish() {
     }));
   };
 
-  const pullTestCases = () => {
+
+  const addAllTestCases = (problemId) => {
+    console.log("Submitting test cases under problemId" + problemId)
+    for (const [id, data] of Object.entries(testCases)) {
+        addTestCasedb(problemId, data.input, data.output, hiddenCase.includes(Number(id)) ? true : false);
+    }
+  }
+  // Verifies correctness of the test cases, does not actually submit.
+  const verifyTestCases = () => {
     const verifyCaseEntry = ([id, data]) => {
       return !(data.input == "" || data.output == "");
     };
@@ -179,12 +191,6 @@ export default function Publish() {
     }
 
     return "success"; // Everything went through okay? Then we can return a success message!
-  };
-
-  const testID = (e) => {
-    e.preventDefault();
-    console.log({ id });
-    pullTestCases();
   };
 
   const updateHidden = (id) => {

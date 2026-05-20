@@ -39,15 +39,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         try {
-          let user: CodebookDatabaseAPI.User | OldUser | null =
+          let user =
             await CodebookDatabaseAPI.getUserByEmail(
               credentials.email as string,
             );
-          if (!user) {
-            user = (await oldUserByEmail(
-              credentials.email as string,
-            )) as OldUser | null;
-          }
 
           if (user && user.passwordHash == credentials.password) {
             return {

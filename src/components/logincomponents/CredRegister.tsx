@@ -23,6 +23,7 @@ export default function CredRegister() {
   };
 
   return (
+    <div className="flex w-full flex-col items-center justify-center">
     <form
       className="my-5 flex flex-col items-center border p-3 border-gray-200 rounded-md"
       onSubmit={handleRegister}
@@ -54,5 +55,6 @@ export default function CredRegister() {
         Register
       </button>
     </form>
+    </div>
   );
 }

@@ -66,7 +66,7 @@ export default function ProblemClient({ problem }) {
     const submissionId = await saveCode(problem.id, code);
 
     setStatus("Running tests...");
-    const data = await runCode(1, language, code);
+    const data = await runCode(problem.problemId || problem.id, language, code);
 
     setResults(data);
     setStatus("Done");
