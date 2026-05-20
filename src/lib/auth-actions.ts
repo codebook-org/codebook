@@ -76,29 +76,24 @@ export async function credentialLogIn(email: string, password: string) {
 export async function registerAndLogin(email: string, password: string) {
   const existingUser = await CodebookDatabaseAPI.getUserByEmail(email);
 
-  if (existingUser) {
-    // Do we already exist? Then we can just log in.
-    return await credentialLogIn(email, password);
+  if (existingUser) { // Let's be safer here.
+    if (existingUser.passwordHash != password) {
+      return { error: "Account exists!" };
+    } else {
+      return await credentialLogIn(email, password);
+    } 
   }
 
   // Else, we...
 
-  // Create a new user,
-  const newUser = {
-    userId: fakeUsers.length + 1,
+  // Then we register them. The password is not yet hashed correctly.
+  await CodebookDatabaseAPI.registerUser({
+    username: email.split("@")[0],
     email: email,
     passwordHash: password,
-    username: email.split("@")[0],
-  };
-
-  // Then we register them.
-  CodebookDatabaseAPI.registerUser({
-    username: newUser.username,
-    email: newUser.email,
-    passwordHash: newUser.passwordHash,
   });
 
-  console.log("User registered on server:", newUser);
+  console.log("User registered on server");
 
   // NWe can log in the newly registered user.
   return await credentialLogIn(email, password);
