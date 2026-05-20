@@ -1,14 +1,15 @@
 CREATE TABLE IF NOT EXISTS Users (
-    user_id       INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    username      VARCHAR(25)  UNIQUE NOT NULL,
-    email         VARCHAR(255) UNIQUE,
-    password_hash TEXT         NOT NULL,
-    created_at    TIMESTAMP    NOT NULL DEFAULT NOW(),
+    user_id         INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username        VARCHAR(25)  UNIQUE NOT NULL,
+    email           VARCHAR(255) UNIQUE,
+    password_hash   TEXT,
+    google_oauth_id TEXT UNIQUE,
+    created_at      TIMESTAMP    NOT NULL DEFAULT NOW(),
     -- Only works with MySQL, no built-in PostgreSQL equivalent, would have to write triggers
     -- updated_at    TIMESTAMP    NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-    display_name  VARCHAR(25),
-    bio           TEXT,
-    creation_ids  INT[]
+    display_name    VARCHAR(25),
+    bio             TEXT,
+    creation_ids    INT[]
 );
 
 CREATE TABLE IF NOT EXISTS Problems (
@@ -28,6 +29,10 @@ CREATE TABLE IF NOT EXISTS TestCases (
     visible                  BOOLEAN NOT NULL
 );
 
+INSERT INTO Users (username, email, password_hash)
+VALUES('admin', 'test@test.test', 'bluhbluhbluh') ON CONFLICT DO NOTHING;
+INSERT INTO Users (username, google_oauth_id)
+VALUES('googleOauthAdmin', 'iamtheadmin') ON CONFLICT DO NOTHING;
 -- Default Problems, add if "missing"/not enough problems in table
 INSERT INTO Problems (title, description)
 SELECT 'Double Number', 'Input: a single integer -- n\nOutput: twice the value of n'
