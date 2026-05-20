@@ -24,6 +24,18 @@ export default async function ProfilePage({ params }) {
   const publishedProblems =
     await CodebookDatabaseAPI.getProblemByUserId(userId);
 
+
+  if (!userinfo) {
+    return (
+      <div className="p-6 text-zinc-400 max-w-2xl mx-auto text-center">
+        <p className="text-sm font-semibold text-red-400">Profile Not Found</p>
+        <p className="text-xs text-zinc-500 mt-1">
+          That profile doesn't exist... Must be locked up somwhere!
+        </p>
+      </div>
+    );
+  }
+
   return (
     <ProfileClient
       user={userinfo}

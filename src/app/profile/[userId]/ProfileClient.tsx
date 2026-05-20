@@ -35,7 +35,7 @@ export default function ProfileClient({
       : `${publishedProblems.length} published`;
 
   const initials =
-    user.displayName
+    user?.displayName
       ?.split(" ")
       .map((n) => n[0])
       .join("")
