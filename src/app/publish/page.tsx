@@ -4,6 +4,7 @@ import { useState } from "react";
 import { problems } from "@/lib/data";
 import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Publish() {
   const { data: session } = useSession();
@@ -238,6 +239,10 @@ export default function Publish() {
     }
   };
 
+  // If we're not logged in, let's jsut redirect to the login first.
+  if (!session?.user) {
+    redirect("/login");
+  }
   return (
     <main style={{ padding: "2rem" }}>
       <h1>Publish New Problem</h1>

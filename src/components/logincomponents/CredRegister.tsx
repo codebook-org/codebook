@@ -3,8 +3,10 @@ import { fakeUsers } from "@/lib/data";
 import { credentialLogIn, registerAndLogin } from "@/lib/auth-actions";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CredRegister() {
+  const [warning, setWarning] = useState({ message: "", type: "" }); // Lets us warn the user if their password is incorrect.
   const { update } = useSession();
 
   const handleRegister = async (e) => {
@@ -17,6 +19,11 @@ export default function CredRegister() {
     const result = await registerAndLogin(email, password);
 
     if (result?.error) {
+      setWarning({
+        // If we're getting an error in this case, it should be becuase the password matching an existing account isn't correct.
+        message: "This email is already in use!",
+        type: "warning",
+      });
     } else {
       window.location.href = "/problems-library";
     }
@@ -54,6 +61,18 @@ export default function CredRegister() {
         >
           Register
         </button>
+
+        {warning.message && (
+          <div
+            className={`warning ${warning.type}`}
+            style={{
+              padding: "10px",
+              color: "#ef4444",
+            }}
+          >
+            {warning.message}
+          </div>
+        )}
       </form>
     </div>
   );
