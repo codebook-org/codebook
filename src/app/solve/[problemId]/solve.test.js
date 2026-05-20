@@ -10,6 +10,9 @@ jest.mock("../../../lib/db.ts", () => ({
       title: "Mock Title",
       description: "This is a mock description.",
     }),
+    getUserById: jest.fn().mockResolvedValue({
+      username: "bobjoe",
+    }),
   },
 }));
 

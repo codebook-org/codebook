@@ -7,8 +7,6 @@ export default async function SolvePage({ params }) {
 
   const problem = await CodebookDatabaseAPI.getProblemById(problemId);
 
-  console.log("DEBUG CREATOR DETAILS:", problem);
-
   const problemCreator = await CodebookDatabaseAPI.getUserById(problem.userId);
 
   if (!problem) {
