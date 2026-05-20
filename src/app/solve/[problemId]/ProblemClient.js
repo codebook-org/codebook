@@ -82,14 +82,16 @@ export default function ProblemClient({ problem, problemCreator }) {
               <h1 className="text-xl font-bold text-monaco-txt py-2">
                 {problem.title}
               </h1>
-              <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
-                <h1 className="text-xs text-monaco-muted pb-2">
-                  By{" "}
-                  {problemCreator?.username ??
-                    problemCreator?.displayName ??
-                    "Unknown Author"}
-                </h1>
-              </Link>
+              <div className="flex text-xs text-monaco-muted pb-2">
+                <h1 className="pr-1">By</h1>
+                <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
+                  <h1 className="hover:underline hover:text-blue-500">
+                    {problemCreator?.username ??
+                      problemCreator?.displayName ??
+                      "Unknown Author"}
+                  </h1>
+                </Link>
+              </div>
               <p className="text-s text-monaco-txt py-2">
                 {problem.description}
               </p>
