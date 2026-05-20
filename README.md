@@ -9,7 +9,7 @@ A social platform for publishing and solving coding problems.
 - **In-browser code editor**: Solve problems directly in your browser using C++, Python, or Java.
 - **Sandboxed execution**: Secure and efficient code compilation/execution powered by Piston.
 
-## Tech Stack
+## Tech stack
 
 - **Frontend/Backend**: Next.js 14+
 - **Database**: PostgreSQL
