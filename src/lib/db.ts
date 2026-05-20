@@ -70,12 +70,15 @@ export namespace CodebookDatabaseAPI {
     }
   }
 
-  export async function createProblem(data: ProblemData) {
+  export async function createProblem(
+    data: ProblemData,
+  ): Promise<number | null> {
     let result = await sql`
       INSERT INTO Problems (title, description, user_id)
       VALUES(${data.title}, ${data.description}, ${data.userId ?? null})
+      RETURNING problem_id
     `;
-    console.log(result);
+    return result[0]["problemId"];
   }
 
   // TODO: Still Stubs
@@ -143,12 +146,15 @@ export namespace CodebookDatabaseAPI {
   // Note: currently, there is no check for case sensitivity on usernames or emails
   // Postgres only cares if usernames and emails are unique with case sensitivity
   // In the future, there will be checks and an internal id will be used instead
-  export async function registerUser(data: UserCreationInformation) {
+  export async function registerUser(
+    data: UserCreationInformation,
+  ): Promise<number | null> {
     let result = await sql`
       INSERT INTO Users (username, email, password_hash, google_oauth_id)
       VALUES(${data.username}, ${data.email ?? null}, ${data.passwordHash ?? null}, ${data.googleOauthId ?? null})
+      RETURNING user_id
     `;
-    console.log(result);
+    return result[0]["userId"];
   }
 }
 
