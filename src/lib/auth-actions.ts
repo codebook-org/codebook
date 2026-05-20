@@ -11,8 +11,7 @@ import { CodebookDatabaseAPI } from "@/lib/db";
 // OAuth Functions
 export async function handleSignIn() {
   try {
-    await signIn("google");
-    redirect("/");
+    await signIn("google", { redirectTo: "/" });
   } catch (error) {
     throw error;
   }

@@ -8,6 +8,7 @@ import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
 import TestcaseBlock from "../../../components/TestcaseBlock";
 import taunts from "./taunts.js";
+import Link from "next/link";
 
 const LANGUAGES = ["c++", "python", "java"];
 
@@ -81,12 +82,14 @@ export default function ProblemClient({ problem, problemCreator }) {
               <h1 className="text-xl font-bold text-monaco-txt py-2">
                 {problem.title}
               </h1>
-              <h1 className="text-xs text-monaco-muted pb-2">
-                By{" "}
-                {problemCreator?.username ??
-                  problemCreator?.displayName ??
-                  "Unknown Author"}
-              </h1>
+              <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
+                <h1 className="text-xs text-monaco-muted pb-2">
+                  By{" "}
+                  {problemCreator?.username ??
+                    problemCreator?.displayName ??
+                    "Unknown Author"}
+                </h1>
+              </Link>
               <p className="text-s text-monaco-txt py-2">
                 {problem.description}
               </p>

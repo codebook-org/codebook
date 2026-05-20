@@ -1,8 +1,10 @@
 import { credentialLogIn } from "@/lib/auth-actions";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CredSignIn() {
+  const [warning, setWarning] = useState({ message: "", type: "" }); // Lets us warn the user if their password is incorrect.
   const { update } = useSession();
 
   const handleLogin = async (e) => {
@@ -16,6 +18,10 @@ export default function CredSignIn() {
     await update();
 
     if (result?.error) {
+      setWarning({
+        message: "Incorrect email or password. Try again?",
+        type: "warning",
+      });
     } else {
       window.location.href = "/problems-library";
     }
@@ -53,6 +59,18 @@ export default function CredSignIn() {
         >
           Login
         </button>
+
+        {warning.message && (
+          <div
+            className={`warning ${warning.type}`}
+            style={{
+              padding: "10px",
+              color: "#ef4444",
+            }}
+          >
+            {warning.message}
+          </div>
+        )}
       </form>
     </div>
   );
