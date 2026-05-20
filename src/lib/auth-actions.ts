@@ -27,14 +27,27 @@ export async function handleSignOut() {
 }
 
 export async function syncOAuth(oauthId: string, email: string, name: string) {
-  // Parse, search by OAuthID.
-  // If they exist, update their name if required.
+  // For now, since we don't have a syncing feature (aka, tying a oAuth to a credential), let's just create an account, how about that?
+  let user = await CodebookDatabaseAPI.getUserByGoogleOauthId(oauthId);
 
-  // If they don't exist, let's add their account.
-  // Do they have an existing credentials account?
+  if (user) {
+    // If they exist, return their actual integer userId
+    return user.userId;
+  } else {
+    // If they don't exist, register them and capture the new userId returned by Postgres
+    const newUserId = await CodebookDatabaseAPI.registerUser({
+      username: email.split("@")[0],
+      email: email, // Highly recommended to save their email here too!
+      googleOauthId: oauthId,
+    });
 
-  // No : Let's create this account and push in the oAuthId as their secondary ID.
-  // Yes : We can go ahead and add this user to the credentials account.
+    // Fallback if registerUser somehow returns null, though it shouldn't
+    if (!newUserId) {
+      throw new Error("Failed to register OAuth user in database.");
+    }
+
+    return newUserId;
+  }
 }
 
 export async function oldUserByEmail(email: string) {
