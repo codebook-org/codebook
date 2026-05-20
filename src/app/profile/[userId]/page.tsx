@@ -13,7 +13,7 @@ export default async function ProfilePage({ params }) {
       <div className="p-6 text-zinc-400 max-w-2xl mx-auto text-center">
         <p className="text-sm font-semibold text-red-400">Invalid Profile</p>
         <p className="text-xs text-zinc-500 mt-1">
-          This profile doesn't exist... Must be locked up somewhere!
+          This profile doesn&apos;t exist... Must be locked up somewhere!
         </p>
       </div>
     );
@@ -29,7 +29,7 @@ export default async function ProfilePage({ params }) {
       <div className="p-6 text-zinc-400 max-w-2xl mx-auto text-center">
         <p className="text-sm font-semibold text-red-400">Profile Not Found</p>
         <p className="text-xs text-zinc-500 mt-1">
-          That profile doesn't exist... Must be locked up somwhere!
+          That profile doesn&apos;t exist... Must be locked up somwhere!
         </p>
       </div>
     );
