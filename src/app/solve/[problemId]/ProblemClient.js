@@ -8,10 +8,11 @@ import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
 import TestcaseBlock from "../../../components/TestcaseBlock";
 import taunts from "./taunts.js";
+import Link from "next/link";
 
 const LANGUAGES = ["c++", "python", "java"];
 
-export default function ProblemClient({ problem }) {
+export default function ProblemClient({ problem, problemCreator }) {
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -66,7 +67,7 @@ export default function ProblemClient({ problem }) {
     const submissionId = await saveCode(problem.id, code);
 
     setStatus("Running tests...");
-    const data = await runCode(1, language, code);
+    const data = await runCode(problem.problemId || problem.id, language, code);
 
     setResults(data);
     setStatus("Done");
@@ -81,7 +82,16 @@ export default function ProblemClient({ problem }) {
               <h1 className="text-xl font-bold text-monaco-txt py-2">
                 {problem.title}
               </h1>
-              <h1 className="text-xs text-monaco-muted pb-2">By mp248</h1>
+              <div className="flex text-xs text-monaco-muted pb-2">
+                <h1 className="pr-1">By</h1>
+                <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
+                  <h1 className="hover:underline hover:text-blue-500">
+                    {problemCreator?.username ??
+                      problemCreator?.displayName ??
+                      "Unknown Author"}
+                  </h1>
+                </Link>
+              </div>
               <p className="text-s text-monaco-txt py-2">
                 {problem.description}
               </p>
@@ -229,7 +239,8 @@ export default function ProblemClient({ problem }) {
                         <div>{results.passedCount}</div>
                         <div className="px-4 text-monaco-txt">/</div>
                         <div className="text-monaco-txt">
-                          {results.results.length}
+                          {results.totalTests}{" "}
+                          {/* Changed this because we hide test cases entirely, so we have a diff var now. */}
                         </div>
                       </div>
                     </h2>

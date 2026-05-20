@@ -82,6 +82,9 @@ export default function UserMenu() {
             <span className="text-xs text-zinc-400 truncate w-full text-center">
               {session.user.email}
             </span>
+            <span className="text-xs text-zinc-400 truncate w-full text-center">
+              {session.user.id}
+            </span>
           </div>
 
           <div className="p-1">
@@ -90,9 +93,9 @@ export default function UserMenu() {
             </button>
 
             <Link
-              href="/profile"
+              href={`/profile/${session?.user?.id}`}
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
+              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
             >
               Profile
             </Link>

@@ -39,15 +39,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         try {
-          let user: CodebookDatabaseAPI.User | OldUser | null =
-            await CodebookDatabaseAPI.getUserByEmail(
-              credentials.email as string,
-            );
-          if (!user) {
-            user = (await oldUserByEmail(
-              credentials.email as string,
-            )) as OldUser | null;
-          }
+          let user = await CodebookDatabaseAPI.getUserByEmail(
+            credentials.email as string, // Grab email
+          );
 
           if (user && user.passwordHash == credentials.password) {
             return {
@@ -70,9 +64,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn({ user, account, profile }) {
       if (account?.provider === "google" || account?.provider === "github") {
         const email = user.email as string;
-        const oauthId = account.providerAccountId; // The unique OAuth ID.
+        const oauthId = account.providerAccountId; // The unique OAuth ID
 
-        await syncOAuth(oauthId, email, user.name); // Let's sync.
+        // We got a user ID from our oAuth id
+        const userId = await syncOAuth(oauthId, email, user.name as string);
+
+        // For now, let's tuck the
+        (user as any).postgresId = userId;
 
         return true; // Allow sign in
       }
@@ -84,15 +82,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, account }) {
       // Initial sign-in for BOTH OAuth and Credentials
       if (account && user) {
-        // If it's OAuth, use the provider's ID.
-        // If it's Credentials, use the ID you returned from authorize().
         console.log("JWT Callback - User detected:", user.email);
-        token.id = account.providerAccountId ?? user.id;
 
-        console.log("SUCCESS: Token ID assigned:", token.id);
+        // I have no idea why parsing a string to number is so hard...
+        const rawId = (user as any).postgresId ?? user.id;
+        token.id = parseInt(rawId, 10);
+
+        console.log("SUCCESS: Token sub assigned:", token.sub);
       }
       return token;
     },
+
     // Then, we make it available to read. We simply just use session.user.id to pull that information.
     async session({ session, token }) {
       if (session.user && token.id) {

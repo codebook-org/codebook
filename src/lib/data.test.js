@@ -1,4 +1,4 @@
-import { problems } from "@/lib/data";
+import { problems } from "@/lib/data.ts";
 
 test("N-Queens exists", () => {
   const problem = problems.find((p) => p.id.toString() === "1");

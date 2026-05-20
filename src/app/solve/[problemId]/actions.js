@@ -19,6 +19,7 @@ export async function runCode(problemId, language, code) {
 
   let passed = 0;
   let results = [];
+  let totalTests = 0;
 
   for (const test of testcases) {
     const pistonHost = process.env.PISTON_URL || "http://localhost:2000";
@@ -40,17 +41,23 @@ export async function runCode(problemId, language, code) {
       passed++;
     }
 
-    results.push({
-      passed: String(test.expectedOut) === actualOut,
-      input: test.input,
-      expectedOut: test.expectedOut,
-      actualOut: actualOut,
-    });
+    totalTests++;
+
+    // If this test case should be visible, then display it.
+    if (test.visible === true) {
+      results.push({
+        passed: String(test.expectedOut) === actualOut,
+        input: test.input,
+        expectedOut: test.expectedOut,
+        actualOut: actualOut,
+      });
+    }
   }
 
   return {
     verdict: passed === testcases.length ? "Accepted" : "Wrong Answer",
     passedCount: passed,
+    totalTests: totalTests,
     results: results,
   };
 }

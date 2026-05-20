@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/problems-library", label: "Browse Problems" },
   { href: "/publish", label: "Publish" },
-  { href: "/profile", label: "Account" },
   { href: "/login", label: "Login" }, // Likely temporary, I have to figure out a way to fix this.
 ];
 
@@ -42,7 +41,7 @@ export default function Navbar() {
   });
 
   return (
-    <nav className="nav">
+    <nav className="nav h-18">
       <Link href="/" className="logo">
         codebook
       </Link>
