@@ -45,12 +45,12 @@ export default function ProfileClient({
     <div className="max-w-2xl mx-auto px-6 py-10">
       {/* ── HEADER ── */}
       <div className="flex items-center gap-5 pb-6 border-b border-white/10">
-          <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-white text-xl font-medium flex-shrink-0">
-            {initials}
-          </div>
+        <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-white text-xl font-medium flex-shrink-0">
+          {initials}
+        </div>
         <div className="flex flex-col gap-1">
           <p className="text-white text-lg font-medium">
-            {user.username ?? user.displayName?? "User"}
+            {user.username ?? user.displayName ?? "User"}
           </p>
           <p className="text-gray-400 text-sm">{user.email}</p>
         </div>

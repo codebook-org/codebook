@@ -13,10 +13,10 @@ export async function addProblem(title, description, userId) {
 }
 
 export async function addTestCasedb(problemId, input, expectedOut, visible) {
-    await CodebookDatabaseAPI.createTestCase({
-        problemId: problemId,
-        input: input,
-        expectedOut: expectedOut,
-        visible: visible,
-    }); 
+  await CodebookDatabaseAPI.createTestCase({
+    problemId: problemId,
+    input: input,
+    expectedOut: expectedOut,
+    visible: visible,
+  });
 }

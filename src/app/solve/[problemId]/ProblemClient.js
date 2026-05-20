@@ -11,7 +11,7 @@ import taunts from "./taunts.js";
 
 const LANGUAGES = ["c++", "python", "java"];
 
-export default function ProblemClient({ problem }) {
+export default function ProblemClient({ problem, problemCreator }) {
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -81,7 +81,12 @@ export default function ProblemClient({ problem }) {
               <h1 className="text-xl font-bold text-monaco-txt py-2">
                 {problem.title}
               </h1>
-              <h1 className="text-xs text-monaco-muted pb-2">By mp248</h1>
+              <h1 className="text-xs text-monaco-muted pb-2">
+                By{" "}
+                {problemCreator?.username ??
+                  problemCreator?.displayName ??
+                  "Unknown Author"}
+              </h1>
               <p className="text-s text-monaco-txt py-2">
                 {problem.description}
               </p>

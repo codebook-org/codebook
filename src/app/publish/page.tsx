@@ -6,7 +6,7 @@ import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
 
 export default function Publish() {
-    const { data: session } = useSession();
+  const { data: session } = useSession();
   // Using useState helps a lot in this case. We can quickly adapt or remove.
 
   //    Variable      "Set method"          Init value
@@ -109,13 +109,17 @@ export default function Publish() {
     }));
   };
 
-
   const addAllTestCases = (problemId) => {
-    console.log("Submitting test cases under problemId" + problemId)
+    console.log("Submitting test cases under problemId" + problemId);
     for (const [id, data] of Object.entries(testCases)) {
-        addTestCasedb(problemId, data.input, data.output, hiddenCase.includes(Number(id)) ? true : false);
+      addTestCasedb(
+        problemId,
+        data.input,
+        data.output,
+        hiddenCase.includes(Number(id)) ? true : false,
+      );
     }
-  }
+  };
   // Verifies correctness of the test cases, does not actually submit.
   const verifyTestCases = () => {
     const verifyCaseEntry = ([id, data]) => {

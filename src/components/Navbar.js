@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/problems-library", label: "Browse Problems" },
   { href: "/publish", label: "Publish" },
-  { href: "/profile", label: "Account" },
   { href: "/login", label: "Login" }, // Likely temporary, I have to figure out a way to fix this.
 ];
 

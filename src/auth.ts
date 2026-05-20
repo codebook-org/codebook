@@ -39,10 +39,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         try {
-          let user =
-            await CodebookDatabaseAPI.getUserByEmail(
-              credentials.email as string, // Grab email
-            );
+          let user = await CodebookDatabaseAPI.getUserByEmail(
+            credentials.email as string, // Grab email
+          );
 
           if (user && user.passwordHash == credentials.password) {
             return {
@@ -69,8 +68,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // We got a user ID from our oAuth id
         const userId = await syncOAuth(oauthId, email, user.name as string);
-        
-        // For now, let's tuck the 
+
+        // For now, let's tuck the
         (user as any).postgresId = userId;
 
         return true; // Allow sign in
@@ -83,15 +82,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, account }) {
       // Initial sign-in for BOTH OAuth and Credentials
       if (account && user) {
-        // Use the ID given to us from the DB, whether we gained it from credentials or oAuth.
         console.log("JWT Callback - User detected:", user.email);
-        token.id = (user as any).postgresId.toString() ?? user.id;
 
-        console.log("SUCCESS: Token ID/User ID assigned:", token.id);
+        // I have no idea why parsing a string to number is so hard...
+        const rawId = (user as any).postgresId ?? user.id;
+        token.id = parseInt(rawId, 10);
+
+        console.log("SUCCESS: Token sub assigned:", token.sub);
       }
       return token;
     },
-    
+
     // Then, we make it available to read. We simply just use session.user.id to pull that information.
     async session({ session, token }) {
       if (session.user && token.id) {

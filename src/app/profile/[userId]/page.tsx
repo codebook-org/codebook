@@ -6,13 +6,23 @@ import { redirect } from "next/navigation";
 //THIS SHOULD WORK WITH USER INFO PROBABLY HOPEFULLY
 
 export default async function ProfilePage({ params }) {
-    const { userId } = await params;
-  const session = await auth();
+  const { userId } = await params;
 
-  if (!session?.user) redirect('/');
+  if (!userId || isNaN(userId)) {
+    return (
+      <div className="p-6 text-zinc-400 max-w-2xl mx-auto text-center">
+        <p className="text-sm font-semibold text-red-400">Invalid Profile</p>
+        <p className="text-xs text-zinc-500 mt-1">
+          This profile doesn't exist... Must be locked up somewhere!
+        </p>
+      </div>
+    );
+  }
+
   const userinfo = await CodebookDatabaseAPI.getUserById(userId);
 
-  const publishedProblems = await CodebookDatabaseAPI.getProblemByUserId(userId);
+  const publishedProblems =
+    await CodebookDatabaseAPI.getProblemByUserId(userId);
 
   return (
     <ProfileClient

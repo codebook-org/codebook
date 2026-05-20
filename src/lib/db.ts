@@ -143,9 +143,7 @@ export namespace CodebookDatabaseAPI {
     }
   }
 
-  export async function getUserById(
-    userId: number,
-  ): Promise<User | null> {
+  export async function getUserById(userId: number): Promise<User | null> {
     let result = await sql`SELECT * FROM Users WHERE user_id = ${userId}`;
     if (result.length > 0) {
       return result[0] as User;
@@ -154,11 +152,8 @@ export namespace CodebookDatabaseAPI {
     }
   }
 
-  export async function getProblemByUserId(
-    userId: number,
-  ): Promise<Problem[]> {
-    let result =
-      await sql`SELECT * FROM Problems WHERE user_id = ${userId}`;
+  export async function getProblemByUserId(userId: number): Promise<Problem[]> {
+    let result = await sql`SELECT * FROM Problems WHERE user_id = ${userId}`;
     return Array.from(result.values()) as Problem[];
   }
 

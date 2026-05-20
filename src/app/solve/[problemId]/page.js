@@ -7,9 +7,15 @@ export default async function SolvePage({ params }) {
 
   const problem = await CodebookDatabaseAPI.getProblemById(problemId);
 
+  console.log("DEBUG CREATOR DETAILS:", problem);
+
+  const problemCreator = await CodebookDatabaseAPI.getUserById(problem.userId);
+
   if (!problem) {
     return <h1>Problem {problemId} not found</h1>;
   }
 
-  return <ProblemClient problem={problem} />;
+  console.log("DEBUG CREATOR DETAILS:", problemCreator);
+
+  return <ProblemClient problem={problem} problemCreator={problemCreator} />;
 }
