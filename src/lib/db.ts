@@ -99,13 +99,15 @@ export namespace CodebookDatabaseAPI {
     };
   }
 
-  export async function createTestCase(data: TestCaseData): Promise<Number | null> {
+  export async function createTestCase(
+    data: TestCaseData,
+  ): Promise<Number | null> {
     let result = await sql`
       INSERT INTO TestCases (problem_id, input, expected_out, visible)
       VALUES(${data.problemId}, ${data.input}, ${data.expectedOut}, ${data.visible})
       RETURNING testcase_id
     `;
-    return result[0]['testcaseId'];
+    return result[0]["testcaseId"];
   }
 
   export async function getTestCasesById(
