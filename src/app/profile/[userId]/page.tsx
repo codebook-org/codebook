@@ -24,7 +24,6 @@ export default async function ProfilePage({ params }) {
   const publishedProblems =
     await CodebookDatabaseAPI.getProblemByUserId(userId);
 
-
   if (!userinfo) {
     return (
       <div className="p-6 text-zinc-400 max-w-2xl mx-auto text-center">
