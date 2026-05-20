@@ -76,12 +76,13 @@ export async function credentialLogIn(email: string, password: string) {
 export async function registerAndLogin(email: string, password: string) {
   const existingUser = await CodebookDatabaseAPI.getUserByEmail(email);
 
-  if (existingUser) { // Let's be safer here.
+  if (existingUser) {
+    // Let's be safer here.
     if (existingUser.passwordHash != password) {
       return { error: "Account exists!" };
     } else {
       return await credentialLogIn(email, password);
-    } 
+    }
   }
 
   // Else, we...
