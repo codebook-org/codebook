@@ -116,7 +116,7 @@ export default function Publish() {
         problemId,
         data.input,
         data.output,
-        hiddenCase.includes(Number(id)) ? true : false,
+        hiddenCase.includes(Number(id)) ? false : true, // If it is in the hidden array, it should be hiddne.
       );
     }
   };
@@ -172,6 +172,19 @@ export default function Publish() {
       if (typeOf(data.output) !== outputType) {
         return `Case ${id}'s output is a ${typeOf(data.output)}. Did you mean a ${outputType}?`;
       }
+    }
+
+    let totalHidden = 0;
+    let totalAmount = 0;
+    for (const [id, data] of Object.entries(testCases)) {
+      if (hiddenCase.includes(Number(id))) {
+        totalHidden++;
+      }
+      totalAmount++;
+    }
+
+    if (totalHidden == totalAmount) {
+        return `Please make at least 1 test case visible!`;
     }
 
     // Finally, we finally "pull" this validated information.
