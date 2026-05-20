@@ -45,12 +45,12 @@ export async function runCode(problemId, language, code) {
 
     // If this test case should be visible, then display it.
     if (test.visible === true) {
-        results.push({
+      results.push({
         passed: String(test.expectedOut) === actualOut,
         input: test.input,
         expectedOut: test.expectedOut,
         actualOut: actualOut,
-        });
+      });
     }
   }
 

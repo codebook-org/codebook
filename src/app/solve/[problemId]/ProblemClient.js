@@ -237,7 +237,8 @@ export default function ProblemClient({ problem, problemCreator }) {
                         <div>{results.passedCount}</div>
                         <div className="px-4 text-monaco-txt">/</div>
                         <div className="text-monaco-txt">
-                          {results.totalTests} {/* Changed this because we hide test cases entirely, so we have a diff var now. */}
+                          {results.totalTests}{" "}
+                          {/* Changed this because we hide test cases entirely, so we have a diff var now. */}
                         </div>
                       </div>
                     </h2>

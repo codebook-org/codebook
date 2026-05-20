@@ -184,7 +184,7 @@ export default function Publish() {
     }
 
     if (totalHidden == totalAmount) {
-        return `Please make at least 1 test case visible!`;
+      return `Please make at least 1 test case visible!`;
     }
 
     // Finally, we finally "pull" this validated information.
