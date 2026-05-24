@@ -12,7 +12,11 @@ import Link from "next/link";
 
 const LANGUAGES = ["c++", "python", "java"];
 
-export default function ProblemClient({ problem, problemCreator }) {
+export default function ProblemClient({
+  problem,
+  problemCreator,
+  description,
+}) {
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -79,10 +83,10 @@ export default function ProblemClient({ problem, problemCreator }) {
         left={
           <div className="h-full overflow-y-auto">
             <Card title="Description">
-              <h1 className="text-xl font-bold text-monaco-txt py-2">
+              <h1 className="text-2xl font-bold text-monaco-txt pt-2">
                 {problem.title}
               </h1>
-              <div className="flex text-xs text-monaco-muted pb-2">
+              <div className="flex text-xs text-monaco-muted pb-4">
                 <h1 className="pr-1">By</h1>
                 <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
                   <h1 className="hover:underline hover:text-blue-500">
@@ -92,9 +96,8 @@ export default function ProblemClient({ problem, problemCreator }) {
                   </h1>
                 </Link>
               </div>
-              <p className="text-s text-monaco-txt py-2">
-                {problem.description}
-              </p>
+              <hr className="border-t border-monaco-muted pt-4"></hr>
+              {description}
             </Card>
           </div>
         }
