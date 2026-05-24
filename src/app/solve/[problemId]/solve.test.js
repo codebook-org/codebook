@@ -16,25 +16,25 @@ jest.mock("../../../lib/db.ts", () => ({
   },
 }));
 
-jest.mock('react-markdown', () => ({
+jest.mock("react-markdown", () => ({
   __esModule: true,
-  default: ({ children }) => <div>{children}</div>
+  default: ({ children }) => <div>{children}</div>,
 }));
 
-jest.mock('remark-math', () => ({
-  __esModule: true,
-  default: () => {}
-}));
-
-jest.mock('rehype-katex', () => ({
-  __esModule: true,
-  default: () => {}
-}));
-
-jest.mock('rehype-sanitize', () => ({
+jest.mock("remark-math", () => ({
   __esModule: true,
   default: () => {},
-  defaultSchema: { attributes: {} }
+}));
+
+jest.mock("rehype-katex", () => ({
+  __esModule: true,
+  default: () => {},
+}));
+
+jest.mock("rehype-sanitize", () => ({
+  __esModule: true,
+  default: () => {},
+  defaultSchema: { attributes: {} },
 }));
 
 jest.mock("./taunts.js", () => ({
