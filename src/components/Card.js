@@ -8,7 +8,7 @@ export default function Card({
 }) {
   return (
     <div
-      className={`bg-monaco-dark rounded-lg h-full overflow-hidden flex flex-col box-border border-1 border-transparent focus-within:border-monaco-light ${className}`}
+      className={`bg-monaco-dark rounded-lg h-full overflow-hidden flex flex-col outline-1 outline-transparent focus-within:outline-monaco-light focus-within:outline-offset-[-1px] ${className}`}
       tabIndex="0"
     >
       <div className="bg-monaco-mid text-sm font-semibold px-4 py-1.5 shrink-0">
