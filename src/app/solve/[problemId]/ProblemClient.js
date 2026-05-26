@@ -21,7 +21,8 @@ export default function ProblemClient({
 }) {
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
-  const dropdownRef = useRef(null);
+  const languageDropdownRef = useRef(null);
+  const keybindDropdownRef = useRef(null);
   const [results, setResults] = useState(null);
   const [status, setStatus] = useState("");
   const [favorited, setFavorited] = useState(false); // TODO: check if already favorited
@@ -37,7 +38,7 @@ export default function ProblemClient({
   });
 
   useEffect(() => {
-    const handleVim = async () => {
+    const handleKeybindSwap = async () => {
       if (!editorRef.current) return;
 
       if (keybind === "vim") {
@@ -54,15 +55,26 @@ export default function ProblemClient({
       }
     };
 
-    handleVim();
+    handleKeybindSwap();
   }, [keybind]);
 
   useEffect(() => {
+    if (!editorRef.current) return;
+    editorRef.current.focus();
+  }, [language]);
+
+  useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
+      const clickedLanguage = languageDropdownRef.current?.contains(
+        event.target,
+      );
+      const clickedKeybind = keybindDropdownRef.current?.contains(event.target);
+
+      if (!clickedLanguage && !clickedKeybind) {
+        setDropdownOpen(null);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -161,7 +173,10 @@ export default function ProblemClient({
               <Card
                 title="Code"
                 optionsLeft={
-                  <div className="flex items-center gap-1.5" ref={dropdownRef}>
+                  <div
+                    className="flex items-center gap-1.5"
+                    ref={languageDropdownRef}
+                  >
                     <div className="relative">
                       <button
                         onClick={() => setDropdownOpen("language")}
@@ -184,7 +199,7 @@ export default function ProblemClient({
                               key={lang}
                               onClick={() => {
                                 setLanguage(lang);
-                                setDropdownOpen(false);
+                                setDropdownOpen(null);
                               }}
                               className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize ${
                                 language === lang
@@ -201,7 +216,10 @@ export default function ProblemClient({
                   </div>
                 }
                 optionsRight={
-                  <div className="flex items-center gap-1.5" ref={dropdownRef}>
+                  <div
+                    className="flex items-center gap-1.5"
+                    ref={keybindDropdownRef}
+                  >
                     <div className="relative">
                       <button
                         onClick={() => setDropdownOpen("keybinds")}
@@ -224,7 +242,7 @@ export default function ProblemClient({
                               key={bind}
                               onClick={() => {
                                 setKeybind(bind);
-                                setDropdownOpen(false);
+                                setDropdownOpen(null);
                               }}
                               className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize ${
                                 keybind === bind
@@ -238,7 +256,7 @@ export default function ProblemClient({
                         </div>
                       )}
                     </div>
-                    </div>
+                  </div>
                 }
                 statusBar={
                   <div
@@ -251,7 +269,7 @@ export default function ProblemClient({
                 <Editor
                   onMount={(editor) => (editorRef.current = editor)}
                   height="100%"
-                  defaultLanguage="cpp"
+                  language={language === "c++" ? "cpp" : language}
                   theme="vs-dark"
                   value=""
                   options={{
