@@ -3,16 +3,21 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 
 export default function Tooltip({ children, content, side = "top" }) {
   return (
-    <TooltipPrimitive.Provider delayDuration={300}>
+    <TooltipPrimitive.Provider delayDuration={200}>
       <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Trigger 
+          asChild
+          onFocus={(e) => e.preventDefault()} 
+        >
+          {children}
+        </TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content
             side={side}
             sideOffset={6}
             className={`
               z-50 overflow-hidden rounded-md 
-              bg-monaco-light border border-monaco-muted px-2 py-2 
+              bg-monaco-dark border border-monaco-light py-1.5 px-2 
               text-xs font-medium text-monaco-txt 
               shadow-xl shadow-black/25 
               transition-all 

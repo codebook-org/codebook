@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { saveCode, getResults, runCode } from "./actions";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toClipboard } from "@/utils/toClipboard";
+import { toast } from "sonner";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
@@ -102,7 +103,10 @@ export default function ProblemClient({
                         const copySuccessful = await toClipboard(
                           window.location.href,
                         );
-                        if (copySuccessful) setLinkCopied(true);
+                        if (copySuccessful) {
+                          setLinkCopied(true);
+                          toast.success("Copied link to clipboard!");
+                        }
                         setTimeout(() => {
                           setLinkCopied(false);
                         }, 2000);
