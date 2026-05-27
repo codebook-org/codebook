@@ -176,10 +176,12 @@ export default function ProblemClient({
                 title="Code"
                 optionsLeft={
                   <div
-                    className="flex items-center gap-1.5"
-                    ref={languageDropdownRef}
+                    className="flex items-center gap-0.5"
                   >
-                    <div className="relative">
+                    <div 
+                      className="relative"
+                      ref={languageDropdownRef}
+                      >
                       <Tooltip content="Language">
                         <button
                           onClick={() =>
@@ -187,12 +189,12 @@ export default function ProblemClient({
                               dropdownOpen === "language" ? null : "language",
                             )
                           }
-                          className="group text-xs font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1"
+                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${ dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
                         >
                           {language}
                           <svg
                             viewBox="0 0 512 298.04"
-                            className="w-2.5 h-2.5 fill-current text-monaco-muted shrink-0 duration-150 group-hover:text-white"
+                            className="w-2.5 h-2.5 fill-current shrink-0 duration-150"
                           >
                             <g>
                               <path d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z" />
@@ -221,14 +223,10 @@ export default function ProblemClient({
                         </div>
                       )}
                     </div>
-                  </div>
-                }
-                optionsRight={
-                  <div
-                    className="flex items-center gap-1.5"
-                    ref={keybindDropdownRef}
-                  >
-                    <div className="relative">
+                    <div 
+                      className="relative"
+                      ref={keybindDropdownRef}
+                      >
                       <Tooltip content="Keybindings">
                         <button
                           onClick={() =>
@@ -236,12 +234,12 @@ export default function ProblemClient({
                               dropdownOpen === "keybinds" ? null : "keybinds",
                             )
                           }
-                          className="group ml-3 text-xs font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1"
+                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${ dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
                         >
                           {keybind}
                           <svg
                             viewBox="0 0 512 298.04"
-                            className="w-2.5 h-2.5 fill-current text-monaco-muted shrink-0 duration-150 group-hover:text-white"
+                            className="w-2.5 h-2.5 fill-current shrink-0 duration-150"
                           >
                             <g>
                               <path d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z" />
@@ -250,7 +248,7 @@ export default function ProblemClient({
                         </button>
                       </Tooltip>
                       {dropdownOpen === "keybinds" && (
-                        <div className="absolute top-full right-0 w-32 bg-monaco-mid border border-monaco-muted rounded-xl z-50 shadow-xl shadow-black/25 overflow-hidden">
+                        <div className="absolute top-full left-0 w-32 bg-monaco-mid border border-monaco-muted rounded-xl z-50 shadow-xl shadow-black/25 overflow-hidden">
                           {KEYBINDS.map((bind) => (
                             <button
                               key={bind}
