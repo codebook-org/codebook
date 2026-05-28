@@ -5,10 +5,7 @@ export default function Tooltip({ children, content, side = "top" }) {
   return (
     <TooltipPrimitive.Provider delayDuration={200}>
       <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger 
-          asChild
-          onFocus={(e) => e.preventDefault()} 
-        >
+        <TooltipPrimitive.Trigger asChild onFocus={(e) => e.preventDefault()}>
           {children}
         </TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>

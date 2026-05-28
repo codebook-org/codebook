@@ -11,6 +11,7 @@ import SplitPane from "../../../components/SplitPane";
 import TestcaseBlock from "../../../components/TestcaseBlock";
 import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
+import Confirmation from "@/components/Confirmation";
 
 const LANGUAGES = ["c++", "python", "java"];
 const KEYBINDS = ["standard", "vim"];
@@ -86,6 +87,15 @@ export default function ProblemClient({
 
     setResults(data);
     setStatus("Done");
+  };
+
+  const handleReset = async (value) => {
+    if (editorRef.current) {
+      editorRef.current.setValue(value);
+      return true;
+    }
+
+    return false;
   };
 
   return (
@@ -175,13 +185,8 @@ export default function ProblemClient({
               <Card
                 title="Code"
                 optionsLeft={
-                  <div
-                    className="flex items-center gap-0.5"
-                  >
-                    <div 
-                      className="relative"
-                      ref={languageDropdownRef}
-                      >
+                  <div className="flex items-center gap-0.5">
+                    <div className="relative" ref={languageDropdownRef}>
                       <Tooltip content="Language">
                         <button
                           onClick={() =>
@@ -189,7 +194,7 @@ export default function ProblemClient({
                               dropdownOpen === "language" ? null : "language",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${ dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
+                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
                         >
                           {language}
                           <svg
@@ -223,10 +228,7 @@ export default function ProblemClient({
                         </div>
                       )}
                     </div>
-                    <div 
-                      className="relative"
-                      ref={keybindDropdownRef}
-                      >
+                    <div className="relative" ref={keybindDropdownRef}>
                       <Tooltip content="Keybindings">
                         <button
                           onClick={() =>
@@ -234,7 +236,7 @@ export default function ProblemClient({
                               dropdownOpen === "keybinds" ? null : "keybinds",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${ dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
+                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
                         >
                           {keybind}
                           <svg
@@ -268,6 +270,32 @@ export default function ProblemClient({
                         </div>
                       )}
                     </div>
+                  </div>
+                }
+                optionsRight={
+                  <div className="flex items-center h-full">
+                    <Tooltip content="Reset">
+                      <Confirmation
+                        title="Are you sure?"
+                        description="This will revert your code to the default starter code."
+                        onConfirm={async () => {
+                          const resetSuccessful = await handleReset("");
+                          if (resetSuccessful) toast.success("Code reset!");
+                        }}
+                      >
+                        <button className="ml-4 w-4 h-4 transition-all duration-150 text-monaco-muted hover:text-white">
+                          <svg
+                            viewBox="0 0 1920 1920"
+                            className="w-4 h-4 fill-current text-monaco-muted hover:text-white transition-colors duration-150 shrink-0"
+                          >
+                            <path
+                              d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0"
+                              fillRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      </Confirmation>
+                    </Tooltip>
                   </div>
                 }
                 statusBar={
@@ -340,7 +368,7 @@ export default function ProblemClient({
                       suppressHydrationWarning
                       className="text-sm text-monaco-muted font-regular"
                     >
-                      You must submit your code to view test results.
+                      You must submit your code to view results.
                     </p>
                   </div>
                 )}

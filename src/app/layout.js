@@ -18,17 +18,18 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main>{children}</main>
         </SessionProvider>
-        <Toaster 
-          position="top-center" 
+        <Toaster
+          position="top-center"
           expand={false}
           toastOptions={{
             unstyled: true,
             classNames: {
-              toast: 'group toast !bg-monaco-dark !border !border-monaco-light !text-monaco-txt rounded-2xl shadow-xl shadow-black/25 flex items-center gap-2 p-4',
-              title: 'text-xs font-medium text-monaco-txt',
-              description: 'text-xs text-monaco-txt',
-              error: '[&_[data-icon]]:text-red-500', 
-              success: '[&_[data-icon]]:text-green-500',
+              toast:
+                "group toast !bg-monaco-dark !border !border-monaco-light !text-monaco-txt rounded-2xl shadow-xl shadow-black/25 flex items-center gap-2 p-4",
+              title: "text-xs font-medium text-monaco-txt",
+              description: "text-xs text-monaco-txt",
+              error: "[&_[data-icon]]:text-red-500",
+              success: "[&_[data-icon]]:text-green-500",
             },
           }}
         />
@@ -36,4 +37,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-

@@ -37,11 +37,6 @@ jest.mock("rehype-sanitize", () => ({
   defaultSchema: { attributes: {} },
 }));
 
-jest.mock("./taunts.js", () => ({
-  __esModule: true,
-  default: ["Mocked Taunt Message"],
-}));
-
 jest.mock("../../../components/SplitPane", () => {
   return function MockSplitPane({ left, right }) {
     return (
