@@ -83,4 +83,6 @@ const Confirmation = forwardRef(
   },
 );
 
+Confirmation.displayName = "Confirmation";
+
 export default Confirmation;
