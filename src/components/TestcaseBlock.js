@@ -10,7 +10,6 @@ export default function TestcaseBlock({ test, index }) {
         <span>
           {test.passed ? (
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               className="w-5 h-5 fill-current text-green-500"
             >
@@ -18,7 +17,6 @@ export default function TestcaseBlock({ test, index }) {
             </svg>
           ) : (
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               className="w-5 h-5 fill-current text-red-500"
             >
