@@ -105,6 +105,53 @@ export default function ProblemClient({
           <div className="h-full overflow-y-auto">
             <Card
               title="Description"
+              optionsLeft={
+                <div className="flex items-center h-full">
+                  <div className="flex items-center h-6 gap-3 rounded-lg bg-neutral-900 pr-3 text-xs text-neutral-300">
+                    <div className="flex items-center h-[24px]">
+                      <Tooltip content="Upvote">
+                        <button className="flex items-center justify-center h-full px-2 rounded-l-lg bg-monaco-mid hover:bg-monaco-light transition-colors font-semibold text-monaco-muted hover:text-white gap-2">
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="w-4 h-4 fill-current scale-x-110"
+                            aria-hidden="true"
+                          >
+                            <path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z" />
+                          </svg>
+                          0
+                        </button>
+                      </Tooltip>
+                      <Tooltip content="Downvote">
+                        <button className="flex items-center justify-center h-full ml-0.5 px-2 rounded-r-sm bg-monaco-mid hover:bg-monaco-light transition-colors text-monaco-muted hover:text-white">
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="w-4 h-4 fill-current -scale-y-100 scale-x-110"
+                            aria-hidden="true"
+                          >
+                            <path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z" />
+                          </svg>
+                        </button>
+                      </Tooltip>
+                    </div>
+                    <Tooltip content="Total accepted submissions">
+                      <div className="flex font-semibold text-monaco-muted select-none gap-2">
+                        1,234
+                        <svg
+                          viewBox="0 0 42 42"
+                          className="w-3.5 h-3.5 fill-current"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M39.04,7.604l-2.398-1.93c-1.182-0.95-1.869-0.939-2.881,0.311L16.332,27.494l-8.111-6.739
+	c-1.119-0.94-1.819-0.89-2.739,0.26l-1.851,2.41c-0.939,1.182-0.819,1.853,0.291,2.78l11.56,9.562c1.19,1,1.86,0.897,2.78-0.222
+	l21.079-25.061C40.331,9.294,40.271,8.583,39.04,7.604z"
+                          />
+                        </svg>
+                      </div>
+                    </Tooltip>
+                  </div>
+                </div>
+              }
               optionsRight={
                 <div className="flex items-center h-full">
                   <Tooltip content="Share">
@@ -178,8 +225,8 @@ export default function ProblemClient({
           >
             <Panel
               defaultSize="80%"
-              minSize="5.7%"
-              maxSize="95.3%"
+              minSize="5.6%"
+              maxSize="100%"
               className="pb-2"
             >
               <Card
@@ -360,7 +407,7 @@ export default function ProblemClient({
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
-            <Panel defaultSize="20%" minSize="4.7%" maxSize="95.3%">
+            <Panel defaultSize="20%" minSize="4.5%" maxSize="100">
               <Card title="Test Result">
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
