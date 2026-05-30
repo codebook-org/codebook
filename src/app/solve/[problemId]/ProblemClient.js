@@ -89,7 +89,7 @@ export default function ProblemClient({
 
     setResults(data);
     if (data.verdict === "Accepted") toast.success("Verdict: Accepted");
-    else toast.error("Verdict: Wrong Answer");
+    else toast.error(`Verdict: ${data.verdict}`);
     setStatus("done");
   };
 
@@ -627,10 +627,10 @@ export default function ProblemClient({
                         </svg>
                   </div>
                 )}
-                {results && (
+                {results && results.code === 0 && (
                   <>
                     <h2
-                      className={`mb-4 px-4 text-xl font-bold flex ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
+                      className={`mb-4 text-xl font-bold flex ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
                     >
                       <div className="mr-auto">{results.verdict}</div>
                       <div className="flex ml-auto">
@@ -645,6 +645,18 @@ export default function ProblemClient({
                     {results.results.map((test, index) => (
                       <TestcaseBlock key={index} test={test} index={index} />
                     ))}
+                  </>
+                )}
+                {results && results.code === 1 && (
+                  <>
+                    <h2
+                      className={`mb-4 text-xl font-bold flex text-red-400`}
+                    >
+                      {results.verdict}
+                    </h2>
+                    <pre className="p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-sm font-mono">
+                      {results.stderr}
+                    </pre>
                   </>
                 )}
               </Card>

@@ -35,6 +35,25 @@ export async function runCode(problemId, language, code) {
     });
 
     const data = await response.json();
+
+    // check for compilation error
+    if (data.compile?.code && data.compile.code !== 0) {
+      return {
+        code: 1,
+        verdict: "Compile Error",
+        stderr: data.compile.stderr,
+      };
+    }
+
+    // check for runtime error
+    if (data.run?.code && data.run.code !== 0) {
+      return {
+        code: 1,
+        verdict: "Runtime Error",
+        stderr: data.run.stderr,
+      };
+    }
+
     const actualOut = data.run.stdout.trim();
 
     if (String(test.expectedOut) === actualOut) {
@@ -43,7 +62,7 @@ export async function runCode(problemId, language, code) {
 
     totalTests++;
 
-    // If this test case should be visible, then display it.
+    // only display visible testcases
     if (test.visible === true) {
       results.push({
         passed: String(test.expectedOut) === actualOut,
@@ -55,6 +74,7 @@ export async function runCode(problemId, language, code) {
   }
 
   return {
+    code: 0,
     verdict: passed === testcases.length ? "Accepted" : "Wrong Answer",
     passedCount: passed,
     totalTests: totalTests,
