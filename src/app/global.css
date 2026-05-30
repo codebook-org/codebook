@@ -22,6 +22,18 @@
   --color-monaco-yellow: #dcdcaa;
   --color-code-success: #10b981;
   --color-code-error: #ef4444;
+
+  --animate-flash-blue: flash-blue 1s ease-out forwards;
+  @keyframes flash-blue {
+    0% {
+      outline: 3px solid var(--color-blue-500);
+      outline-offset: -3px;
+    }
+    100% {
+      outline: 3px solid transparent;
+      outline-offset: -3px;
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {

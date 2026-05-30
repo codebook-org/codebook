@@ -78,18 +78,16 @@ export default function ProblemClient({
   const handleSubmit = async () => {
     if (!editorRef.current) return;
     const code = editorRef.current.getValue();
+    document.getElementById("test-results").focus();
     setResults(null);
 
     setStatus("submitting");
     const submissionId = await saveCode(problem.id, code);
-    toast.success("Code submitted!");
 
     setStatus("running");
     const data = await runCode(problem.problemId || problem.id, language, code);
 
     setResults(data);
-    if (data.verdict === "Accepted") toast.success("Verdict: Accepted");
-    else toast.error(`Verdict: ${data.verdict}`);
     setStatus("done");
   };
 
@@ -422,7 +420,7 @@ export default function ProblemClient({
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
             <Panel defaultSize="20%" minSize="4.5%" maxSize="100">
-              <Card title="Test Result">
+              <Card id="test-results" tabIndex={-1} title="Test Result" className={status === "done" ? "animate-flash-blue" : ""}>
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
                     <div className="text-sm text-monaco-muted font-regular">
@@ -642,9 +640,9 @@ export default function ProblemClient({
                         </div>
                       </div>
                     </h2>
-                    {results.results.map((test, index) => (
-                      <TestcaseBlock key={index} test={test} index={index} />
-                    ))}
+                      {results.results.map((test, index) => (
+                        <TestcaseBlock key={index} test={test} index={index} />
+                      ))}
                   </>
                 )}
                 {results && results.code === 1 && (

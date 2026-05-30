@@ -1,4 +1,5 @@
 export default function Card({
+  id,
   title,
   optionsLeft,
   optionsRight,
@@ -8,6 +9,7 @@ export default function Card({
 }) {
   return (
     <div
+      id={id}
       className={`bg-monaco-dark rounded-lg h-full overflow-hidden flex flex-col outline-1 outline-transparent focus-within:outline-monaco-light focus-within:outline-offset-[-1px] ${className}`}
       tabIndex="0"
     >
