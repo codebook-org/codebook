@@ -420,7 +420,7 @@ export default function ProblemClient({
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
             <Panel defaultSize="20%" minSize="4.5%" maxSize="100">
-              <Card id="test-results" tabIndex={-1} title="Test Result" className={status === "done" ? "animate-flash-blue" : ""}>
+              <Card id="test-results" title="Test Result" className={status === "done" ? "animate-flash-blue" : ""}>
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
                     <div className="text-sm text-monaco-muted font-regular">
@@ -636,13 +636,26 @@ export default function ProblemClient({
                         <div className="px-4 text-monaco-txt">/</div>
                         <div className="text-monaco-txt">
                           {results.totalTests}{" "}
-                          {/* Changed this because we hide test cases entirely, so we have a diff var now. */}
                         </div>
                       </div>
                     </h2>
-                      {results.results.map((test, index) => (
-                        <TestcaseBlock key={index} test={test} index={index} />
-                      ))}
+                    {results.results.map((test, index) => (
+                      <TestcaseBlock key={index} test={test} index={index} />
+                    ))}
+                    {results.totalHiddenTests > 0 && (
+                      <div className="flex rounded-lg bg-monaco-mid mb-2 items-center px-4 py-3">
+                        <div className="mr-auto font-bold text-monaco-txt">
+                          Additional Testcases
+                        </div>
+                        <div className="flex ml-auto font-semibold">
+                          <div className={`${results.hiddenPassedCount === results.totalHiddenTests ? "text-green-500" : "text-red-400"}`}>{results.hiddenPassedCount}</div>
+                          <div className="px-2 text-monaco-txt">/</div>
+                          <div className="text-monaco-txt">
+                            {results.totalHiddenTests}{" "}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
                 {results && results.code === 1 && (

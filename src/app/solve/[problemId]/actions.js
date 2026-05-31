@@ -18,8 +18,10 @@ export async function runCode(problemId, language, code) {
   const testcases = await CodebookDatabaseAPI.getTestCasesById(problemId);
 
   let passed = 0;
-  let results = [];
+  let hiddenPassed = 0;
   let totalTests = 0;
+  let totalHidden = 0;
+  let results = [];
 
   for (const test of testcases) {
     const pistonHost = process.env.PISTON_URL || "http://localhost:2000";
@@ -36,7 +38,7 @@ export async function runCode(problemId, language, code) {
 
     const data = await response.json();
 
-    // check for compilation error
+    // check for compile error
     if (data.compile?.code && data.compile.code !== 0) {
       return {
         code: 1,
@@ -62,14 +64,16 @@ export async function runCode(problemId, language, code) {
 
     totalTests++;
 
-    // only display visible testcases
-    if (test.visible === true) {
+    if (test.visible) {
       results.push({
         passed: String(test.expectedOut) === actualOut,
         input: test.input,
         expectedOut: test.expectedOut,
         actualOut: actualOut,
       });
+    } else {
+      if (String(test.expectedOut) === actualOut) hiddenPassed++;
+      totalHidden++;
     }
   }
 
@@ -78,6 +82,8 @@ export async function runCode(problemId, language, code) {
     verdict: passed === testcases.length ? "Accepted" : "Wrong Answer",
     passedCount: passed,
     totalTests: totalTests,
+    hiddenPassedCount: hiddenPassed,
+    totalHiddenTests: totalHidden,
     results: results,
   };
 }
