@@ -647,11 +647,9 @@ export default function ProblemClient({
                       <TestcaseBlock key={index} test={test} index={index} />
                     ))}
                     {results.totalHiddenTests > 0 && (
-                      <div className="flex rounded-lg bg-monaco-mid mb-2 items-center px-4 py-3">
-                        <div className="mr-auto font-bold text-monaco-txt">
-                          Testcases{" "}
-                          {results.totalTests - results.totalHiddenTests + 1} -{" "}
-                          {results.totalTests + 1}
+                      <div className="flex rounded-lg bg-monaco-mid/50 mb-2 items-center px-4 py-3">
+                        <div className="mr-auto font-bold text-monaco-muted">
+                          Additional Testcases
                         </div>
                         <div className="flex ml-auto font-semibold">
                           <div
