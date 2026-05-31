@@ -420,7 +420,11 @@ export default function ProblemClient({
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
             <Panel defaultSize="20%" minSize="4.5%" maxSize="100">
-              <Card id="test-results" title="Test Result" className={status === "done" ? "animate-flash-blue" : ""}>
+              <Card
+                id="test-results"
+                title="Test Result"
+                className={status === "done" ? "animate-flash-blue" : ""}
+              >
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
                     <div className="text-sm text-monaco-muted font-regular">
@@ -429,200 +433,200 @@ export default function ProblemClient({
                   </div>
                 )}
                 {!results && status && (
-                    <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                        <svg
-                          viewBox="0 0 24 24"
-                          className="w-12 h-12 fill-monaco-muted flex-shrink-0"
-                        >
-                          <circle cx="4" cy="12" r="0">
-                            <animate
-                              begin="0;spinner_z0Or.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="0;3"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_OLMs.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="4;12"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_UHR2.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="12;20"
-                              fill="freeze"
-                            />
-                            <animate
-                              id="spinner_lo66"
-                              begin="spinner_Aguh.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="3;0"
-                              fill="freeze"
-                            />
-                            <animate
-                              id="spinner_z0Or"
-                              begin="spinner_lo66.end"
-                              attributeName="cx"
-                              dur="0.001s"
-                              values="20;4"
-                              fill="freeze"
-                            />
-                          </circle>
-                          <circle cx="4" cy="12" r="3">
-                            <animate
-                              begin="0;spinner_z0Or.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="4;12"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_OLMs.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="12;20"
-                              fill="freeze"
-                            />
-                            <animate
-                              id="spinner_JsnR"
-                              begin="spinner_UHR2.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="3;0"
-                              fill="freeze"
-                            />
-                            <animate
-                              id="spinner_Aguh"
-                              begin="spinner_JsnR.end"
-                              attributeName="cx"
-                              dur="0.001s"
-                              values="20;4"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_Aguh.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="0;3"
-                              fill="freeze"
-                            />
-                          </circle>
-                          <circle cx="12" cy="12" r="3">
-                            <animate
-                              begin="0;spinner_z0Or.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="12;20"
-                              fill="freeze"
-                            />
-                            <animate
-                              id="spinner_hSjk"
-                              begin="spinner_OLMs.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="3;0"
-                              fill="freeze"
-                            />
-                            <animate
-                              id="spinner_UHR2"
-                              begin="spinner_hSjk.end"
-                              attributeName="cx"
-                              dur="0.001s"
-                              values="20;4"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_UHR2.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="0;3"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_Aguh.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="4;12"
-                              fill="freeze"
-                            />
-                          </circle>
-                          <circle cx="20" cy="12" r="3">
-                            <animate
-                              id="spinner_4v5M"
-                              begin="0;spinner_z0Or.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="3;0"
-                              fill="freeze"
-                            />
-                            <animate
-                              id="spinner_OLMs"
-                              begin="spinner_4v5M.end"
-                              attributeName="cx"
-                              dur="0.001s"
-                              values="20;4"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_OLMs.end"
-                              attributeName="r"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="0;3"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_UHR2.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="4;12"
-                              fill="freeze"
-                            />
-                            <animate
-                              begin="spinner_Aguh.end"
-                              attributeName="cx"
-                              calcMode="spline"
-                              dur="0.5s"
-                              keySplines=".36,.6,.31,1"
-                              values="12;20"
-                              fill="freeze"
-                            />
-                          </circle>
-                        </svg>
+                  <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-12 h-12 fill-monaco-muted flex-shrink-0"
+                    >
+                      <circle cx="4" cy="12" r="0">
+                        <animate
+                          begin="0;spinner_z0Or.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_OLMs.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_UHR2.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_lo66"
+                          begin="spinner_Aguh.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_z0Or"
+                          begin="spinner_lo66.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                      </circle>
+                      <circle cx="4" cy="12" r="3">
+                        <animate
+                          begin="0;spinner_z0Or.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_OLMs.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_JsnR"
+                          begin="spinner_UHR2.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_Aguh"
+                          begin="spinner_JsnR.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_Aguh.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                      </circle>
+                      <circle cx="12" cy="12" r="3">
+                        <animate
+                          begin="0;spinner_z0Or.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_hSjk"
+                          begin="spinner_OLMs.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_UHR2"
+                          begin="spinner_hSjk.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_UHR2.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_Aguh.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                      </circle>
+                      <circle cx="20" cy="12" r="3">
+                        <animate
+                          id="spinner_4v5M"
+                          begin="0;spinner_z0Or.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_OLMs"
+                          begin="spinner_4v5M.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_OLMs.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_UHR2.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_Aguh.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                      </circle>
+                    </svg>
                   </div>
                 )}
                 {results && results.code === 0 && (
@@ -645,10 +649,16 @@ export default function ProblemClient({
                     {results.totalHiddenTests > 0 && (
                       <div className="flex rounded-lg bg-monaco-mid mb-2 items-center px-4 py-3">
                         <div className="mr-auto font-bold text-monaco-txt">
-                          Additional Testcases
+                          Testcases{" "}
+                          {results.totalTests - results.totalHiddenTests + 1} -{" "}
+                          {results.totalTests + 1}
                         </div>
                         <div className="flex ml-auto font-semibold">
-                          <div className={`${results.hiddenPassedCount === results.totalHiddenTests ? "text-green-500" : "text-red-400"}`}>{results.hiddenPassedCount}</div>
+                          <div
+                            className={`${results.hiddenPassedCount === results.totalHiddenTests ? "text-green-500" : "text-red-400"}`}
+                          >
+                            {results.hiddenPassedCount}
+                          </div>
                           <div className="px-2 text-monaco-txt">/</div>
                           <div className="text-monaco-txt">
                             {results.totalHiddenTests}{" "}
@@ -660,9 +670,7 @@ export default function ProblemClient({
                 )}
                 {results && results.code === 1 && (
                   <>
-                    <h2
-                      className={`mb-4 text-xl font-bold flex text-red-400`}
-                    >
+                    <h2 className={`mb-4 text-xl font-bold flex text-red-400`}>
                       {results.verdict}
                     </h2>
                     <pre className="p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-sm font-mono">
