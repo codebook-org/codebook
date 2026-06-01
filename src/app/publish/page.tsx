@@ -5,6 +5,7 @@ import { problems } from "@/lib/data";
 import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import SplitPane from "@/components/SplitPane";
 
 export default function Publish() {
   const { data: session } = useSession();
@@ -212,7 +213,7 @@ export default function Publish() {
   };
 
   const updateHidden = (id) => {
-    // Need to convert becuase this id is a string, oddly enough.
+    // Need to convert because this id is a string, oddly enough.
     const targetId = Number(id);
 
     setHidden((prev) => {
@@ -227,7 +228,7 @@ export default function Publish() {
 
   const testExport = (e) => {
     e.preventDefault();
-    // Need to convert becuase this id is a string, oddly enough.
+    // Need to convert because this id is a string, oddly enough.
     for (let i = 0; i < problems.length; i++) {
       console.log(
         problems[i].id +
@@ -239,14 +240,16 @@ export default function Publish() {
     }
   };
 
-  // If we're not logged in, let's jsut redirect to the login first.
+  // If we're not logged in, let's just redirect to the login first.
   if (!session?.user) {
     redirect("/login");
   }
   return (
     <main style={{ padding: "2rem" }}>
       <h1>Publish New Problem</h1>
-
+<SplitPane
+        left={
+        <div>
       {/* Title Block */}
       <div style={{ marginBottom: "1rem" }}>
         {/* A space for a label and a subtext (which is italicized and is smaller) */}
@@ -293,7 +296,10 @@ export default function Publish() {
           }}
         />
       </div>
-
+</div>
+}
+right={
+          <div>
       {/* Test Cases */}
       <div className="flex items-center p-2 justify-between">
         {/* A space for a label and a subtext (which is italicized and is smaller) */}
@@ -322,7 +328,10 @@ export default function Publish() {
           </form>
         </div>
       </div>
-
+</div>
+}
+layout="standard"
+/>
       {/* This block stores the adapting test cases. */}
       <div className="flex flex-col border rounded overflow-y-auto h-[400px] p-2 mb-2">
         {Object.entries(testCases).map(([id, data]) => (
