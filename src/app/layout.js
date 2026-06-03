@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
             unstyled: true,
             classNames: {
               toast:
-                "group toast !bg-monaco-dark !border !border-monaco-light !text-monaco-txt rounded-2xl shadow-xl shadow-black/25 flex items-center gap-2 p-4",
+                "group toast !bg-monaco-dark !border !border-monaco-light !text-monaco-txt rounded-2xl shadow-xl shadow-black/25 flex items-center min-w-100 gap-2 p-4",
               title: "text-xs font-medium text-monaco-txt",
               description: "text-xs text-monaco-txt",
               error: "[&_[data-icon]]:text-red-500",

@@ -78,15 +78,17 @@ export default function ProblemClient({
   const handleSubmit = async () => {
     if (!editorRef.current) return;
     const code = editorRef.current.getValue();
+    document.getElementById("test-results").focus();
+    setResults(null);
 
-    setStatus("Submitting code...");
+    setStatus("submitting");
     const submissionId = await saveCode(problem.id, code);
 
-    setStatus("Running tests...");
+    setStatus("running");
     const data = await runCode(problem.problemId || problem.id, language, code);
 
     setResults(data);
-    setStatus("Done");
+    setStatus("done");
   };
 
   const handleReset = async (value) => {
@@ -385,45 +387,252 @@ export default function ProblemClient({
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="px-16 py-1.5 w-full rounded text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center"
+                disabled={status !== "" && status !== "done"}
+                className="px-16 py-1.5 w-full rounded text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
               >
-                <svg viewBox="0 0 500 420" className="w-5 h-5 fill-current">
-                  <g>
-                    <path
-                      d="M344.058,207.506c-16.568,0-30,13.432-30,30v76.609h-254v-76.609c0-16.568-13.432-30-30-30c-16.568,0-30,13.432-30,30
+                {status !== "" && status !== "done" ? (
+                  ""
+                ) : (
+                  <svg viewBox="0 0 500 420" className="w-5 h-5 fill-current">
+                    <g>
+                      <path
+                        d="M344.058,207.506c-16.568,0-30,13.432-30,30v76.609h-254v-76.609c0-16.568-13.432-30-30-30c-16.568,0-30,13.432-30,30
 		v106.609c0,16.568,13.432,30,30,30h314c16.568,0,30-13.432,30-30V237.506C374.058,220.938,360.626,207.506,344.058,207.506z"
-                    />
-                    <path
-                      d="M123.57,135.915l33.488-33.488v111.775c0,16.568,13.432,30,30,30c16.568,0,30-13.432,30-30V102.426l33.488,33.488
+                      />
+                      <path
+                        d="M123.57,135.915l33.488-33.488v111.775c0,16.568,13.432,30,30,30c16.568,0,30-13.432,30-30V102.426l33.488,33.488
 		c5.857,5.858,13.535,8.787,21.213,8.787c7.678,0,15.355-2.929,21.213-8.787c11.716-11.716,11.716-30.71,0-42.426L208.271,8.788
 		c-11.715-11.717-30.711-11.717-42.426,0L81.144,93.489c-11.716,11.716-11.716,30.71,0,42.426
 		C92.859,147.631,111.855,147.631,123.57,135.915z"
-                    />
-                  </g>
-                </svg>
-                <span>Submit</span>
+                      />
+                    </g>
+                  </svg>
+                )}
+
+                <span>
+                  {status !== "" && status !== "done"
+                    ? "Running code..."
+                    : "Submit"}
+                </span>
               </button>
             </div>
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
             <Panel defaultSize="20%" minSize="4.5%" maxSize="100">
-              <Card title="Test Result">
+              <Card
+                id="test-results"
+                title="Test Result"
+                className={status === "done" ? "animate-flash-blue" : ""}
+              >
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                    <p
-                      suppressHydrationWarning
-                      className="text-sm text-monaco-muted font-regular"
-                    >
+                    <div className="text-sm text-monaco-muted font-regular">
                       You must submit your code to view results.
-                    </p>
+                    </div>
                   </div>
                 )}
-                {!results && status && <p>{status}</p>}
-                {results && (
+                {!results && status && (
+                  <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-12 h-12 fill-monaco-muted flex-shrink-0"
+                    >
+                      <circle cx="4" cy="12" r="0">
+                        <animate
+                          begin="0;spinner_z0Or.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_OLMs.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_UHR2.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_lo66"
+                          begin="spinner_Aguh.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_z0Or"
+                          begin="spinner_lo66.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                      </circle>
+                      <circle cx="4" cy="12" r="3">
+                        <animate
+                          begin="0;spinner_z0Or.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_OLMs.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_JsnR"
+                          begin="spinner_UHR2.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_Aguh"
+                          begin="spinner_JsnR.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_Aguh.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                      </circle>
+                      <circle cx="12" cy="12" r="3">
+                        <animate
+                          begin="0;spinner_z0Or.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_hSjk"
+                          begin="spinner_OLMs.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_UHR2"
+                          begin="spinner_hSjk.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_UHR2.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_Aguh.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                      </circle>
+                      <circle cx="20" cy="12" r="3">
+                        <animate
+                          id="spinner_4v5M"
+                          begin="0;spinner_z0Or.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="3;0"
+                          fill="freeze"
+                        />
+                        <animate
+                          id="spinner_OLMs"
+                          begin="spinner_4v5M.end"
+                          attributeName="cx"
+                          dur="0.001s"
+                          values="20;4"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_OLMs.end"
+                          attributeName="r"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="0;3"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_UHR2.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="4;12"
+                          fill="freeze"
+                        />
+                        <animate
+                          begin="spinner_Aguh.end"
+                          attributeName="cx"
+                          calcMode="spline"
+                          dur="0.5s"
+                          keySplines=".36,.6,.31,1"
+                          values="12;20"
+                          fill="freeze"
+                        />
+                      </circle>
+                    </svg>
+                  </div>
+                )}
+                {results && results.code === 0 && (
                   <>
                     <h2
-                      className={`mb-4 px-4 text-xl font-bold flex ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
+                      className={`mb-4 text-xl font-bold flex ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
                     >
                       <div className="mr-auto">{results.verdict}</div>
                       <div className="flex ml-auto">
@@ -431,13 +640,40 @@ export default function ProblemClient({
                         <div className="px-4 text-monaco-txt">/</div>
                         <div className="text-monaco-txt">
                           {results.totalTests}{" "}
-                          {/* Changed this because we hide test cases entirely, so we have a diff var now. */}
                         </div>
                       </div>
                     </h2>
                     {results.results.map((test, index) => (
                       <TestcaseBlock key={index} test={test} index={index} />
                     ))}
+                    {results.totalHiddenTests > 0 && (
+                      <div className="flex rounded-lg bg-monaco-mid/50 mb-2 items-center px-4 py-3">
+                        <div className="mr-auto font-bold text-monaco-muted">
+                          Additional Testcases
+                        </div>
+                        <div className="flex ml-auto font-semibold">
+                          <div
+                            className={`${results.hiddenPassedCount === results.totalHiddenTests ? "text-green-500" : "text-red-400"}`}
+                          >
+                            {results.hiddenPassedCount}
+                          </div>
+                          <div className="px-2 text-monaco-txt">/</div>
+                          <div className="text-monaco-txt">
+                            {results.totalHiddenTests}{" "}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+                {results && results.code === 1 && (
+                  <>
+                    <h2 className={`mb-4 text-xl font-bold flex text-red-400`}>
+                      {results.verdict}
+                    </h2>
+                    <pre className="p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-sm font-mono">
+                      {results.stderr}
+                    </pre>
                   </>
                 )}
               </Card>
