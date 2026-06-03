@@ -247,157 +247,158 @@ export default function Publish() {
   return (
     <main style={{ padding: "2rem" }}>
       <h1>Publish New Problem</h1>
-<SplitPane
+      <SplitPane
         left={
-        <div>
-      {/* Title Block */}
-      <div style={{ marginBottom: "1rem" }}>
-        {/* A space for a label and a subtext (which is italicized and is smaller) */}
-        <div className="flex items-end">
-          <label htmlFor="textboxes" className="p-1">
-            Title
-          </label>
-          <label htmlFor="textboxes" className="p-1 text-xs italic">
-            (What is your question called?)
-          </label>
-        </div>
-
-        <textarea
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Question Name..."
-          style={{ padding: "0.5rem", width: "300px", resize: "none" }}
-        />
-      </div>
-
-      {/* Description */}
-      <div style={{ marginBottom: "1rem" }}>
-        <label htmlFor="description" style={{ display: "block" }}>
-          Description:
-        </label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description"
-          style={{
-            padding: "0.5rem",
-            width: "100%",
-            height: "200px",
-            borderWidth: "1px",
-
-            resize: "none",
-
-            textWrap: "wrap",
-            whiteSpace: "pre-wrap",
-            wordWrap: "break-word",
-            overflowWrap: "break-word",
-          }}
-        />
-      </div>
-</div>
-}
-right={
           <div>
-      {/* Test Cases */}
-      <div className="flex items-center p-2 justify-between">
-        {/* A space for a label and a subtext (which is italicized and is smaller) */}
-        <div className="flex items-end">
-          <label htmlFor="textboxes" className="p-1">
-            Test Cases:
-          </label>
-          <label htmlFor="textboxes" className="p-1 text-xs italic">
-            (Input test cases and their expected outputs)
-          </label>
-        </div>
+            {/* Title Block */}
+            <div style={{ marginBottom: "1rem" }}>
+              {/* A space for a label and a subtext (which is italicized and is smaller) */}
+              <div className="flex items-end">
+                <label htmlFor="textboxes" className="p-1">
+                  Title
+                </label>
+                <label htmlFor="textboxes" className="p-1 text-xs italic">
+                  (What is your question called?)
+                </label>
+              </div>
 
-        <div className="right flex items-center p-2">
-          <form onSubmit={addCase}>
-            <div className="p-1 border rounded w-[35px] place-items-center center">
-              <button style={{ cursor: "pointer", textAlign: "center" }}>
-                +
-              </button>
-            </div>
-          </form>
-
-          <form onSubmit={removeCase}>
-            <div className="p-1">
-              <button style={{ cursor: "pointer" }}>-</button>
-            </div>
-          </form>
-        </div>
-      </div>
-</div>
-}
-layout="standard"
-/>
-      {/* This block stores the adapting test cases. */}
-      <div className="flex flex-col border rounded overflow-y-auto h-[400px] p-2 mb-2">
-        {Object.entries(testCases).map(([id, data]) => (
-          <div
-            key={id}
-            className="flex items-center gap-3 p-3 border rounded shadow-sm mb-2"
-          >
-            <span className="text-sm font-bold whitespace-nowrap">
-              Case {id}:
-            </span>
-
-            {/* We're essentially that the first block is the test "input", while the second is the test "output" */}
-            <div className="flex flex-1 items-center gap-3">
-              <input
-                className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
-                placeholder="Input"
-                value={data.input}
-                onChange={(e) => updateCase(id, "input", e.target.value)}
+              <textarea
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Question Name..."
+                style={{ padding: "0.5rem", width: "300px", resize: "none" }}
               />
+            </div>
 
-              <span className="text-gray-400 font-bold">→</span>
-
-              <input
-                className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
-                placeholder="Output"
-                value={data.output}
-                onChange={(e) => updateCase(id, "output", e.target.value)}
-              />
-
-              {/* Button to toggle case visibility. */}
-              <button
-                onClick={(e) => updateHidden(id)}
+            {/* Description */}
+            <div style={{ marginBottom: "1rem" }}>
+              <label htmlFor="description" style={{ display: "block" }}>
+                Description:
+              </label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description"
                 style={{
-                  // If the test case is in the "HIDDEN" list, it's red. Otherwise, it's green.
-                  backgroundColor: hiddenCase.includes(Number(id))
-                    ? "#ef4444"
-                    : "#22c55e",
-                  padding: "10px 20px",
-                  cursor: "pointer",
+                  padding: "0.5rem",
+                  width: "100%",
+                  height: "200px",
+                  borderWidth: "1px",
+
+                  resize: "none",
+
+                  textWrap: "wrap",
+                  whiteSpace: "pre-wrap",
+                  wordWrap: "break-word",
+                  overflowWrap: "break-word",
                 }}
-              >
-                {hiddenCase.includes(Number(id)) ? "🤫" : "📣"}
-              </button>
+              />
             </div>
           </div>
-        ))}
-      </div>
+        }
+        right={
+          <div>
+            {/* Test Cases */}
+            <div className="flex items-center p-2 justify-between">
+              {/* A space for a label and a subtext (which is italicized and is smaller) */}
+              <div className="flex items-end">
+                <label htmlFor="textboxes" className="p-1">
+                  Test Cases:
+                </label>
+                <label htmlFor="textboxes" className="p-1 text-xs italic">
+                  (Input test cases and their expected outputs)
+                </label>
+              </div>
 
-      <form onSubmit={handleSubmit}>
-        {notif.message && (
-          <div
-            className={`notification ${notif.type}`}
-            style={{
-              padding: "10px",
-              backgroundColor: notif.type === "success" ? "#22c55e" : "#ef4444",
-              color: "white",
-            }}
-          >
-            {notif.message}
+              <div className="right flex items-center p-2">
+                <form onSubmit={addCase}>
+                  <div className="p-1 border rounded w-[35px] place-items-center center">
+                    <button style={{ cursor: "pointer", textAlign: "center" }}>
+                      +
+                    </button>
+                  </div>
+                </form>
+
+                <form onSubmit={removeCase}>
+                  <div className="p-1">
+                    <button style={{ cursor: "pointer" }}>-</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            {/* This block stores the adapting test cases. */}
+            <div className="flex flex-col border rounded overflow-y-auto h-[400px] p-2 mb-2">
+              {Object.entries(testCases).map(([id, data]) => (
+                <div
+                  key={id}
+                  className="flex items-center gap-3 p-3 border rounded shadow-sm mb-2"
+                >
+                  <span className="text-sm font-bold whitespace-nowrap">
+                    Case {id}:
+                  </span>
+
+                  {/* We're essentially that the first block is the test "input", while the second is the test "output" */}
+                  <div className="flex flex-1 items-center gap-3">
+                    <input
+                      className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
+                      placeholder="Input"
+                      value={data.input}
+                      onChange={(e) => updateCase(id, "input", e.target.value)}
+                    />
+
+                    <span className="text-gray-400 font-bold">→</span>
+
+                    <input
+                      className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
+                      placeholder="Output"
+                      value={data.output}
+                      onChange={(e) => updateCase(id, "output", e.target.value)}
+                    />
+
+                    {/* Button to toggle case visibility. */}
+                    <button
+                      onClick={(e) => updateHidden(id)}
+                      style={{
+                        // If the test case is in the "HIDDEN" list, it's red. Otherwise, it's green.
+                        backgroundColor: hiddenCase.includes(Number(id))
+                          ? "#ef4444"
+                          : "#22c55e",
+                        padding: "10px 20px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {hiddenCase.includes(Number(id)) ? "🤫" : "📣"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              {notif.message && (
+                <div
+                  className={`notification ${notif.type}`}
+                  style={{
+                    padding: "10px",
+                    backgroundColor:
+                      notif.type === "success" ? "#22c55e" : "#ef4444",
+                    color: "white",
+                  }}
+                >
+                  {notif.message}
+                </div>
+              )}
+
+              <button type="submit" style={{ cursor: "pointer" }}>
+                Submit
+              </button>
+            </form>
           </div>
-        )}
-
-        <button type="submit" style={{ cursor: "pointer" }}>
-          Submit
-        </button>
-      </form>
+        }
+        layout="standard"
+      />
     </main>
   );
 }
