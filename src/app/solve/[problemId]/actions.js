@@ -18,26 +18,25 @@ export async function runCode(problemId, language, code) {
   const testcases = await CodebookDatabaseAPI.getTestCasesById(problemId);
   const pistonHost = process.env.PISTON_URL || "http://localhost:2000";
 
-  let passed = 0;
-  let hiddenPassed = 0;
-  let totalTests = 0;
-  let totalHidden = 0;
-  let results = [];
+  // helper function to fetch a Piston execution
+  const executeWithPiston = async (test) => {
+    const response = await fetch(`${pistonHost}/api/v2/execute`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language: language,
+        version: "*",
+        files: [{ content: code }],
+        stdin: String(test.input),
+      }),
+    });
+
+    return response.json();
+  };
 
   // isolate first test case to check for compile error
   const firstTest = testcases[0];
-  const firstResponse = await fetch(`${pistonHost}/api/v2/execute`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      language: language,
-      version: "*",
-      files: [{ content: code }],
-      stdin: String(firstTest.input),
-    }),
-  });
-
-  const firstData = await firstResponse.json();
+  const firstData = await executeWithPiston(firstTest);
 
   // check for compile error
   if (firstData.compile?.code && firstData.compile.code !== 0) {
@@ -48,6 +47,12 @@ export async function runCode(problemId, language, code) {
     };
   }
 
+  let passed = 0;
+  let hiddenPassed = 0;
+  let totalTests = 0;
+  let totalHidden = 0;
+  let results = [];
+
   // process remaining test cases
   for (let i = 0; i < testcases.length; i++) {
     const test = testcases[i];
@@ -57,18 +62,7 @@ export async function runCode(problemId, language, code) {
     if (i === 0) {
       data = firstData;
     } else {
-      const response = await fetch(`${pistonHost}/api/v2/execute`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          language: language,
-          version: "*",
-          files: [{ content: code }],
-          stdin: String(test.input),
-        }),
-      });
-
-      data = await response.json();
+      data = await executeWithPiston(test);
     }
 
     // check for runtime error
