@@ -1,15 +1,16 @@
 "use client";
 
 import { Carousel } from "@/components/Carousel";
+import Link from "next/link";
 
 export default function HomeClient() {
   return (
     <main className="min-h-screen bg-[#111111] text-white">
       <section className="mx-auto max-w-3xl px-8 py-24 text-center">
-        <h1 className="text-5xl font-bold tracking-tight">
+        <h1 className="text-8xl font-bold tracking-tight">
           Welcome to CodeBook
         </h1>
-        <p className="mt-4 text-zinc-400">
+        <p className="mt-4 text-zinc-400 text-xl">
           Practice and share coding problems!
         </p>
       </section>
@@ -28,6 +29,14 @@ export default function HomeClient() {
           Ready to start your journey?
         </h1>
         <p className="mt-4 text-zinc-400"></p>
+        <Link href="/login" className="logo">
+       <button className="bg-white text-black px-10 py-4 rounded-lg hover:bg-gray-200 transition-all inline-flex items-center gap-2">
+           
+           <span>Create Free Account</span>
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+            
+        </button>
+        </Link>
       </section>
 
       <section className="mx-auto max-w-3xl px-8 py-20 text-center ">
