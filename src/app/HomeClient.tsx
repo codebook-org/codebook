@@ -9,9 +9,26 @@ export default function HomeClient(): JSX.Element{
   return (
 
        <div className="relative min-h-screen">
-      {/* Background */}
       <div className="fixed inset-0 -z-10">
-        <PixelBlast/>
+        <PixelBlast    
+          variant="diamond"
+          pixelSize={5}
+          color="#6d5c87"
+          patternScale={4.25}
+          patternDensity={2}
+          pixelSizeJitter={2}
+          enableRipples
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={false}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={3}
+          edgeFade={0.41}
+        transparent
+        />
       </div>
 
     <main className="min-h-screen text-white">

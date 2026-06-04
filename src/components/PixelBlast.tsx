@@ -350,8 +350,6 @@ void main(){
 
 const MAX_CLICKS = 10;
 
-
-// YOU CAN CHANGE THESE VALUES TO CHANGE THE WAY THE BACKGROUND BEHAVES AND THE COLOR AND STUFF
 const PixelBlast: React.FC<PixelBlastProps> = ({
   variant = 'square',
   pixelSize = 3,
