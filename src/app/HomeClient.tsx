@@ -1,21 +1,30 @@
 "use client";
 
 import { Carousel } from "@/components/Carousel";
+import  PixelBlast from "@/components/PixelBlast";
 import Link from "next/link";
+import { JSX } from "react";
 
-export default function HomeClient() {
+export default function HomeClient(): JSX.Element{
   return (
-    <main className="min-h-screen bg-[#111111] text-white">
+
+       <div className="relative min-h-screen">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10">
+        <PixelBlast/>
+      </div>
+
+    <main className="min-h-screen text-white">
       <section className="mx-auto max-w-3xl px-8 py-24 text-center">
         <h1 className="text-8xl font-bold tracking-tight">
           Welcome to CodeBook
         </h1>
-        <p className="mt-4 text-zinc-400 text-xl">
+        <p className="mt-4 text-white text-xl">
           Practice and share coding problems!
         </p>
       </section>
 
-      <section className="bg-[#111111] py-20">
+      <section className=" py-20">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-center text-3xl text-white font-extrabold mb-16">
             How to Use CodeBook
@@ -26,11 +35,11 @@ export default function HomeClient() {
 
       <section className="mx-auto max-w-3xl px-8 py-24 text-center">
         <h1 className=" font-bold tracking-tight">
-          Ready to start your journey?
+          Ready to Begin?
         </h1>
         <p className="mt-4 text-zinc-400"></p>
         <Link href="/login" className="logo">
-       <button className="bg-white text-black px-10 py-4 rounded-lg hover:bg-gray-200 transition-all inline-flex items-center gap-2">
+       <button className="bg-white text-black px-10 py-4 rounded-lg hover:bg-gray-300 transition-all inline-flex items-center gap-2">
            
            <span>Create Free Account</span>
            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
@@ -49,5 +58,8 @@ export default function HomeClient() {
         <p className="mt-4 text-zinc-400"></p>
       </section>
     </main>
+    </div>
+
+
   );
 }
