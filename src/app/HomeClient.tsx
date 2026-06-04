@@ -79,7 +79,7 @@ export default function HomeClient(): JSX.Element {
             2026 CodeBook. All rights reserved.
           </h1>
           <h2 className=" text-xs tracking-tight text-zinc-500">
-            We're legit now guys
+            We&apos;re legit now guys
           </h2>
           <p className="mt-4 text-zinc-400"></p>
         </section>

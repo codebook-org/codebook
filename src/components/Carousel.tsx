@@ -125,13 +125,21 @@ export function Carousel() {
   const [index, setIndex] = useState(1);
   const [animate, setAnimate] = useState(true);
   const [paused, setPaused] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  //pause the autoplay so it doesn't disappear
+  useEffect(() => {
+    const onVisibility = () => setHidden(document.hidden);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
 
   // Autoplay — resets the 4s timer
   useEffect(() => {
-    if (paused) return;
+    if (paused || hidden) return;
     const id = setTimeout(() => setIndex((i) => i + 1), 4000);
     return () => clearTimeout(id);
-  }, [index, paused]);
+  }, [index, paused, hidden]);
 
   // Re-enable the transition after a snap-back jump (double rAF so the jump paints first).
   useEffect(() => {
@@ -144,10 +152,10 @@ export function Carousel() {
 
   const handleTransitionEnd = (e) => {
     if (e.target !== e.currentTarget) return;
-    if (index === count + 1) {
+    if (index >= count + 1) {
       setAnimate(false);
       setIndex(1);
-    } else if (index === 0) {
+    } else if (index <= 0) {
       setAnimate(false);
       setIndex(count);
     }
@@ -175,7 +183,7 @@ export function Carousel() {
             const Icon = step.icon;
             return (
               <div key={i} className="min-w-full px-4">
-                <div className="bg-[#111111] border-2 border-white rounded-lg p-12 min-h-[500px] flex flex-col items-center text-center">
+                <div className="bg-[#111111] border-2 border-white rounded-lg p-12 min-h-125 flex flex-col items-center text-center">
                   <div className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
                     <span className="text-2xl font-bold">{step.number}</span>
                   </div>

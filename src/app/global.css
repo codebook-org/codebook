@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
-@plugin "tailwindcss-animate";
+
 
 :root {
   --background: #000000;
