@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
-
+@plugin "tailwindcss-animate";
 
 :root {
-  --background: #000000;
+  --background: #ffffff;
   --foreground: #171717;
 }
 
@@ -29,7 +29,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ffffff;
+    --foreground: #ededed;
   }
 }
 
