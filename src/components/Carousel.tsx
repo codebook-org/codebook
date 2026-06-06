@@ -202,7 +202,7 @@ export function Carousel() {
           type="button"
           onClick={() => setIndex((i) => i - 1)}
           aria-label="Previous slide"
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-black rounded-full p-2 shadow transition-colors"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-black rounded-full p-2 shadow transition-colors cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
