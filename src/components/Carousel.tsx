@@ -96,7 +96,7 @@ const steps = [
     number: 3,
     title: "Write Your Solution",
     description:
-      "Code your solution in our built-in editor. Choose from multiple languages including C++, Python, Java, and JavaScript. Use the examples and constraints to guide your implementation.",
+      "Code your solution in our built-in editor. Choose from multiple languages including C++, Python, and Java.",
     icon: Code2,
   },
   {
