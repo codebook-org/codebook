@@ -6,6 +6,7 @@ import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import SplitPane from "@/components/SplitPane";
+import Card from "@/components/Card";
 
 export default function Publish() {
   const { data: session } = useSession();
@@ -245,57 +246,57 @@ export default function Publish() {
     redirect("/login");
   }
   return (
-    <main style={{ padding: "2rem" }}>
-      <h1>Publish New Problem</h1>
+    <div className="w-full h-full min-h-0 flex-1">
+      <div>
+        <div style={{ marginBottom: "1rem" }}>
+          <div className="flex items-end">
+            <label htmlFor="textboxes" className="p-1">
+              Title
+            </label>
+            <label htmlFor="textboxes" className="p-1 text-xs italic">
+              (What is your question called?)
+            </label>
+          </div>
+
+          <textarea
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Question Name..."
+            style={{ padding: "0.5rem", width: "300px", resize: "none" }}
+          />
+        </div>
+      </div>
       <SplitPane
         left={
-          <div>
-            {/* Title Block */}
-            <div style={{ marginBottom: "1rem" }}>
-              {/* A space for a label and a subtext (which is italicized and is smaller) */}
-              <div className="flex items-end">
-                <label htmlFor="textboxes" className="p-1">
-                  Title
+          <div className="h-full overflow-y-auto">
+            <Card title="Description Editor">
+              {/* Description */}
+              <div style={{ marginBottom: "1rem" }}>
+                <label htmlFor="description" style={{ display: "block" }}>
+                  Description:
                 </label>
-                <label htmlFor="textboxes" className="p-1 text-xs italic">
-                  (What is your question called?)
-                </label>
+                <textarea
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Description"
+                  style={{
+                    padding: "0.5rem",
+                    width: "100%",
+                    height: "200px",
+                    borderWidth: "1px",
+
+                    resize: "none",
+
+                    textWrap: "wrap",
+                    whiteSpace: "pre-wrap",
+                    wordWrap: "break-word",
+                    overflowWrap: "break-word",
+                  }}
+                />
               </div>
-
-              <textarea
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Question Name..."
-                style={{ padding: "0.5rem", width: "300px", resize: "none" }}
-              />
-            </div>
-
-            {/* Description */}
-            <div style={{ marginBottom: "1rem" }}>
-              <label htmlFor="description" style={{ display: "block" }}>
-                Description:
-              </label>
-              <textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Description"
-                style={{
-                  padding: "0.5rem",
-                  width: "100%",
-                  height: "200px",
-                  borderWidth: "1px",
-
-                  resize: "none",
-
-                  textWrap: "wrap",
-                  whiteSpace: "pre-wrap",
-                  wordWrap: "break-word",
-                  overflowWrap: "break-word",
-                }}
-              />
-            </div>
+            </Card>
           </div>
         }
         right={
@@ -399,6 +400,6 @@ export default function Publish() {
         }
         layout="standard"
       />
-    </main>
+    </div>
   );
 }
