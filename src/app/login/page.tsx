@@ -17,7 +17,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-black px-4 font-sans text-white">
       <h1 className="mb-8 text-2xl font-bold tracking-tight text-zinc-400">
-n        welcome to <span className="text-orange-400">codebook.</span>
+        welcome to <span className="text-orange-400">codebook.</span>
       </h1>
 
       {/* The entire thing idotknow IMSLEEPY */}
