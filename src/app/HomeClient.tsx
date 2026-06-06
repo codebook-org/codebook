@@ -10,23 +10,23 @@ export default function HomeClient(): JSX.Element {
     <div className="relative min-h-screen">
       <div className="fixed inset-0 -z-10">
         <PixelBlast
-          variant="diamond"
-          pixelSize={5}
-          color="#6d5c87"
-          patternScale={4.25}
-          patternDensity={2}
-          pixelSizeJitter={2}
-          enableRipples
-          rippleSpeed={0.4}
-          rippleThickness={0.12}
-          rippleIntensityScale={1.5}
+          variant="square"
+          pixelSize={3}
+          color="#2d2d2d"
+          patternScale={2}
+          patternDensity={1}
+          pixelSizeJitter={0}
+          enableRipples={true}
+          rippleSpeed={0.3}
+          rippleThickness={0.1}
+          rippleIntensityScale={1}
           liquid={false}
-          liquidStrength={0.12}
-          liquidRadius={1.2}
-          liquidWobbleSpeed={5}
-          speed={3}
-          edgeFade={0.41}
-          transparent
+          liquidStrength={0.1}
+          liquidRadius={1}
+          liquidWobbleSpeed={4.5}
+          speed={0.5}
+          edgeFade={0.5}
+          transparent  
         />
       </div>
 
