@@ -53,9 +53,9 @@ export default function Navbar() {
                 {label}
               </Link>
             </li>
-          ))}    
+          ))}
         </ul>
-      {/* Moved Session Provider out to the Layout, so everything will obtain acces to SessionProvider. */}
+        {/* Moved Session Provider out to the Layout, so everything will obtain acces to SessionProvider. */}
         <UserMenu key={status} />
       </div>
     </nav>

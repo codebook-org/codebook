@@ -15,7 +15,9 @@ function ProblemCard({ problem }: { problem: Problem }) {
     >
       <div className="flex-1 min-w-0">
         <p className="text-sm font-bold text-white mb-1">{title}</p>
-        <p className="text-xs text-gray-400 leading-relaxed line-clamp-1">{description}</p>
+        <p className="text-xs text-gray-400 leading-relaxed line-clamp-1">
+          {description}
+        </p>
       </div>
     </Link>
   );
