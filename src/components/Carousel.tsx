@@ -89,7 +89,7 @@ const steps = [
     number: 2,
     title: "Explore Problems",
     description:
-      "Browse our collection of coding challenges. Filter by difficulty (Easy, Medium, Hard) or search by topic tags like Arrays, Recursion, or Dynamic Programming.",
+      "Browse a collection of coding challenges created by the codebook community.",
     icon: BookOpen,
   },
   {
