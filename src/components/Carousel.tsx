@@ -210,7 +210,7 @@ export function Carousel() {
           type="button"
           onClick={() => setIndex((i) => i + 1)}
           aria-label="Next slide"
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-black rounded-full p-2 shadow transition-colors"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-black rounded-full p-2 shadow transition-colors cursor-pointer"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -223,7 +223,7 @@ export function Carousel() {
             type="button"
             onClick={() => setIndex(i + 1)}
             aria-label={`Go to slide ${i + 1}`}
-            className={`h-2 rounded-full transition-all ${
+            className={`h-2 rounded-full transition-all cursor-pointer ${
               i === activeDot
                 ? "w-6 bg-white"
                 : "w-2 bg-gray-600 hover:bg-gray-400"

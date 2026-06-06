@@ -31,9 +31,9 @@ export default function HomeClient(): JSX.Element {
       </div>
 
       <main className="min-h-screen text-white">
-        <section className="mx-auto max-w-3xl px-8 py-24 text-center">
+        <section className="mx-auto text-xl px-8 py-24 text-center">
           <h1 className="text-8xl font-bold tracking-tight">
-            Welcome to CodeBook
+            welcome to codebook.
           </h1>
           <p className="mt-4 text-white text-xl">
             Practice and share coding problems!
@@ -42,8 +42,8 @@ export default function HomeClient(): JSX.Element {
 
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-center text-3xl text-white font-extrabold mb-16">
-              How to Use CodeBook
+            <h2 className="text-center text-2xl text-white font-extrabold mb-16">
+              How to use codebook.
             </h2>
             <Carousel />
           </div>
@@ -53,7 +53,7 @@ export default function HomeClient(): JSX.Element {
           <h1 className=" font-bold tracking-tight">Ready to Begin?</h1>
           <p className="mt-4 text-zinc-400"></p>
           <Link href="/login" className="logo">
-            <button className="bg-white text-black px-10 py-4 rounded-lg hover:bg-gray-300 transition-all inline-flex items-center gap-2">
+            <button className="bg-white text-black px-10 py-4 rounded-lg hover:bg-gray-300 transition-all inline-flex items-center gap-2 cursor-pointer">
               <span>Create Free Account</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
