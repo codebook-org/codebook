@@ -26,7 +26,7 @@ export default function HomeClient(): JSX.Element {
           liquidWobbleSpeed={4.5}
           speed={0.5}
           edgeFade={0.5}
-          transparent  
+          transparent
         />
       </div>
 
@@ -40,7 +40,7 @@ export default function HomeClient(): JSX.Element {
           </p>
         </section>
 
-        <section className=" py-20">
+        <section className="py-20">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-center text-3xl text-white font-extrabold mb-16">
               How to Use CodeBook
@@ -74,7 +74,7 @@ export default function HomeClient(): JSX.Element {
           </Link>
         </section>
 
-        <section className="mx-auto max-w-3xl px-8 py-20 text-center ">
+        <section className="mx-auto max-w-3xl px-8 py-20 text-center">
           <h1 className=" text-xs tracking-tight text-zinc-500">
             2026 CodeBook. All rights reserved.
           </h1>
