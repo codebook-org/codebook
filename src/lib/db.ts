@@ -1,8 +1,6 @@
 import "server-only";
 
 import postgres from "postgres";
-import { register } from "node:module";
-import { DANGEROUSLY_runPendingImmediatesAfterCurrentTask } from "next/dist/server/node-environment-extensions/fast-set-immediate.external";
 
 const sql = postgres({
   host: process.env.DB_HOST || "localhost",
@@ -66,7 +64,7 @@ export namespace CodebookDatabaseAPI {
 
   /**
    * All Problem APIs
-   * Includes Votes & TestCase APIs as child namespaces
+   * Includes Votes, User Solves, and TestCase APIs as child namespaces
    */
   export namespace Problems {
     /**
@@ -131,6 +129,9 @@ export namespace CodebookDatabaseAPI {
       return result[0]["problemId"];
     }
 
+    /**
+     * All Problem Vote APIs
+     */
     export namespace Votes {
       /**
        * Returns if the given user likes/dislikes the given problem
@@ -238,6 +239,115 @@ export namespace CodebookDatabaseAPI {
         return Array.from(result.values()) as {
           userId: number;
           isLike: boolean;
+        }[];
+      }
+    }
+
+    /**
+     * All User Solve APIs
+     */
+    export namespace UserSolves {
+      /**
+       * Returns if the given user has solved the given problem
+       *
+       * @param userId - The ID of the user to check
+       * @param problemId - The ID of the problem to check
+       *
+       * @returns A JavaScript Object with the timestamp of when the user solved the problem, null if they haven't.
+       */
+      export async function getUserSolvedProblem(
+        userId: number,
+        problemId: number,
+      ): Promise<Date | null> {
+        const result = await sql`
+          SELECT solved_at
+          FROM user_solved_problems
+          WHERE user_id = ${userId} AND problem_id = ${problemId};
+        `;
+
+        return result.length > 0 ? result[0].solvedAt : null;
+      }
+
+      /**
+       * Updates the user's solved problems with the given problem
+       *
+       * @param userId - The ID of the user voting on the problem
+       * @param problemId - The ID of the problem the user is voting on
+       * @param solved - True/False representing if the user has solved the problem
+       *
+       * @returns True/False if the given user was added/removed from the user's solved problems.
+       */
+      export async function updateUserSolvedProblem(
+        userId: number,
+        problemId: number,
+        solved: boolean,
+      ): Promise<boolean> {
+        if (solved) {
+          const result = await sql`
+            INSERT INTO user_solved_problems (user_id, problem_id)
+            SELECT ${userId}, ${problemId}
+            WHERE NOT EXISTS (
+              SELECT 1
+              FROM user_solved_problems
+              WHERE user_id = ${userId}
+                AND problem_id = ${problemId}
+            )
+            RETURNING 1;
+          `;
+
+          return result.length > 0;
+        } else {
+          const result = await sql`
+            DELETE FROM user_solved_problems
+            WHERE user_id = ${userId} AND problem_id = ${problemId}
+            RETURNING 1;
+          `;
+
+          return result.length > 0;
+        }
+      }
+
+      /**
+       * Gets all problems a user has solved
+       *
+       * @param userId - The ID of the user to get the solved problems from
+       *
+       * @returns An array of problem IDs the user has solved, and a JavaScript Date Object with the timestamp of when.
+       */
+      export async function getProblemsSolvedByUser(
+        userId: number,
+      ): Promise<{ problemId: number; solvedAt: Date }[]> {
+        const result = await sql`
+          SELECT problem_id, solved_at
+          FROM user_solved_problems
+          WHERE user_id = ${userId};
+        `;
+
+        return Array.from(result.values()) as {
+          problemId: number;
+          solvedAt: Date;
+        }[];
+      }
+
+      /**
+       * Gets all users who've solved a problem
+       *
+       * @param userId - The ID of the problem to get the users from
+       *
+       * @returns An array of user IDs who solved the problem, and a JavaScript Date Object with the timestamp of when.
+       */
+      export async function getUsersSolvedProblem(
+        problemId: number,
+      ): Promise<{ userId: number; solvedAt: Date }[]> {
+        const result = await sql`
+          SELECT user_id, solved_at
+          FROM user_solved_problems
+          WHERE problem_id = ${problemId};
+        `;
+
+        return Array.from(result.values()) as {
+          userId: number;
+          solvedAt: Date;
         }[];
       }
     }
@@ -442,7 +552,7 @@ if (false) {
   //   }
   // }
   // Problem Votes
-  if (true) {
+  if (false) {
     const debugUpdate = async function (
       userId: number,
       problemId: number,
@@ -490,6 +600,57 @@ if (false) {
     await debugUpdate(1, 1, null);
     await debugUpdate(1, 2, null);
     await debugUpdate(2, 1, null);
+
+    console.log("");
+  }
+  // Solved Problems
+  if (false) {
+    const debugUpdate = async function (
+      userId: number,
+      problemId: number,
+      solved: boolean,
+    ) {
+      console.log(
+        `\nUpdating (${userId}, ${problemId}) with value (${solved}):`,
+      );
+      console.log(
+        `Solve status changed? ${await CodebookDatabaseAPI.Problems.UserSolves.updateUserSolvedProblem(userId, problemId, solved)}`,
+      );
+      console.log(
+        `Solve status: ${await CodebookDatabaseAPI.Problems.UserSolves.getUserSolvedProblem(userId, problemId)}`,
+      );
+
+      const userSolves =
+        await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(
+          userId,
+        );
+      console.log("User Solutions:");
+      console.log(userSolves);
+
+      const problemSolutions =
+        await CodebookDatabaseAPI.Problems.UserSolves.getUsersSolvedProblem(
+          problemId,
+        );
+      console.log("Problem Solutions:");
+      console.log(problemSolutions);
+    };
+
+    // Test single solve, single problem
+    await debugUpdate(1, 1, true);
+    await debugUpdate(1, 1, true);
+    await debugUpdate(1, 1, false);
+    await debugUpdate(1, 1, null);
+
+    // Test multiple users, multiple problems
+    await debugUpdate(1, 1, true);
+    await debugUpdate(1, 2, true);
+    await debugUpdate(2, 1, true);
+    await debugUpdate(1, 1, true);
+
+    // Erase debug solves
+    await debugUpdate(1, 1, false);
+    await debugUpdate(1, 2, false);
+    await debugUpdate(2, 1, false);
 
     console.log("");
   }

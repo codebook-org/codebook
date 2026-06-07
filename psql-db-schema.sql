@@ -15,8 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
     -- Only works with MySQL, no built-in PostgreSQL equivalent, would have to write triggers
     -- updated_at    TIMESTAMP    NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     display_name    VARCHAR(25),
-    bio             TEXT,
-    creation_ids    INT[]
+    bio             TEXT
 );
 
 CREATE TABLE IF NOT EXISTS problems (
@@ -41,6 +40,19 @@ CREATE TABLE IF NOT EXISTS problem_votes (
 -- Fast lookup times, write operations are a bit heavier, but that's fine.
 CREATE INDEX idx_problem_votes_user_id ON problem_votes(user_id);
 CREATE INDEX idx_problem_votes_problem_id ON problem_votes(problem_id);
+
+CREATE TABLE IF NOT EXISTS user_solved_problems (
+    user_id    INT NOT NULL REFERENCES users(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    problem_id INT NOT NULL REFERENCES problems(problem_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    solved_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    PRIMARY KEY (user_id, problem_id)
+);
+-- Fast lookup times, write operations are a bit heavier, but that's fine.
+CREATE INDEX idx_user_solved_problems_user_id ON user_solved_problems(user_id);
+CREATE INDEX idx_user_solved_problems_problem_id ON user_solved_problems(problem_id);
 
 CREATE TABLE IF NOT EXISTS testcases (
     testcase_id              INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
