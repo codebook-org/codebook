@@ -14,77 +14,160 @@ const sql = postgres({
 });
 
 export namespace CodebookDatabaseAPI {
-  // Isabelle here, I uncommented and changed some minor stuff.
-  export type UserCreationInformation = {
-    username: string;
-    email?: string;
-    passwordHash?: string;
-    googleOauthId?: string;
-  };
 
-  export type User = {
-    userId: number;
-    username: string;
-    email: string;
-    passwordHash: string;
-    displayName?: string;
-    googleOauthId?: string;
-    bio?: string;
-  };
+  export namespace DataTypes {
 
-  export type TestCaseData = {
-    problemId: number;
-    input: string;
-    expectedOut: string;
-    visible: boolean;
-  };
-  export type TestCase = TestCaseData & { testcaseId: number };
+    export type UserCreationInformation = {
+        username: string;
+        email?: string;
+        passwordHash?: string;
+        googleOauthId?: string;
+      };
 
-  export type ProblemData = {
-    title: string;
-    description: string;
-    userId?: number;
-  };
-  export type Problem = ProblemData & { problemId: number };
+      export type User = {
+        userId: number;
+        username: string;
+        email: string;
+        passwordHash: string;
+        displayName?: string;
+        googleOauthId?: string;
+        bio?: string;
+      };
 
-  export type SubmissionData = {
-    problemId: number;
-    code: string;
-  };
-  export type SubmissionDataResponse = SubmissionData & { id: number };
+      export type TestCaseData = {
+        problemId: number;
+        input: string;
+        expectedOut: string;
+        visible: boolean;
+      };
+      export type TestCase = TestCaseData & { testcaseId: number };
 
-  export async function getProblems(): Promise<Problem[]> {
-    let result = await sql`SELECT json_agg(u) FROM problems u`;
-    return result[0]["jsonAgg"];
+      export type ProblemData = {
+        title: string;
+        description: string;
+        userId?: number;
+      };
+      export type Problem = ProblemData & { problemId: number };
+
+      export type SubmissionData = {
+        problemId: number;
+        code: string;
+      };
+      export type SubmissionDataResponse = SubmissionData & { id: number };
+
   }
 
-  export async function getProblemById(
-    problemId: number,
-  ): Promise<Problem | null> {
-    let result =
-      await sql`SELECT * FROM problems WHERE problem_id = ${problemId}`;
-    if (result.length > 0) {
-      return result[0] as Problem;
-    } else {
-      return null;
+  export namespace Problems {
+
+    export async function getProblems(): Promise<DataTypes.Problem[]> {
+      let result = await sql`SELECT json_agg(u) FROM problems u`;
+      return result[0]["jsonAgg"];
     }
+
+    export async function getProblemByProblemId(
+      problemId: number,
+    ): Promise<DataTypes.Problem | null> {
+      let result =
+        await sql`SELECT * FROM problems WHERE problem_id = ${problemId}`;
+      if (result.length > 0) {
+        return result[0] as DataTypes.Problem;
+      } else {
+        return null;
+      }
+    }
+
+    export async function getProblemsByUserId(userId: number): Promise<DataTypes.Problem[]> {
+      let result = await sql`SELECT * FROM problems WHERE user_id = ${userId}`;
+      return Array.from(result.values()) as DataTypes.Problem[];
+    }
+
+    export async function createProblem(
+      data: DataTypes.ProblemData,
+    ): Promise<number | null> {
+      let result = await sql`
+        INSERT INTO problems (title, description, user_id)
+        VALUES(${data.title}, ${data.description}, ${data.userId ?? null})
+        RETURNING problem_id
+      `;
+      return result[0]["problemId"];
+    }
+
+    export namespace TestCases {
+
+      export async function createTestCase(
+        data: DataTypes.TestCaseData,
+      ): Promise<Number | null> {
+        let result = await sql`
+          INSERT INTO testcases (problem_id, input, expected_out, visible)
+          VALUES(${data.problemId}, ${data.input}, ${data.expectedOut}, ${data.visible})
+          RETURNING testcase_id
+        `;
+        return result[0]["testcaseId"];
+      }
+
+      export async function getTestCasesByProblemId(
+        problemId: number,
+      ): Promise<DataTypes.TestCase[]> {
+        let result =
+          await sql`SELECT * FROM testcases WHERE problem_id = ${problemId}`;
+        return Array.from(result.values()) as DataTypes.TestCase[];
+      }
+      
+    }
+
   }
 
-  export async function createProblem(
-    data: ProblemData,
-  ): Promise<number | null> {
-    let result = await sql`
-      INSERT INTO problems (title, description, user_id)
-      VALUES(${data.title}, ${data.description}, ${data.userId ?? null})
-      RETURNING problem_id
-    `;
-    return result[0]["problemId"];
+  export namespace Users {
+    
+    export async function getUserByEmail(email: string): Promise<DataTypes.User | null> {
+      let result = await sql`SELECT * FROM users WHERE email = ${email}`;
+      if (result.length > 0) {
+        return result[0] as DataTypes.User;
+      } else {
+        return null;
+      }
+    }
+
+    export async function getUserByGoogleOauthId(
+      googleOauthId: string,
+    ): Promise<DataTypes.User | null> {
+      let result =
+        await sql`SELECT * FROM users WHERE google_oauth_id = ${googleOauthId}`;
+      if (result.length > 0) {
+        return result[0] as DataTypes.User;
+      } else {
+        return null;
+      }
+    }
+
+    export async function getUserById(userId: number): Promise<DataTypes.User | null> {
+      let result = await sql`SELECT * FROM users WHERE user_id = ${userId}`;
+      if (result.length > 0) {
+        return result[0] as DataTypes.User;
+      } else {
+        return null;
+      }
+    }
+
+    export async function registerUser(
+      data: DataTypes.UserCreationInformation,
+    ): Promise<number | null> {
+      let result = await sql`
+        INSERT INTO users (username, email, password_hash, google_oauth_id)
+        VALUES(${data.username}, ${data.email ?? null}, ${data.passwordHash ?? null}, ${data.googleOauthId ?? null})
+        RETURNING user_id
+      `;
+      return result[0]["userId"];
+    }
+
   }
+
+
 
   // TODO: Still Stubs
   export async function createSubmission(
-    data: SubmissionData,
-  ): Promise<SubmissionDataResponse> {
+    data: DataTypes.SubmissionData,
+  ): Promise<DataTypes.SubmissionDataResponse> {
     // data is a js object like {problemId: problemId, code: code}
     // this function should return the created record
     // placeholder return so that my code works for now
@@ -102,71 +185,53 @@ export namespace CodebookDatabaseAPI {
     };
   }
 
-  export async function createTestCase(
-    data: TestCaseData,
-  ): Promise<Number | null> {
-    let result = await sql`
-      INSERT INTO testcases (problem_id, input, expected_out, visible)
-      VALUES(${data.problemId}, ${data.input}, ${data.expectedOut}, ${data.visible})
-      RETURNING testcase_id
-    `;
-    return result[0]["testcaseId"];
-  }
+  
 
-  export async function getTestCasesById(
-    problemId: number,
-  ): Promise<TestCase[]> {
-    let result =
-      await sql`SELECT * FROM testcases WHERE problem_id = ${problemId}`;
-    return Array.from(result.values()) as TestCase[];
-  }
+  // Old Type Exports; Under a Soft Migration to DataTypes child namespace
 
-  // Note: currently, email is case sensitive
-  export async function getUserByEmail(email: string): Promise<User | null> {
-    let result = await sql`SELECT * FROM users WHERE email = ${email}`;
-    if (result.length > 0) {
-      return result[0] as User;
-    } else {
-      return null;
-    }
-  }
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.UserCreationInformation instead */
+  export type UserCreationInformation = DataTypes.UserCreationInformation;
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.User instead */
+  export type User = DataTypes.User;
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.TestCaseData instead */
+  export type TestCaseData = DataTypes.TestCaseData;
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.TestCase instead */
+  export type TestCase = DataTypes.TestCase;
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.ProblemData instead */
+  export type ProblemData = DataTypes.ProblemData;
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.Problem instead */
+  export type Problem = DataTypes.Problem;
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.SubmissionData instead */
+  export type SubmissionData = DataTypes.SubmissionData;
+  /** @deprecated Use CodebookDatabaseAPI.DataTypes.SubmissionDataResponse instead */
+  export type SubmissionDataResponse = DataTypes.SubmissionDataResponse;
 
-  export async function getUserByGoogleOauthId(
-    googleOauthId: string,
-  ): Promise<User | null> {
-    let result =
-      await sql`SELECT * FROM users WHERE google_oauth_id = ${googleOauthId}`;
-    if (result.length > 0) {
-      return result[0] as User;
-    } else {
-      return null;
-    }
-  }
 
-  export async function getUserById(userId: number): Promise<User | null> {
-    let result = await sql`SELECT * FROM users WHERE user_id = ${userId}`;
-    if (result.length > 0) {
-      return result[0] as User;
-    } else {
-      return null;
-    }
-  }
+  // Old API Exports; Under a Soft Migration to their respective child namespaces
 
-  export async function getProblemByUserId(userId: number): Promise<Problem[]> {
-    let result = await sql`SELECT * FROM problems WHERE user_id = ${userId}`;
-    return Array.from(result.values()) as Problem[];
-  }
+  /** @deprecated Use CodebookDatabaseAPI.Problems.getProblems instead. */
+  export const getProblems = Problems.getProblems;
+  /** @deprecated Use CodebookDatabaseAPI.Problems.getProblemByProblemId instead. */
+  export const getProblemById = Problems.getProblemByProblemId;
+  /** @deprecated Use CodebookDatabaseAPI.Problems.getProblemsByUserId instead. */
+  export const getProblemByUserId = Problems.getProblemsByUserId;
+  /** @deprecated Use CodebookDatabaseAPI.Problems.createProblem instead. */
+  export const createProblem = Problems.createProblem;
 
-  export async function registerUser(
-    data: UserCreationInformation,
-  ): Promise<number | null> {
-    let result = await sql`
-      INSERT INTO users (username, email, password_hash, google_oauth_id)
-      VALUES(${data.username}, ${data.email ?? null}, ${data.passwordHash ?? null}, ${data.googleOauthId ?? null})
-      RETURNING user_id
-    `;
-    return result[0]["userId"];
-  }
+  /** @deprecated Use CodebookDatabaseAPI.Problems.TestCases.createTestCase instead. */
+  export const createTestCase = Problems.TestCases.createTestCase;
+  /** @deprecated Use CodebookDatabaseAPI.Problems.TestCases.getTestCasesByProblemId instead. */
+  export const getTestCasesById = Problems.TestCases.getTestCasesByProblemId;
+
+  /** @deprecated Use CodebookDatabaseAPI.Users.getUserByEmail instead. */
+  export const getUserByEmail = Users.getUserByEmail;
+  /** @deprecated Use CodebookDatabaseAPI.Users.getUserByGoogleOauthId instead. */
+  export const getUserByGoogleOauthId = Users.getUserByGoogleOauthId;
+  /** @deprecated Use CodebookDatabaseAPI.Users.getUserById instead. */
+  export const getUserById = Users.getUserById;
+  /** @deprecated Use CodebookDatabaseAPI.Users.registerUser instead. */
+  export const registerUser = Users.registerUser;
+
 }
 
 // if it isn't clear by now, these are DEBUG STUFF FOR THE DATABASE MAN
