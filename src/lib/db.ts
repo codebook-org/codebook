@@ -157,9 +157,6 @@ export namespace CodebookDatabaseAPI {
     return Array.from(result.values()) as Problem[];
   }
 
-  // Note: currently, there is no check for case sensitivity on usernames or emails
-  // Postgres only cares if usernames and emails are unique with case sensitivity
-  // In the future, there will be checks and an internal id will be used instead
   export async function registerUser(
     data: UserCreationInformation,
   ): Promise<number | null> {

@@ -1,7 +1,10 @@
+-- CITEXT: Case-Insensitive TEXT
+CREATE EXTENSION IF NOT EXISTS citext SCHEMA public;
+
 CREATE TABLE IF NOT EXISTS Users (
     user_id         INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    username        VARCHAR(25)  UNIQUE NOT NULL,
-    email           VARCHAR(255) UNIQUE,
+    username        CITEXT UNIQUE NOT NULL,
+    email           CITEXT UNIQUE,
     password_hash   TEXT,
     google_oauth_id TEXT UNIQUE,
     created_at      TIMESTAMP    NOT NULL DEFAULT NOW(),
