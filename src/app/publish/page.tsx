@@ -28,8 +28,10 @@ export default function Publish() {
   const editorRef = useRef(null);
   const [currentDescriptionTab, setCurrentDescriptionTab] = useState("editor");
   const { data: session } = useSession();
-  const [title, setTitle] = useState(""); 
-  const [description, setDescription] = useState(`Use Markdown to describe your coding problem.\n\n*Tip: view rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide output specifications.\n\n### Examples\n\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\``); 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState(
+    `Use Markdown to describe your coding problem.\n\n*Tip: view rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide output specifications.\n\n### Examples\n\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\``,
+  );
   const [id, setCount] = useState(2);
   const [hiddenCase, setHidden] = useState([1]);
 
@@ -40,7 +42,7 @@ export default function Publish() {
 
   const descriptionTabs = [
     { id: "editor", label: "Editor" },
-    { id: "preview", label: "Preview" }
+    { id: "preview", label: "Preview" },
   ];
 
   const handleSubmit = async (e) => {
@@ -234,158 +236,171 @@ export default function Publish() {
           placeholder="Title"
           className="w-full h-full rounded-lg bg-monaco-dark text-monaco-txt font-semibold text-xl border-none outline-none p-3"
         />
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           onClick={handleSubmit}
           className="cursor-pointer text-sm font-bold h-full px-32 ml-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors"
         >
           Publish
         </button>
       </div>
-      <Group
-        orientation="vertical"
-        className="flex flex-col flex-1 min-h-0 overflow-y-auto"
-      >
-        <Panel
-          defaultSize="70%"
-          minSize="30%"
-          maxSize="70%"
-        >
-          <SplitPane
-            left={
-              <div className="h-full overflow-y-auto">
-                <Card
-                  title="Description"
-                  tabs={descriptionTabs}
-                  activeTab={currentDescriptionTab}
-                  onTabChange={setCurrentDescriptionTab}
-                >
-                  <div className={currentDescriptionTab === "editor" ? "h-full w-full pb-1" : "hidden"}>
-                    <Editor
-                      onMount={(editor) => {
-                        editorRef.current = editor;
-                        editorRef.current.focus();
-                      }}
-                      height="100%"
-                      language="markdown"
-                      theme="vs-dark"
-                      value={description}
-                      onChange={(newValue) => setDescription(newValue || "")}
-                      options={{
-                        minimap: { enabled: false },
-                        stickyScroll: { enabled: false },
-                        scrollbar: {
-                          vertical: "hidden",
-                          horizontal: "hidden",
-                          handleMouseWheel: true,
-                          castShadows: false,
-                        },
-                        overviewRulerLanes: 0,
-                        hideCursorInOverviewRuler: true,
-                        overviewRulerBorder: false,
-                        renderLineHighlight: "none",
-                        glyphMargin: false,
-                        lineNumbers: "off",
-                        folding: false,
-                        lineDecorationsWidth: 0,
-                        lineNumbersMinChars: 0,
-                      }}
-                    />
-                  </div>
-                  <div className={currentDescriptionTab === "preview" ? "h-full w-full" : "hidden"}>
-                    <div className="problem-markdown text-sm pb-64">
-                      <Markdown
-                        remarkPlugins={[remarkMath]}
-                        rehypePlugins={[[rehypeSanitize, sanitizeSchema], rehypeKatex]}
-                      >
-                        {description}
-                      </Markdown>
+      <SplitPane
+        left={
+          <div className="h-full overflow-y-auto">
+            <Card
+              title="Description"
+              tabs={descriptionTabs}
+              activeTab={currentDescriptionTab}
+              onTabChange={setCurrentDescriptionTab}
+            >
+              <div
+                className={
+                  currentDescriptionTab === "editor"
+                    ? "h-full w-full pb-1"
+                    : "hidden"
+                }
+              >
+                <Editor
+                  onMount={(editor) => {
+                    editorRef.current = editor;
+                    editorRef.current.focus();
+                  }}
+                  height="100%"
+                  language="markdown"
+                  theme="vs-dark"
+                  value={description}
+                  onChange={(newValue) => setDescription(newValue || "")}
+                  options={{
+                    minimap: { enabled: false },
+                    stickyScroll: { enabled: false },
+                    scrollbar: {
+                      vertical: "hidden",
+                      horizontal: "hidden",
+                      handleMouseWheel: true,
+                      castShadows: false,
+                    },
+                    overviewRulerLanes: 0,
+                    hideCursorInOverviewRuler: true,
+                    overviewRulerBorder: false,
+                    renderLineHighlight: "none",
+                    glyphMargin: false,
+                    lineNumbers: "off",
+                    folding: false,
+                    lineDecorationsWidth: 0,
+                    lineNumbersMinChars: 0,
+                  }}
+                />
+              </div>
+              <div
+                className={
+                  currentDescriptionTab === "preview"
+                    ? "h-full w-full"
+                    : "hidden"
+                }
+              >
+                <div className="problem-markdown text-sm pb-64">
+                  <Markdown
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[
+                      [rehypeSanitize, sanitizeSchema],
+                      rehypeKatex,
+                    ]}
+                  >
+                    {description}
+                  </Markdown>
+                </div>
+              </div>
+            </Card>
+          </div>
+        }
+        right={
+          <Group
+            orientation="vertical"
+            className="flex flex-col flex-1 min-h-0 overflow-y-auto"
+          >
+            <Panel defaultSize="70%" minSize="30%" maxSize="70%">
+              <Card title="Starter Code">hello</Card>
+            </Panel>
+            <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
+              <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
+            </Separator>
+            <Panel>
+              <Card title="Test Cases">
+                <div>
+                  <div className="flex items-center p-2 justify-between">
+                    <div className="right flex items-center p-2">
+                      <form onSubmit={addCase}>
+                        <div className="p-1 border rounded w-[35px] place-items-center center">
+                          <button
+                            style={{ cursor: "pointer", textAlign: "center" }}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </form>
+
+                      <form onSubmit={removeCase}>
+                        <div className="p-1">
+                          <button style={{ cursor: "pointer" }}>-</button>
+                        </div>
+                      </form>
                     </div>
                   </div>
-                </Card>
-              </div>
-            }
-            right={
-              <Card title="Starter Code">
-                hello
-              </Card>
-            }
-            layout="standard"
-          />
-        </Panel>
-        
-        <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
-          <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
-        </Separator>
-        
-        <Panel>
-          <Card title="Test Cases">
-          <div>
-            <div className="flex items-center p-2 justify-between">
-              <div className="right flex items-center p-2">
-                <form onSubmit={addCase}>
-                  <div className="p-1 border rounded w-[35px] place-items-center center">
-                    <button style={{ cursor: "pointer", textAlign: "center" }}>
-                      +
-                    </button>
-                  </div>
-                </form>
 
-                <form onSubmit={removeCase}>
-                  <div className="p-1">
-                    <button style={{ cursor: "pointer" }}>-</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-            
-            <div className="flex flex-col border rounded overflow-y-auto h-[400px] p-2 mb-2">
-              {Object.entries(testCases).map(([id, data]) => (
-                <div
-                  key={id}
-                  className="flex items-center gap-3 p-3 border rounded shadow-sm mb-2"
-                >
-                  <span className="text-sm font-bold whitespace-nowrap">
-                    Case {id}:
-                  </span>
+                  <div className="flex flex-col border rounded overflow-y-auto h-[400px] p-2 mb-2">
+                    {Object.entries(testCases).map(([id, data]) => (
+                      <div
+                        key={id}
+                        className="flex items-center gap-3 p-3 border rounded shadow-sm mb-2"
+                      >
+                        <span className="text-sm font-bold whitespace-nowrap">
+                          Case {id}:
+                        </span>
 
-                  <div className="flex flex-1 items-center gap-3">
-                    <input
-                      className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
-                      placeholder="Input"
-                      value={data.input}
-                      onChange={(e) => updateCase(id, "input", e.target.value)}
-                    />
+                        <div className="flex flex-1 items-center gap-3">
+                          <input
+                            className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
+                            placeholder="Input"
+                            value={data.input}
+                            onChange={(e) =>
+                              updateCase(id, "input", e.target.value)
+                            }
+                          />
 
-                    <span className="text-gray-400 font-bold">→</span>
+                          <span className="text-gray-400 font-bold">→</span>
 
-                    <input
-                      className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
-                      placeholder="Output"
-                      value={data.output}
-                      onChange={(e) => updateCase(id, "output", e.target.value)}
-                    />
+                          <input
+                            className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
+                            placeholder="Output"
+                            value={data.output}
+                            onChange={(e) =>
+                              updateCase(id, "output", e.target.value)
+                            }
+                          />
 
-                    <button
-                      onClick={(e) => updateHidden(id)}
-                      style={{
-                        backgroundColor: hiddenCase.includes(Number(id))
-                          ? "#ef4444"
-                          : "#22c55e",
-                        padding: "10px 20px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {hiddenCase.includes(Number(id)) ? "🤫" : "📣"}
-                    </button>
+                          <button
+                            onClick={(e) => updateHidden(id)}
+                            style={{
+                              backgroundColor: hiddenCase.includes(Number(id))
+                                ? "#ef4444"
+                                : "#22c55e",
+                              padding: "10px 20px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {hiddenCase.includes(Number(id)) ? "🤫" : "📣"}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-          </Card>
-        </Panel>
-      </Group>
+              </Card>
+            </Panel>
+          </Group>
+        }
+        layout="standard"
+      />
     </div>
   );
 }
