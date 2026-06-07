@@ -11,6 +11,7 @@ import SplitPane from "@/components/SplitPane";
 import Card from "@/components/Card";
 
 export default function Publish() {
+  const [currentDescriptionTab, setCurrentDescriptionTab] = useState("editor");
   const { data: session } = useSession();
   const [title, setTitle] = useState(""); 
   const [description, setDescription] = useState(""); 
@@ -21,6 +22,11 @@ export default function Publish() {
   const [testCases, setTestCase] = useState({
     [1]: { input: "", output: "" },
   });
+
+  const descriptionTabs = [
+    { id: "editor", label: "Editor" },
+    { id: "preview", label: "Preview" }
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -234,11 +240,14 @@ export default function Publish() {
           <SplitPane
             left={
               <div className="h-full overflow-y-auto">
-                <Card title="Description">
+                <Card
+                  title="Description"
+                  tabs={descriptionTabs}
+                  activeTab={currentDescriptionTab}
+                  onTabChange={setCurrentDescriptionTab}
+                >
+                  {currentDescriptionTab === "editor" && (
                   <div style={{ marginBottom: "1rem" }}>
-                    <label htmlFor="description" style={{ display: "block" }}>
-                      Description:
-                    </label>
                     <textarea
                       id="description"
                       value={description}
@@ -257,6 +266,7 @@ export default function Publish() {
                       }}
                     />
                   </div>
+                  )}
                 </Card>
               </div>
             }
