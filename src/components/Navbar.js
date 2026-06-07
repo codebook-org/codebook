@@ -45,18 +45,19 @@ export default function Navbar() {
       <Link href="/" className="logo">
         codebook
       </Link>
-      <ul className="nav-links">
-        {visibleLinks.map(({ href, label }) => (
-          <li key={href}>
-            <Link href={href} className={pathname === href ? "active" : ""}>
-              {label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      {/* Moved Session Provider out to the Layout, so everything will obtain acces to SessionProvider. */}
-      <UserMenu key={status} />
+      <div className="flex items-center gap-3">
+        <ul className="nav-links flex justify-end">
+          {visibleLinks.map(({ href, label }) => (
+            <li key={href}>
+              <Link href={href} className={pathname === href ? "active" : ""}>
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {/* Moved Session Provider out to the Layout, so everything will obtain acces to SessionProvider. */}
+        <UserMenu key={status} />
+      </div>
     </nav>
   );
 }
