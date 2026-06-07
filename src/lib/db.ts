@@ -223,7 +223,7 @@ export namespace CodebookDatabaseAPI {
       /**
        * Gets all users who've voted on a problem
        *
-       * @param userId - The ID of the problem to get the users from
+       * @param problemId - The ID of the problem to get the users from
        *
        * @returns An array of user IDs & if the user liked the problem or not.
        */
@@ -271,8 +271,8 @@ export namespace CodebookDatabaseAPI {
       /**
        * Updates the user's solved problems with the given problem
        *
-       * @param userId - The ID of the user voting on the problem
-       * @param problemId - The ID of the problem the user is voting on
+       * @param userId - The ID of the user
+       * @param problemId - The ID of the problem
        * @param solved - True/False representing if the user has solved the problem
        *
        * @returns True/False if the given user was added/removed from the user's solved problems.
@@ -332,7 +332,7 @@ export namespace CodebookDatabaseAPI {
       /**
        * Gets all users who've solved a problem
        *
-       * @param userId - The ID of the problem to get the users from
+       * @param problemId - The ID of the problem to get the users from
        *
        * @returns An array of user IDs who solved the problem, and a JavaScript Date Object with the timestamp of when.
        */
@@ -365,7 +365,7 @@ export namespace CodebookDatabaseAPI {
        */
       export async function createTestCase(
         testCaseCreationData: DataTypes.TestCaseCreationData,
-      ): Promise<Number | null> {
+      ): Promise<number | null> {
         const result = await sql`
           INSERT INTO testcases (problem_id, input, expected_out, visible)
           VALUES(${testCaseCreationData.problemId}, ${testCaseCreationData.input}, ${testCaseCreationData.expectedOut}, ${testCaseCreationData.visible})
