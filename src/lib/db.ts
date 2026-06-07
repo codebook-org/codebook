@@ -54,7 +54,7 @@ export namespace CodebookDatabaseAPI {
   export type SubmissionDataResponse = SubmissionData & { id: number };
 
   export async function getProblems(): Promise<Problem[]> {
-    let result = await sql`SELECT json_agg(u) FROM Problems u`;
+    let result = await sql`SELECT json_agg(u) FROM problems u`;
     return result[0]["jsonAgg"];
   }
 
@@ -62,7 +62,7 @@ export namespace CodebookDatabaseAPI {
     problemId: number,
   ): Promise<Problem | null> {
     let result =
-      await sql`SELECT * FROM Problems WHERE problem_id = ${problemId}`;
+      await sql`SELECT * FROM problems WHERE problem_id = ${problemId}`;
     if (result.length > 0) {
       return result[0] as Problem;
     } else {
@@ -74,7 +74,7 @@ export namespace CodebookDatabaseAPI {
     data: ProblemData,
   ): Promise<number | null> {
     let result = await sql`
-      INSERT INTO Problems (title, description, user_id)
+      INSERT INTO problems (title, description, user_id)
       VALUES(${data.title}, ${data.description}, ${data.userId ?? null})
       RETURNING problem_id
     `;
@@ -106,7 +106,7 @@ export namespace CodebookDatabaseAPI {
     data: TestCaseData,
   ): Promise<Number | null> {
     let result = await sql`
-      INSERT INTO TestCases (problem_id, input, expected_out, visible)
+      INSERT INTO testcases (problem_id, input, expected_out, visible)
       VALUES(${data.problemId}, ${data.input}, ${data.expectedOut}, ${data.visible})
       RETURNING testcase_id
     `;
@@ -117,13 +117,13 @@ export namespace CodebookDatabaseAPI {
     problemId: number,
   ): Promise<TestCase[]> {
     let result =
-      await sql`SELECT * FROM Testcases WHERE problem_id = ${problemId}`;
+      await sql`SELECT * FROM testcases WHERE problem_id = ${problemId}`;
     return Array.from(result.values()) as TestCase[];
   }
 
   // Note: currently, email is case sensitive
   export async function getUserByEmail(email: string): Promise<User | null> {
-    let result = await sql`SELECT * FROM Users WHERE email = ${email}`;
+    let result = await sql`SELECT * FROM users WHERE email = ${email}`;
     if (result.length > 0) {
       return result[0] as User;
     } else {
@@ -135,7 +135,7 @@ export namespace CodebookDatabaseAPI {
     googleOauthId: string,
   ): Promise<User | null> {
     let result =
-      await sql`SELECT * FROM Users WHERE google_oauth_id = ${googleOauthId}`;
+      await sql`SELECT * FROM users WHERE google_oauth_id = ${googleOauthId}`;
     if (result.length > 0) {
       return result[0] as User;
     } else {
@@ -144,7 +144,7 @@ export namespace CodebookDatabaseAPI {
   }
 
   export async function getUserById(userId: number): Promise<User | null> {
-    let result = await sql`SELECT * FROM Users WHERE user_id = ${userId}`;
+    let result = await sql`SELECT * FROM users WHERE user_id = ${userId}`;
     if (result.length > 0) {
       return result[0] as User;
     } else {
@@ -153,7 +153,7 @@ export namespace CodebookDatabaseAPI {
   }
 
   export async function getProblemByUserId(userId: number): Promise<Problem[]> {
-    let result = await sql`SELECT * FROM Problems WHERE user_id = ${userId}`;
+    let result = await sql`SELECT * FROM problems WHERE user_id = ${userId}`;
     return Array.from(result.values()) as Problem[];
   }
 
@@ -161,7 +161,7 @@ export namespace CodebookDatabaseAPI {
     data: UserCreationInformation,
   ): Promise<number | null> {
     let result = await sql`
-      INSERT INTO Users (username, email, password_hash, google_oauth_id)
+      INSERT INTO users (username, email, password_hash, google_oauth_id)
       VALUES(${data.username}, ${data.email ?? null}, ${data.passwordHash ?? null}, ${data.googleOauthId ?? null})
       RETURNING user_id
     `;
