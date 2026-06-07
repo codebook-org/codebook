@@ -1,20 +1,35 @@
-"use client"; // This must be at the very top to allow hooks like useState
+"use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { problems } from "@/lib/data";
 import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
+import Markdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import SplitPane from "@/components/SplitPane";
+import Editor from "@monaco-editor/react";
 import Card from "@/components/Card";
 
+const sanitizeSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    div: [...(defaultSchema.attributes?.div || []), ["className", /^katex/]],
+    span: [...(defaultSchema.attributes?.span || []), ["className", /^katex/]],
+  },
+};
+
 export default function Publish() {
+  const editorRef = useRef(null);
   const [currentDescriptionTab, setCurrentDescriptionTab] = useState("editor");
   const { data: session } = useSession();
   const [title, setTitle] = useState(""); 
-  const [description, setDescription] = useState(""); 
+  const [description, setDescription] = useState(`Use Markdown to describe your coding problem.\n\n*Tip: view rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide output specifications.\n\n### Examples\n\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\``); 
   const [id, setCount] = useState(2);
   const [hiddenCase, setHidden] = useState([1]);
 
@@ -210,14 +225,14 @@ export default function Publish() {
 
   return (
     <div className="w-full h-full min-h-0 flex-1 flex flex-col h-full overflow-hidden">
-      <div className="flex items-center rounded-lg bg-monaco-dark p-3 mb-2 h-14">
+      <div className="flex items-center rounded-lg bg-monaco-dark p-2 mb-2 h-12 outline-1 outline-transparent focus-within:outline-monaco-light focus-within:outline-offset-[-1px]">
         <input
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
-          className="w-full h-full rounded-lg bg-neutral-900 text-monaco-txt font-semibold text-xl border-none p-3"
+          className="w-full h-full rounded-lg bg-monaco-dark text-monaco-txt font-semibold text-xl border-none outline-none p-3"
         />
         <button 
           type="submit" 
@@ -232,11 +247,10 @@ export default function Publish() {
         className="flex flex-col flex-1 min-h-0 overflow-y-auto"
       >
         <Panel
-          defaultSize="65%"
-          minSize="35%"
-          maxSize="65%"
+          defaultSize="70%"
+          minSize="30%"
+          maxSize="70%"
         >
-          
           <SplitPane
             left={
               <div className="h-full overflow-y-auto">
@@ -246,27 +260,48 @@ export default function Publish() {
                   activeTab={currentDescriptionTab}
                   onTabChange={setCurrentDescriptionTab}
                 >
-                  {currentDescriptionTab === "editor" && (
-                  <div style={{ marginBottom: "1rem" }}>
-                    <textarea
-                      id="description"
+                  <div className={currentDescriptionTab === "editor" ? "h-full w-full pb-1" : "hidden"}>
+                    <Editor
+                      onMount={(editor) => {
+                        editorRef.current = editor;
+                        editorRef.current.focus();
+                      }}
+                      height="100%"
+                      language="markdown"
+                      theme="vs-dark"
                       value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      placeholder="Description"
-                      style={{
-                        padding: "0.5rem",
-                        width: "100%",
-                        height: "200px",
-                        borderWidth: "1px",
-                        resize: "none",
-                        textWrap: "wrap",
-                        whiteSpace: "pre-wrap",
-                        wordWrap: "break-word",
-                        overflowWrap: "break-word",
+                      onChange={(newValue) => setDescription(newValue || "")}
+                      options={{
+                        minimap: { enabled: false },
+                        stickyScroll: { enabled: false },
+                        scrollbar: {
+                          vertical: "hidden",
+                          horizontal: "hidden",
+                          handleMouseWheel: true,
+                          castShadows: false,
+                        },
+                        overviewRulerLanes: 0,
+                        hideCursorInOverviewRuler: true,
+                        overviewRulerBorder: false,
+                        renderLineHighlight: "none",
+                        glyphMargin: false,
+                        lineNumbers: "off",
+                        folding: false,
+                        lineDecorationsWidth: 0,
+                        lineNumbersMinChars: 0,
                       }}
                     />
                   </div>
-                  )}
+                  <div className={currentDescriptionTab === "preview" ? "h-full w-full" : "hidden"}>
+                    <div className="problem-markdown text-sm pb-64">
+                      <Markdown
+                        remarkPlugins={[remarkMath]}
+                        rehypePlugins={[[rehypeSanitize, sanitizeSchema], rehypeKatex]}
+                      >
+                        {description}
+                      </Markdown>
+                    </div>
+                  </div>
                 </Card>
               </div>
             }
