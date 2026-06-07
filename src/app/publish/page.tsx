@@ -5,28 +5,23 @@ import { problems } from "@/lib/data";
 import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { Group, Panel, Separator } from "react-resizable-panels";
+import { toast } from "sonner";
 import SplitPane from "@/components/SplitPane";
 import Card from "@/components/Card";
 
 export default function Publish() {
   const { data: session } = useSession();
-  // Using useState helps a lot in this case. We can quickly adapt or remove.
+  const [title, setTitle] = useState(""); 
+  const [description, setDescription] = useState(""); 
+  const [id, setCount] = useState(2);
+  const [hiddenCase, setHidden] = useState([1]);
 
-  //    Variable      "Set method"          Init value
-  const [title, setTitle] = useState(""); // The title
-  const [description, setDescription] = useState(""); // Descrption
-  const [id, setCount] = useState(2); // The "Next ID". Since we start w/ 1, our next ID is 2.
-  const [hiddenCase, setHidden] = useState([1]); // Array of what test cases are "Hidden". Upon creation, they will automatically be hidden.
-  const [notif, setNotification] = useState({ message: "", type: "" }); // The notification that says if something was submitted successfully or not!
-
-  // Dictionary for test cases. This is a JS object that works similarly to map<int, pair<string,string>>
+  // stores test cases
   const [testCases, setTestCase] = useState({
     [1]: { input: "", output: "" },
   });
 
-  // FUNCTIONS
-
-  // Handles overall "submit". For now it's just a dummy console.log.
   const handleSubmit = async (e) => {
     e.preventDefault();
     const tTitle = title.trim();
@@ -34,41 +29,29 @@ export default function Publish() {
 
     if (tTitle == "" || tDescription == "") {
       if (tTitle == "" && tDescription == "") {
-        setNotification({
-          message: "You're missing a title and description!",
-          type: "warning",
-        });
+        toast.error("You're missing a title and description");
       } else if (tTitle == "") {
-        setNotification({
-          message: "You're missing a title!",
-          type: "warning",
-        });
+        toast.error("You're missing a title");
       } else {
-        setNotification({
-          message: "You're missing a description!",
-          type: "warning",
-        });
+        toast.error("You're missing a description");
       }
 
       return;
     } else {
-      const result = verifyTestCases(); // "Pull" the test cases. If it's successful, we'll get a "success" notification.
-      console.log("Submitted problem under " + session.user.id);
+      const result = verifyTestCases();
 
       if (result == "success") {
         let probData = await addProblem(tTitle, tDescription, session.user.id); // Actually add to the SQL database.
         addAllTestCases(probData);
-        setNotification({ message: "Problem submitted!", type: "success" });
+        toast.success("Problem published!");
         return;
       } else {
-        setNotification({ message: result, type: "warning" });
+        toast.error(result);
       }
     }
-
-    setTimeout(() => setNotification({ message: "", type: "" }), 3000);
   };
 
-  // Adds a case
+  // add a test case
   const addCase = (e) => {
     e.preventDefault();
     if (e) e.preventDefault();
@@ -83,7 +66,7 @@ export default function Publish() {
     setCount((prevCount) => prevCount + 1);
   };
 
-  // Removes a case.
+  // remove a test case
   const removeCase = (e) => {
     e.preventDefault();
     if (e) e.preventDefault();
@@ -123,60 +106,54 @@ export default function Publish() {
       );
     }
   };
-  // Verifies correctness of the test cases, does not actually submit.
+
+  // verifies that the test cases are valid
   const verifyTestCases = () => {
     const verifyCaseEntry = ([id, data]) => {
       return !(data.input == "" || data.output == "");
     };
 
-    // First, check if everything has an entry. If not, we'll pass a message along.
+    // verify that all test case fields are populated
     for (const [id, data] of Object.entries(testCases)) {
       if (!verifyCaseEntry([id, data])) {
-        return `Case ${id} has empty fields.`;
+        return `Test case ${id} has empty fields.`;
       }
     }
 
-    let inputForceArr = false;
-    let outputForceArr = false;
+    // removing this for now since we don't care about types
+    //
+    //let inputForceArr = false;
+    //let outputForceArr = false;
 
-    // Next, we check if entries are consistent. If one input contains an array, all should.
+    //// Next, we check if entries are consistent. If one input contains an array, all should.
 
-    // What type is our passed in string? Is it an array? Is it a number? Perhaps, even a string?
-    const typeOf = (str) => {
-      try {
-        const parsed = JSON.parse(str);
-        if (Array.isArray(parsed)) return "array";
-        return typeof parsed; // This is the case for NUMBERS, objects, bools, etc.
-      } catch (e) {
-        // JSON.parse() struggles with strings, so any error caught is a string.
-        return "string";
-      }
-    };
+    //// What type is our passed in string? Is it an array? Is it a number? Perhaps, even a string?
+    //const typeOf = (str) => {
+    //  try {
+    //    const parsed = JSON.parse(str);
+    //    if (Array.isArray(parsed)) return "array";
+    //    return typeof parsed; // This is the case for NUMBERS, objects, bools, etc.
+    //  } catch (e) {
+    //    // JSON.parse() struggles with strings, so any error caught is a string.
+    //    return "string";
+    //  }
+    //};
 
-    // the first entry is our "sentinel". Whatever it is, everyone else has to copy.
-    const [firstId, firstData] = Object.entries(testCases)[0];
-    const inputType = typeOf(firstData.input);
-    const outputType = typeOf(firstData.output);
+    //const [firstId, firstData] = Object.entries(testCases)[0];
+    //const inputType = typeOf(firstData.input);
+    //const outputType = typeOf(firstData.output);
 
-    console.log(
-      "We're expecting " +
-        inputType +
-        " inputs and " +
-        outputType +
-        " outputs.",
-    );
+    //for (const [id, data] of Object.entries(testCases)) {
+    //  if (typeOf(data.input) !== inputType) {
+    //    return `Case ${id}'s input is a ${typeOf(data.input)}. Did you mean a ${inputType}?`;
+    //  }
 
-    for (const [id, data] of Object.entries(testCases)) {
-      // Compare against the first input.
-      if (typeOf(data.input) !== inputType) {
-        return `Case ${id}'s input is a ${typeOf(data.input)}. Did you mean a ${inputType}?`;
-      }
+    //  if (typeOf(data.output) !== outputType) {
+    //    return `Case ${id}'s output is a ${typeOf(data.output)}. Did you mean a ${outputType}?`;
+    //  }
+    //}
 
-      if (typeOf(data.output) !== outputType) {
-        return `Case ${id}'s output is a ${typeOf(data.output)}. Did you mean a ${outputType}?`;
-      }
-    }
-
+    // verify that at least one test case is visible
     let totalHidden = 0;
     let totalAmount = 0;
     for (const [id, data] of Object.entries(testCases)) {
@@ -187,30 +164,10 @@ export default function Publish() {
     }
 
     if (totalHidden == totalAmount) {
-      return `Please make at least 1 test case visible!`;
+      return "Please make at least 1 test case visible";
     }
 
-    // Finally, we finally "pull" this validated information.
-    console.log(
-      "All inputs are a(n) " +
-        inputType +
-        "  |  All outputs are a(n)" +
-        outputType,
-    );
-
-    for (const [id, data] of Object.entries(testCases)) {
-      console.log(
-        id +
-          " : " +
-          data.input +
-          " => " +
-          data.output +
-          " and is " +
-          (hiddenCase.includes(Number(id)) ? "HIDDEN" : "VISIBLE"),
-      );
-    }
-
-    return "success"; // Everything went through okay? Then we can return a success message!
+    return "success";
   };
 
   const updateHidden = (id) => {
@@ -241,78 +198,85 @@ export default function Publish() {
     }
   };
 
-  // If we're not logged in, let's just redirect to the login first.
   if (!session?.user) {
     redirect("/login");
   }
+
   return (
-    <div className="w-full h-full min-h-0 flex-1">
-      <div>
-        <div style={{ marginBottom: "1rem" }}>
-          <div className="flex items-end">
-            <label htmlFor="textboxes" className="p-1">
-              Title
-            </label>
-            <label htmlFor="textboxes" className="p-1 text-xs italic">
-              (What is your question called?)
-            </label>
-          </div>
-
-          <textarea
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Question Name..."
-            style={{ padding: "0.5rem", width: "300px", resize: "none" }}
-          />
-        </div>
+    <div className="w-full h-full min-h-0 flex-1 flex flex-col h-full overflow-hidden">
+      <div className="flex items-center rounded-lg bg-monaco-dark p-3 mb-2 h-14">
+        <input
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Title"
+          className="w-full h-full rounded-lg bg-neutral-900 text-monaco-txt font-semibold text-xl border-none p-3"
+        />
+        <button 
+          type="submit" 
+          onClick={handleSubmit}
+          className="cursor-pointer text-sm font-bold h-full px-32 ml-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors"
+        >
+          Publish
+        </button>
       </div>
-      <SplitPane
-        left={
-          <div className="h-full overflow-y-auto">
-            <Card title="Description Editor">
-              {/* Description */}
-              <div style={{ marginBottom: "1rem" }}>
-                <label htmlFor="description" style={{ display: "block" }}>
-                  Description:
-                </label>
-                <textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Description"
-                  style={{
-                    padding: "0.5rem",
-                    width: "100%",
-                    height: "200px",
-                    borderWidth: "1px",
-
-                    resize: "none",
-
-                    textWrap: "wrap",
-                    whiteSpace: "pre-wrap",
-                    wordWrap: "break-word",
-                    overflowWrap: "break-word",
-                  }}
-                />
+      <Group
+        orientation="vertical"
+        className="flex flex-col flex-1 min-h-0 overflow-y-auto"
+      >
+        <Panel
+          defaultSize="65%"
+          minSize="35%"
+          maxSize="65%"
+        >
+          
+          <SplitPane
+            left={
+              <div className="h-full overflow-y-auto">
+                <Card title="Description">
+                  <div style={{ marginBottom: "1rem" }}>
+                    <label htmlFor="description" style={{ display: "block" }}>
+                      Description:
+                    </label>
+                    <textarea
+                      id="description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Description"
+                      style={{
+                        padding: "0.5rem",
+                        width: "100%",
+                        height: "200px",
+                        borderWidth: "1px",
+                        resize: "none",
+                        textWrap: "wrap",
+                        whiteSpace: "pre-wrap",
+                        wordWrap: "break-word",
+                        overflowWrap: "break-word",
+                      }}
+                    />
+                  </div>
+                </Card>
               </div>
-            </Card>
-          </div>
-        }
-        right={
+            }
+            right={
+              <Card title="Starter Code">
+                hello
+              </Card>
+            }
+            layout="standard"
+          />
+        </Panel>
+        
+        <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
+          <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
+        </Separator>
+        
+        <Panel>
+          <Card title="Test Cases">
           <div>
-            {/* Test Cases */}
             <div className="flex items-center p-2 justify-between">
-              {/* A space for a label and a subtext (which is italicized and is smaller) */}
-              <div className="flex items-end">
-                <label htmlFor="textboxes" className="p-1">
-                  Test Cases:
-                </label>
-                <label htmlFor="textboxes" className="p-1 text-xs italic">
-                  (Input test cases and their expected outputs)
-                </label>
-              </div>
-
               <div className="right flex items-center p-2">
                 <form onSubmit={addCase}>
                   <div className="p-1 border rounded w-[35px] place-items-center center">
@@ -329,7 +293,7 @@ export default function Publish() {
                 </form>
               </div>
             </div>
-            {/* This block stores the adapting test cases. */}
+            
             <div className="flex flex-col border rounded overflow-y-auto h-[400px] p-2 mb-2">
               {Object.entries(testCases).map(([id, data]) => (
                 <div
@@ -340,7 +304,6 @@ export default function Publish() {
                     Case {id}:
                   </span>
 
-                  {/* We're essentially that the first block is the test "input", while the second is the test "output" */}
                   <div className="flex flex-1 items-center gap-3">
                     <input
                       className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
@@ -358,11 +321,9 @@ export default function Publish() {
                       onChange={(e) => updateCase(id, "output", e.target.value)}
                     />
 
-                    {/* Button to toggle case visibility. */}
                     <button
                       onClick={(e) => updateHidden(id)}
                       style={{
-                        // If the test case is in the "HIDDEN" list, it's red. Otherwise, it's green.
                         backgroundColor: hiddenCase.includes(Number(id))
                           ? "#ef4444"
                           : "#22c55e",
@@ -376,30 +337,10 @@ export default function Publish() {
                 </div>
               ))}
             </div>
-
-            <form onSubmit={handleSubmit}>
-              {notif.message && (
-                <div
-                  className={`notification ${notif.type}`}
-                  style={{
-                    padding: "10px",
-                    backgroundColor:
-                      notif.type === "success" ? "#22c55e" : "#ef4444",
-                    color: "white",
-                  }}
-                >
-                  {notif.message}
-                </div>
-              )}
-
-              <button type="submit" style={{ cursor: "pointer" }}>
-                Submit
-              </button>
-            </form>
           </div>
-        }
-        layout="standard"
-      />
+          </Card>
+        </Panel>
+      </Group>
     </div>
   );
 }
