@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { problems } from "@/lib/data";
 import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
 import Markdown from "react-markdown";
@@ -27,6 +27,7 @@ const sanitizeSchema = {
 };
 
 export default function Publish() {
+  const router = useRouter();
   const descriptionEditorRef = useRef(null);
   const codeEditorRef = useRef(null);
   const [currentDescriptionTab, setCurrentDescriptionTab] = useState("editor");
@@ -85,7 +86,7 @@ export default function Publish() {
         let probData = await addProblem(trimmedTitle, trimmedDescription, session.user.id);
         addAllTestCases(probData);
         toast.success("Problem published!");
-        return;
+        router.push(`/solve/${probData}`);
       } else {
         toast.error(result);
       }
