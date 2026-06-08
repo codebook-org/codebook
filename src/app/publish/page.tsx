@@ -14,6 +14,8 @@ import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import SplitPane from "@/components/SplitPane";
 import Editor from "@monaco-editor/react";
 import Card from "@/components/Card";
+import Tooltip from "@/components/Tooltip";
+import Confirmation from "@/components/Confirmation";
 
 const sanitizeSchema = {
   ...defaultSchema,
@@ -34,7 +36,6 @@ export default function Publish() {
   const [description, setDescription] = useState(
     `Use __Markdown__ to describe your coding problem.\n\n*Tip: View rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\nUse $\\LaTeX$ notation to render math formulas:\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide expected output specifications and show examples.\n\n### Examples\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\`\n**Example 2**\n\`\`\`\nInput:3\nOutput:6\nExplanation: 3 * 2 = 6\n\`\`\``,
   );
-  const [id, setCount] = useState(2);
   const [hiddenCase, setHidden] = useState([]);
 
   // stores test cases
@@ -62,8 +63,7 @@ export default function Publish() {
     { id: "java", label: "Java" },
   ];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
 
@@ -129,12 +129,12 @@ export default function Publish() {
         problemId,
         data.input,
         data.output,
-        hiddenCase.includes(Number(id)) ? false : true, // If it is in the hidden array, it should be hiddne.
+        hiddenCase.includes(Number(id)) ? false : true,
       );
     }
   };
 
-  // verifies that the test cases are valid
+  // verifies that the test cases are valid prior to submission
   const verifyTestCases = () => {
     const verifyCaseEntry = ([id, data]) => {
       return !(data.input == "" || data.output == "");
@@ -183,6 +183,7 @@ export default function Publish() {
     // verify that at least one test case is visible
     let totalHidden = 0;
     let totalAmount = 0;
+
     for (const [id, data] of Object.entries(testCases)) {
       if (hiddenCase.includes(Number(id))) {
         totalHidden++;
@@ -212,6 +213,7 @@ export default function Publish() {
   // may remove this soon as it is no longer needed
   const testExport = (e) => {
     e.preventDefault();
+
     for (let i = 0; i < problems.length; i++) {
       console.log(
         problems[i].id +
@@ -238,13 +240,18 @@ export default function Publish() {
           placeholder="Enter a title for your problem."
           className="w-full h-full rounded-lg bg-monaco-dark text-monaco-txt font-semibold text-xl border-none outline-none p-3"
         />
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className="cursor-pointer text-sm font-bold h-full px-32 ml-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors"
+        <Confirmation
+          title="Are you sure?"
+          description="You won't be able to edit this problem once it has been published."
+          onConfirm={handleSubmit}
         >
-          Publish
-        </button>
+          <button
+            type="submit"
+            className="cursor-pointer text-sm font-bold h-full px-32 ml-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors"
+          >
+            Publish
+          </button>
+        </Confirmation>
       </div>
       <SplitPane
         left={
@@ -372,7 +379,7 @@ export default function Publish() {
                     return (
                       <div
                         key={id}
-                        className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-lg shadow-black/10 bg-monaco-mid"
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-lg shadow-black/20 bg-monaco-mid"
                       >
                         <span className="text-sm font-bold text-monaco-txt whitespace-nowrap min-w-[60px]">
                           Test Case {id}
@@ -391,79 +398,84 @@ export default function Publish() {
                             value={data.output}
                             onChange={(e) => updateCase(id, "output", e.target.value)}
                           />
-                          <button
-                            type="button"
-                            onClick={() => updateHidden(id)}
-                            className="group w-6 h-6 p-0.75 mx-1 transition-colors text-monaco-muted hover:text-monaco-txt cursor-pointer"
-                          >
-                            {isHidden ? 
-                              (
-                                <svg 
-                                  viewBox="0 0 16 16" 
-                                  fill="none" 
-                                  className="w-full h-full"
-                                >
-                                  <path 
-                                    fillRule="evenodd" 
-                                    clipRule="evenodd" 
-                                    d="M4 6V4C4 1.79086 5.79086 0 8 0C10.2091 0 12 1.79086 12 4V6H14V16H2V6H4ZM6 4C6 2.89543 6.89543 2 8 2C9.10457 2 10 2.89543 10 4V6H6V4ZM7 13V9H9V13H7Z" 
-                                    fill="currentColor"
-                                  />
-                                </svg>
-                              ) : (
-                                <svg 
-                                  viewBox="0 0 16 16" 
-                                  fill="none" 
-                                  className="w-full h-full"
-                                >
-                                  <path 
-                                    fillRule="evenodd" 
-                                    clipRule="evenodd" 
-                                    d="M11.5 2C10.6716 2 10 2.67157 10 3.5V6H13V16H1V6H8V3.5C8 1.567 9.567 0 11.5 0C13.433 0 15 1.567 15 3.5V4H13V3.5C13 2.67157 12.3284 2 11.5 2ZM9 10H5V12H9V10Z" 
-                                    fill="currentColor"
-                                  />
-                                </svg>
-                              )
-                            }
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => removeCase(id)}
-                            className="w-6 h-6 p-1 text-monaco-muted hover:text-monaco-txt transition-all cursor-pointer"
-                          >
-                            <svg 
-                              viewBox="0 0 16 16" 
-                              className="w-full h-full"
-                              fill="currentColor"
+                          <Tooltip content={`${isHidden ? "Show test case" : "Hide test case"}`}>
+                            <button
+                              type="button"
+                              onClick={() => updateHidden(id)}
+                              className="group w-6 h-6 p-0.75 mx-1 transition-colors text-monaco-muted hover:text-monaco-txt cursor-pointer"
                             >
-                              <path 
-                                d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" 
-                                fillRule="evenodd"
-                              />
-                            </svg>
-                          </button>
+                              {isHidden ? 
+                                (
+                                  <svg 
+                                    viewBox="0 0 16 16" 
+                                    fill="none" 
+                                    className="w-full h-full"
+                                  >
+                                    <path 
+                                      fillRule="evenodd" 
+                                      clipRule="evenodd" 
+                                      d="M4 6V4C4 1.79086 5.79086 0 8 0C10.2091 0 12 1.79086 12 4V6H14V16H2V6H4ZM6 4C6 2.89543 6.89543 2 8 2C9.10457 2 10 2.89543 10 4V6H6V4ZM7 13V9H9V13H7Z" 
+                                      fill="currentColor"
+                                    />
+                                  </svg>
+                                ) : (
+                                  <svg 
+                                    viewBox="0 0 16 16" 
+                                    fill="none" 
+                                    className="w-full h-full"
+                                  >
+                                    <path 
+                                      fillRule="evenodd" 
+                                      clipRule="evenodd" 
+                                      d="M11.5 2C10.6716 2 10 2.67157 10 3.5V6H13V16H1V6H8V3.5C8 1.567 9.567 0 11.5 0C13.433 0 15 1.567 15 3.5V4H13V3.5C13 2.67157 12.3284 2 11.5 2ZM9 10H5V12H9V10Z" 
+                                      fill="currentColor"
+                                    />
+                                  </svg>
+                                )
+                              }
+                            </button>
+                          </Tooltip>
+                          <Tooltip content="Remove test case">
+                            <button
+                              type="button"
+                              onClick={() => removeCase(id)}
+                              className="w-6 h-6 p-1 text-monaco-muted hover:text-monaco-txt transition-all cursor-pointer"
+                            >
+                              <svg 
+                                viewBox="0 0 16 16" 
+                                className="w-full h-full"
+                                fill="currentColor"
+                              >
+                                <path 
+                                  d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" 
+                                  fillRule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                          </Tooltip>
                         </div>
                       </div>
                     );
                   })}
-
                   <div className="flex justify-center pt-2 mt-1">
-                    <button
-                      type="button"
-                      onClick={addCase}
-                      className="group w-12 h-12 rounded-xl bg-monaco-mid p-4 hover:bg-monaco-light shadow-xl shadow-black/10 cursor-pointer"
-                    >
-                      <svg 
-                        viewBox="0 0 21 20" 
-                        fill="none" 
-                        className="w-4 h-4 text-monaco-muted group-hover:text-monaco-txt transition-colors"
+                    <Tooltip content="Add test case">
+                      <button
+                        type="button"
+                        onClick={addCase}
+                        className="group w-12 h-12 rounded-xl bg-monaco-mid p-4 hover:bg-monaco-light shadow-xl shadow-black/20 cursor-pointer"
                       >
-                        <polygon 
-                          points="21 9 21 11 11.55 11 11.55 20 9.45 20 9.45 11 0 11 0 9 9.45 9 9.45 0 11.55 0 11.55 9" 
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </button>
+                        <svg 
+                          viewBox="0 0 21 20" 
+                          fill="none" 
+                          className="w-4 h-4 text-monaco-muted group-hover:text-monaco-txt transition-colors"
+                        >
+                          <polygon 
+                            points="21 9 21 11 11.55 11 11.55 20 9.45 20 9.45 11 0 11 0 9 9.45 9 9.45 0 11.55 0 11.55 9" 
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </button>
+                    </Tooltip>
                   </div>
                 </div>
               </Card>
