@@ -77,7 +77,7 @@ export default function UserMenu() {
             {/* Grab all user information .. */}
             <span className="text-xs text-zinc-500">Signed in as</span>
             <span className="font-bold text-white text-sm">
-              {session.user.name}
+              {session.user.displayName}
             </span>
             <span className="text-xs text-zinc-400 truncate w-full text-center">
               {session.user.email}
@@ -88,9 +88,13 @@ export default function UserMenu() {
           </div>
 
           <div className="p-1">
-            <button className="w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition">
-              Settings [TBA]
-            </button>
+          <Link
+              href={`/settings`}
+              onClick={() => setIsOpen(false)}
+              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
+            >
+              Settings
+            </Link>
 
             <Link
               href={`/profile/${session?.user?.id}`}

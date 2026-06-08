@@ -36,6 +36,7 @@ export async function syncOAuth(oauthId: string, email: string, name: string) {
     // If they don't exist, register them and capture the new userId returned by Postgres
     const newUserId = await CodebookDatabaseAPI.registerUser({
       username: email.split("@")[0],
+      displayName: email.split("@")[0],
       email: email, // Highly recommended to save their email here too!
       googleOauthId: oauthId,
     });
@@ -90,6 +91,7 @@ export async function registerAndLogin(email: string, password: string) {
   // Then we register them. The password is not yet hashed correctly.
   await CodebookDatabaseAPI.registerUser({
     username: email.split("@")[0],
+    displayName: email.split("@")[0],
     email: email,
     passwordHash: password,
   });

@@ -24,6 +24,7 @@ export namespace CodebookDatabaseAPI {
       email?: string;
       passwordHash?: string;
       googleOauthId?: string;
+      displayName: string;
     };
 
     export type User = {
@@ -454,8 +455,8 @@ export namespace CodebookDatabaseAPI {
       userCreationData: DataTypes.UserCreationInformation,
     ): Promise<number | null> {
       const result = await sql`
-        INSERT INTO users (username, email, password_hash, google_oauth_id)
-        VALUES(${userCreationData.username}, ${userCreationData.email ?? null}, ${userCreationData.passwordHash ?? null}, ${userCreationData.googleOauthId ?? null})
+        INSERT INTO users (username, email, password_hash, google_oauth_id, display_name)
+        VALUES(${userCreationData.username}, ${userCreationData.email ?? null}, ${userCreationData.passwordHash ?? null}, ${userCreationData.googleOauthId ?? null}, {${userCreationData.displayName ?? null})
         RETURNING user_id
       `;
 
@@ -481,6 +482,12 @@ export namespace CodebookDatabaseAPI {
     return {
       id: submissionId,
       verdict: "Accepted",
+    };
+  }
+
+  export async function getBio(userId) {
+    return {
+        bio: "Placeholder Bio"
     };
   }
 

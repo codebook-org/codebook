@@ -47,7 +47,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return {
               id: user.userId.toString(),
               email: user.email,
-              name: user.displayName || user.username, // Use the username (email splice) if we don't have a display at the moment.
+              username: user.username, // Use the username (email splice) if we don't have a display at the moment.
+              displayName: user.displayName,
               image: `https://api.dicebear.com/7.x/initials/svg?seed=${user.email}`,
             };
           }
@@ -72,6 +73,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // For now, let's tuck the
         (user as any).postgresId = userId;
 
+        (user as any).display_name = user.name;
+
         return true; // Allow sign in
       }
 
@@ -88,6 +91,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const rawId = (user as any).postgresId ?? user.id;
         token.id = parseInt(rawId, 10);
 
+        token.display_name = (user as any).displayName ?? (user as any).display_name ?? (user as any).username;
+
         console.log("SUCCESS: Token sub assigned:", token.sub);
       }
       return token;
@@ -96,7 +101,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // Then, we make it available to read. We simply just use session.user.id to pull that information.
     async session({ session, token }) {
       if (session.user && token.id) {
-        session.user.id = token.id as string;
+        session.user.id = `${token.id}`;
+
+        session.user.displayName = token.display_name as string;
       }
       return session;
     },
