@@ -64,6 +64,7 @@ export default function Publish() {
     { id: "java", label: "Java" },
   ];
 
+  // publishes the problem
   const handleSubmit = async () => {
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
@@ -83,7 +84,11 @@ export default function Publish() {
 
       if (result == "success") {
         // TODO: pass starterCode in once new column is implemented
-        let probData = await addProblem(trimmedTitle, trimmedDescription, session.user.id);
+        let probData = await addProblem(
+          trimmedTitle,
+          trimmedDescription,
+          session.user.id,
+        );
         addAllTestCases(probData);
         toast.success("Problem published!");
         router.push(`/solve/${probData}`);
@@ -199,6 +204,7 @@ export default function Publish() {
     return "success";
   };
 
+  // updates array of hidden test cases
   const updateHidden = (id) => {
     const targetId = Number(id);
 
@@ -232,14 +238,14 @@ export default function Publish() {
 
   return (
     <div className="w-full h-full min-h-0 flex-1 flex flex-col h-full overflow-hidden">
-      <div className="flex items-center rounded-lg bg-monaco-dark p-2 mb-2 h-12 outline-1 outline-transparent focus-within:outline-monaco-light focus-within:outline-offset-[-1px]">
+      <div className="flex items-center rounded-lg bg-monaco-dark p-1 mb-2 h-12">
         <input
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter a title for your problem."
-          className="w-full h-full rounded-lg bg-monaco-dark text-monaco-txt font-semibold text-xl border-none outline-none p-3"
+          className="w-full h-full rounded-lg bg-black/20 text-monaco-txt font-semibold text-xl border-none focus:ring-2 focus:ring-blue-500 focus:outline-none px-3 py-4"
         />
         <Confirmation
           title="Are you sure?"
@@ -248,8 +254,22 @@ export default function Publish() {
         >
           <button
             type="submit"
-            className="cursor-pointer text-sm font-bold h-full px-32 ml-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors"
+            className="cursor-pointer flex items-center text-sm font-bold h-full px-32 ml-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors"
           >
+            <svg viewBox="0 0 500 420" className="w-5 h-5 fill-current">
+              <g>
+                <path
+                  d="M344.058,207.506c-16.568,0-30,13.432-30,30v76.609h-254v-76.609c0-16.568-13.432-30-30-30c-16.568,0-30,13.432-30,30
+  v106.609c0,16.568,13.432,30,30,30h314c16.568,0,30-13.432,30-30V237.506C374.058,220.938,360.626,207.506,344.058,207.506z"
+                />
+                <path
+                  d="M123.57,135.915l33.488-33.488v111.775c0,16.568,13.432,30,30,30c16.568,0,30-13.432,30-30V102.426l33.488,33.488
+  c5.857,5.858,13.535,8.787,21.213,8.787c7.678,0,15.355-2.929,21.213-8.787c11.716-11.716,11.716-30.71,0-42.426L208.271,8.788
+  c-11.715-11.717-30.711-11.717-42.426,0L81.144,93.489c-11.716,11.716-11.716,30.71,0,42.426
+  C92.859,147.631,111.855,147.631,123.57,135.915z"
+                />
+              </g>
+            </svg>
             Publish
           </button>
         </Confirmation>
@@ -328,7 +348,7 @@ export default function Publish() {
             orientation="vertical"
             className="flex flex-col flex-1 min-h-0 overflow-y-auto"
           >
-            <Panel defaultSize="70%" minSize="30%" maxSize="70%">
+            <Panel defaultSize="50%" minSize="4.65%" maxSize="95.35%">
               <Card
                 title="Starter Code"
                 tabs={codeTabs}
@@ -390,50 +410,54 @@ export default function Publish() {
                             className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Input"
                             value={data.input}
-                            onChange={(e) => updateCase(id, "input", e.target.value)}
+                            onChange={(e) =>
+                              updateCase(id, "input", e.target.value)
+                            }
                           />
                           <span className="text-monaco-muted font-bold">→</span>
                           <input
                             className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Output"
                             value={data.output}
-                            onChange={(e) => updateCase(id, "output", e.target.value)}
+                            onChange={(e) =>
+                              updateCase(id, "output", e.target.value)
+                            }
                           />
-                          <Tooltip content={`${isHidden ? "Show test case" : "Hide test case"}`}>
+                          <Tooltip
+                            content={`${isHidden ? "Show test case" : "Hide test case"}`}
+                          >
                             <button
                               type="button"
                               onClick={() => updateHidden(id)}
                               className="group w-6 h-6 p-0.75 mx-1 transition-colors text-monaco-muted hover:text-monaco-txt cursor-pointer"
                             >
-                              {isHidden ? 
-                                (
-                                  <svg 
-                                    viewBox="0 0 16 16" 
-                                    fill="none" 
-                                    className="w-full h-full"
-                                  >
-                                    <path 
-                                      fillRule="evenodd" 
-                                      clipRule="evenodd" 
-                                      d="M4 6V4C4 1.79086 5.79086 0 8 0C10.2091 0 12 1.79086 12 4V6H14V16H2V6H4ZM6 4C6 2.89543 6.89543 2 8 2C9.10457 2 10 2.89543 10 4V6H6V4ZM7 13V9H9V13H7Z" 
-                                      fill="currentColor"
-                                    />
-                                  </svg>
-                                ) : (
-                                  <svg 
-                                    viewBox="0 0 16 16" 
-                                    fill="none" 
-                                    className="w-full h-full"
-                                  >
-                                    <path 
-                                      fillRule="evenodd" 
-                                      clipRule="evenodd" 
-                                      d="M11.5 2C10.6716 2 10 2.67157 10 3.5V6H13V16H1V6H8V3.5C8 1.567 9.567 0 11.5 0C13.433 0 15 1.567 15 3.5V4H13V3.5C13 2.67157 12.3284 2 11.5 2ZM9 10H5V12H9V10Z" 
-                                      fill="currentColor"
-                                    />
-                                  </svg>
-                                )
-                              }
+                              {isHidden ? (
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  className="w-full h-full"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M4 6V4C4 1.79086 5.79086 0 8 0C10.2091 0 12 1.79086 12 4V6H14V16H2V6H4ZM6 4C6 2.89543 6.89543 2 8 2C9.10457 2 10 2.89543 10 4V6H6V4ZM7 13V9H9V13H7Z"
+                                    fill="currentColor"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  className="w-full h-full"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M11.5 2C10.6716 2 10 2.67157 10 3.5V6H13V16H1V6H8V3.5C8 1.567 9.567 0 11.5 0C13.433 0 15 1.567 15 3.5V4H13V3.5C13 2.67157 12.3284 2 11.5 2ZM9 10H5V12H9V10Z"
+                                    fill="currentColor"
+                                  />
+                                </svg>
+                              )}
                             </button>
                           </Tooltip>
                           <Tooltip content="Remove test case">
@@ -442,13 +466,13 @@ export default function Publish() {
                               onClick={() => removeCase(id)}
                               className="w-6 h-6 p-1 text-monaco-muted hover:text-monaco-txt transition-all cursor-pointer"
                             >
-                              <svg 
-                                viewBox="0 0 16 16" 
+                              <svg
+                                viewBox="0 0 16 16"
                                 className="w-full h-full"
                                 fill="currentColor"
                               >
-                                <path 
-                                  d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" 
+                                <path
+                                  d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z"
                                   fillRule="evenodd"
                                 />
                               </svg>
@@ -465,13 +489,13 @@ export default function Publish() {
                         onClick={addCase}
                         className="group w-12 h-12 rounded-xl bg-monaco-mid p-4 hover:bg-monaco-light shadow-xl shadow-black/20 cursor-pointer"
                       >
-                        <svg 
-                          viewBox="0 0 21 20" 
-                          fill="none" 
+                        <svg
+                          viewBox="0 0 21 20"
+                          fill="none"
                           className="w-4 h-4 text-monaco-muted group-hover:text-monaco-txt transition-colors"
                         >
-                          <polygon 
-                            points="21 9 21 11 11.55 11 11.55 20 9.45 20 9.45 11 0 11 0 9 9.45 9 9.45 0 11.55 0 11.55 9" 
+                          <polygon
+                            points="21 9 21 11 11.55 11 11.55 20 9.45 20 9.45 11 0 11 0 9 9.45 9 9.45 0 11.55 0 11.55 9"
                             fill="currentColor"
                           />
                         </svg>
