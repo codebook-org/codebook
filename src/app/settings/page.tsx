@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { getBio } from "./actions";
+import { getBio, changeSettings } from "./actions";
 import { useEffect, useState } from "react";
 
 // We'll be using the Profile page as a preview.
@@ -50,12 +50,13 @@ export default function Settings() {
     passwordHash: "" // This is ignored, not important information.
   };
 
-  const grabinfo = () => {
+  const grabinfo = async (e) => {
+    e.preventDefault();
     if (username == "") {
-        // Username cannot be empty.
+        // Username cannot be empty. Uhh make a notif here
     } else {
-        // We can have empty bios though. Not preferred, but it can happen.
-
+        console.log("Submitting");
+        await changeSettings(session.user.id, username, displayName, bio);
     }
   }
 
@@ -96,9 +97,11 @@ export default function Settings() {
           />
         </div>
 
-        <button className="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm py-2 rounded transition-colors">
-          Save Changes
-        </button>
+        <form onSubmit={grabinfo}>
+            <button className="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm py-2 rounded transition-colors">
+            Save Changes
+            </button>
+        </form>
       </div>
 
       {/* PROFILE PREVIEW */}
