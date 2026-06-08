@@ -35,7 +35,7 @@ export default function Publish() {
     `Use __Markdown__ to describe your coding problem.\n\n*Tip: View rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\nUse $\\LaTeX$ notation to render math formulas:\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide expected output specifications and show examples.\n\n### Examples\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\`\n**Example 2**\n\`\`\`\nInput:3\nOutput:6\nExplanation: 3 * 2 = 6\n\`\`\``,
   );
   const [id, setCount] = useState(2);
-  const [hiddenCase, setHidden] = useState([1]);
+  const [hiddenCase, setHidden] = useState([]);
 
   // stores test cases
   const [testCases, setTestCase] = useState({
@@ -51,7 +51,7 @@ export default function Publish() {
 
   // tabs for description panel
   const descriptionTabs = [
-    { id: "editor", label: "Editor" },
+    { id: "editor", label: "Write" },
     { id: "preview", label: "Preview" },
   ];
 
@@ -92,41 +92,27 @@ export default function Publish() {
     }
   };
 
-  // add a test case
-  const addCase = (e) => {
-    e.preventDefault();
-    if (e) e.preventDefault();
-
-    setTestCase((prev) => ({
-      // We're essentially saying "Hey, take the previous inputs, and tack on this new one."
-      ...prev,
-      [id]: { input: "", output: "" }, // Keep it blank. This is also how we check if an entry is empty.
-    }));
-
-    setHidden((prev) => [...prev, id]);
-    setCount((prevCount) => prevCount + 1);
+  // adds a test case
+  const addCase = () => {
+    setTestCase((prev) => {
+      const keys = Object.keys(prev).map(Number);
+      const nextId = keys.length > 0 ? Math.max(...keys) + 1 : 1;
+      return {
+        ...prev,
+        [nextId]: { input: "", output: "" },
+      };
+    });
   };
 
-  // remove a test case
-  const removeCase = (e) => {
-    e.preventDefault();
-    if (e) e.preventDefault();
+  // removes a test case
+  const removeCase = (idToRemove: string) => {
+    setTestCase((prev) => {
+      const copy = { ...prev };
+      delete copy[idToRemove];
+      return copy;
+    });
 
-    // Check if there's 1 case, you must submit minimum 1 case.
-    if (id <= 2) {
-      // Since we use id like "nextID", we know that there's only one case if our "Next ID" is 2.
-      console.log("CANNOT REMOVE");
-    } else {
-      setTestCase((prev) => {
-        const newState = { ...prev }; // Take the old dictionary..
-        delete newState[id - 1]; // Remove the last id
-        return newState; // Now set the dictionary to this new, removed-case dictionary.
-      });
-
-      setHidden((prev) => prev.filter((item) => item !== id - 1));
-
-      setCount((prevCount) => prevCount - 1);
-    }
+    setHidden((prev) => prev.filter((id) => id !== Number(idToRemove)));
   };
 
   const updateCase = (id, edited, value) => {
@@ -212,22 +198,20 @@ export default function Publish() {
   };
 
   const updateHidden = (id) => {
-    // Need to convert because this id is a string, oddly enough.
     const targetId = Number(id);
 
     setHidden((prev) => {
       if (prev.includes(targetId)) {
-        // If it is in the "HIDDEN" list...
-        return prev.filter((item) => item !== targetId); // Remove it.
+        return prev.filter((item) => item !== targetId);
       } else {
-        return [...prev, targetId]; // Else, we can add it to our list.
+        return [...prev, targetId];
       }
     });
   };
 
+  // may remove this soon as it is no longer needed
   const testExport = (e) => {
     e.preventDefault();
-    // Need to convert because this id is a string, oddly enough.
     for (let i = 0; i < problems.length; i++) {
       console.log(
         problems[i].id +
@@ -382,73 +366,104 @@ export default function Publish() {
             </Separator>
             <Panel>
               <Card title="Test Cases">
-                <div>
-                  <div className="flex items-center p-2 justify-between">
-                    <div className="right flex items-center p-2">
-                      <form onSubmit={addCase}>
-                        <div className="p-1 border rounded w-[35px] place-items-center center">
-                          <button
-                            style={{ cursor: "pointer", textAlign: "center" }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </form>
-
-                      <form onSubmit={removeCase}>
-                        <div className="p-1">
-                          <button style={{ cursor: "pointer" }}>-</button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col border rounded overflow-y-auto h-[400px] p-2 mb-2">
-                    {Object.entries(testCases).map(([id, data]) => (
+                <div className="flex flex-col p-1 pb-6 gap-2">
+                  {Object.entries(testCases).map(([id, data]) => {
+                    const isHidden = hiddenCase.includes(Number(id));
+                    return (
                       <div
                         key={id}
-                        className="flex items-center gap-3 p-3 border rounded shadow-sm mb-2"
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-lg shadow-black/10 bg-monaco-mid"
                       >
-                        <span className="text-sm font-bold whitespace-nowrap">
-                          Case {id}:
+                        <span className="text-sm font-bold text-monaco-txt whitespace-nowrap min-w-[60px]">
+                          Test Case {id}
                         </span>
-
                         <div className="flex flex-1 items-center gap-3">
                           <input
-                            className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
+                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Input"
                             value={data.input}
-                            onChange={(e) =>
-                              updateCase(id, "input", e.target.value)
-                            }
+                            onChange={(e) => updateCase(id, "input", e.target.value)}
                           />
-
-                          <span className="text-gray-400 font-bold">→</span>
-
+                          <span className="text-monaco-muted font-bold">→</span>
                           <input
-                            className="flex-1 min-w-0 border p-1.5 rounded text-sm focus:ring-1 focus:outline-none"
+                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Output"
                             value={data.output}
-                            onChange={(e) =>
-                              updateCase(id, "output", e.target.value)
-                            }
+                            onChange={(e) => updateCase(id, "output", e.target.value)}
                           />
-
                           <button
-                            onClick={(e) => updateHidden(id)}
-                            style={{
-                              backgroundColor: hiddenCase.includes(Number(id))
-                                ? "#ef4444"
-                                : "#22c55e",
-                              padding: "10px 20px",
-                              cursor: "pointer",
-                            }}
+                            type="button"
+                            onClick={() => updateHidden(id)}
+                            className="group w-6 h-6 p-0.75 mx-1 transition-colors text-monaco-muted hover:text-monaco-txt cursor-pointer"
                           >
-                            {hiddenCase.includes(Number(id)) ? "🤫" : "📣"}
+                            {isHidden ? 
+                              (
+                                <svg 
+                                  viewBox="0 0 16 16" 
+                                  fill="none" 
+                                  className="w-full h-full"
+                                >
+                                  <path 
+                                    fillRule="evenodd" 
+                                    clipRule="evenodd" 
+                                    d="M4 6V4C4 1.79086 5.79086 0 8 0C10.2091 0 12 1.79086 12 4V6H14V16H2V6H4ZM6 4C6 2.89543 6.89543 2 8 2C9.10457 2 10 2.89543 10 4V6H6V4ZM7 13V9H9V13H7Z" 
+                                    fill="currentColor"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg 
+                                  viewBox="0 0 16 16" 
+                                  fill="none" 
+                                  className="w-full h-full"
+                                >
+                                  <path 
+                                    fillRule="evenodd" 
+                                    clipRule="evenodd" 
+                                    d="M11.5 2C10.6716 2 10 2.67157 10 3.5V6H13V16H1V6H8V3.5C8 1.567 9.567 0 11.5 0C13.433 0 15 1.567 15 3.5V4H13V3.5C13 2.67157 12.3284 2 11.5 2ZM9 10H5V12H9V10Z" 
+                                    fill="currentColor"
+                                  />
+                                </svg>
+                              )
+                            }
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => removeCase(id)}
+                            className="w-6 h-6 p-1 text-monaco-muted hover:text-monaco-txt transition-all cursor-pointer"
+                          >
+                            <svg 
+                              viewBox="0 0 16 16" 
+                              className="w-full h-full"
+                              fill="currentColor"
+                            >
+                              <path 
+                                d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" 
+                                fillRule="evenodd"
+                              />
+                            </svg>
                           </button>
                         </div>
                       </div>
-                    ))}
+                    );
+                  })}
+
+                  <div className="flex justify-center pt-2 mt-1">
+                    <button
+                      type="button"
+                      onClick={addCase}
+                      className="group w-12 h-12 rounded-xl bg-monaco-mid p-4 hover:bg-monaco-light shadow-xl shadow-black/10 cursor-pointer"
+                    >
+                      <svg 
+                        viewBox="0 0 21 20" 
+                        fill="none" 
+                        className="w-4 h-4 text-monaco-muted group-hover:text-monaco-txt transition-colors"
+                      >
+                        <polygon 
+                          points="21 9 21 11 11.55 11 11.55 20 9.45 20 9.45 11 0 11 0 9 9.45 9 9.45 0 11.55 0 11.55 9" 
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </Card>
