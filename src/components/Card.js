@@ -20,7 +20,7 @@ export default function Card({
         <h1 className="text-monaco-txt">{title || "Card Header"}</h1>
       </div>
       {tabs && tabs.length > 0 && (
-        <div className="bg-monaco-dark border-b border-monaco-mid flex items-center px-2 shrink-0">
+        <div className="bg-monaco-dark border-b border-monaco-light flex items-center px-2 shrink-0">
           {tabs.map((tab) => {
             const isActive = tab.id === activeTab;
             return (
@@ -31,7 +31,7 @@ export default function Card({
                 className={`px-5 py-3 mt-1 text-xs font-semibold  transition-colors cursor-pointer select-none
                   ${
                     isActive
-                      ? "text-monaco-txt border-t border-l border-r rounded-t-lg border-monaco-mid bg-monaco-dark font-semibold -mb-px"
+                      ? "text-monaco-txt border-t border-l border-r rounded-t-lg border-monaco-light bg-monaco-dark font-semibold -mb-px"
                       : "text-monaco-muted border-t border-l border-r rounded-t-lg border-transparent hover:text-monaco-txt -mb-px"
                   }`}
               >

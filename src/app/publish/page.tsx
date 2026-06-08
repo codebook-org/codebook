@@ -25,12 +25,14 @@ const sanitizeSchema = {
 };
 
 export default function Publish() {
-  const editorRef = useRef(null);
+  const descriptionEditorRef = useRef(null);
+  const codeEditorRef = useRef(null);
   const [currentDescriptionTab, setCurrentDescriptionTab] = useState("editor");
+  const [currentCodeTab, setCurrentCodeTab] = useState("cpp");
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState(
-    `Use Markdown to describe your coding problem.\n\n*Tip: view rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide output specifications.\n\n### Examples\n\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\``,
+    `Use __Markdown__ to describe your coding problem.\n\n*Tip: View rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\nUse $\\LaTeX$ notation to render math formulas:\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide expected output specifications and show examples.\n\n### Examples\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\`\n**Example 2**\n\`\`\`\nInput:3\nOutput:6\nExplanation: 3 * 2 = 6\n\`\`\``,
   );
   const [id, setCount] = useState(2);
   const [hiddenCase, setHidden] = useState([1]);
@@ -40,20 +42,35 @@ export default function Publish() {
     [1]: { input: "", output: "" },
   });
 
+  // stores starter code for respective languages
+  const [starterCode, setStarterCode] = useState({
+    cpp: `/*\nYou can provide users with starter code for each of the supported languages.\n\nNote: Codebook uses standard I/O for test case validation.\nIf you want to abstract that from the user, you can use the following pattern:\n*/\n\n#include <iostream>\n\n// User-facing function where they write their logic:\nint solve(int n) {\n\t// Leave a comment for the user, instructing them to write their code here.\n\treturn 0;\n}\n\n// Main manages standard I/O:\nint main() {\n\tint n;\n\tstd::cin >> n;\n\tstd::cout << solve(n);\n\treturn 0;\n}`,
+    python: "",
+    java: "",
+  });
+
+  // tabs for description panel
   const descriptionTabs = [
     { id: "editor", label: "Editor" },
     { id: "preview", label: "Preview" },
   ];
 
+  // tabs for starter code panel
+  const codeTabs = [
+    { id: "cpp", label: "C++" },
+    { id: "python", label: "Python" },
+    { id: "java", label: "Java" },
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const tTitle = title.trim();
-    const tDescription = description.trim();
+    const trimmedTitle = title.trim();
+    const trimmedDescription = description.trim();
 
-    if (tTitle == "" || tDescription == "") {
-      if (tTitle == "" && tDescription == "") {
+    if (trimmedTitle == "" || trimmedDescription == "") {
+      if (trimmedTitle == "" && trimmedDescription == "") {
         toast.error("You're missing a title and description");
-      } else if (tTitle == "") {
+      } else if (trimmedTitle == "") {
         toast.error("You're missing a title");
       } else {
         toast.error("You're missing a description");
@@ -64,7 +81,8 @@ export default function Publish() {
       const result = verifyTestCases();
 
       if (result == "success") {
-        let probData = await addProblem(tTitle, tDescription, session.user.id); // Actually add to the SQL database.
+        // TODO: pass starterCode in once new column is implemented
+        let probData = await addProblem(trimmedTitle, trimmedDescription, session.user.id);
         addAllTestCases(probData);
         toast.success("Problem published!");
         return;
@@ -233,7 +251,7 @@ export default function Publish() {
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          placeholder="Enter a title for your problem."
           className="w-full h-full rounded-lg bg-monaco-dark text-monaco-txt font-semibold text-xl border-none outline-none p-3"
         />
         <button
@@ -262,8 +280,8 @@ export default function Publish() {
               >
                 <Editor
                   onMount={(editor) => {
-                    editorRef.current = editor;
-                    editorRef.current.focus();
+                    descriptionEditorRef.current = editor;
+                    descriptionEditorRef.current.focus();
                   }}
                   height="100%"
                   language="markdown"
@@ -319,7 +337,45 @@ export default function Publish() {
             className="flex flex-col flex-1 min-h-0 overflow-y-auto"
           >
             <Panel defaultSize="70%" minSize="30%" maxSize="70%">
-              <Card title="Starter Code">hello</Card>
+              <Card
+                title="Starter Code"
+                tabs={codeTabs}
+                activeTab={currentCodeTab}
+                onTabChange={setCurrentCodeTab}
+              >
+                <Editor
+                  className="pb-1"
+                  onMount={(editor) => {
+                    codeEditorRef.current = editor;
+                    codeEditorRef.current.focus();
+                  }}
+                  height="100%"
+                  language={currentCodeTab}
+                  theme="vs-dark"
+                  value={starterCode[currentCodeTab]}
+                  onChange={(newValue) => {
+                    setStarterCode((prev) => ({
+                      ...prev,
+                      [currentCodeTab]: newValue ?? "",
+                    }));
+                  }}
+                  options={{
+                    minimap: { enabled: false },
+                    stickyScroll: { enabled: false },
+                    scrollbar: {
+                      vertical: "hidden",
+                      horizontal: "hidden",
+                      handleMouseWheel: true,
+                      castShadows: false,
+                    },
+                    overviewRulerLanes: 0,
+                    hideCursorInOverviewRuler: true,
+                    overviewRulerBorder: false,
+                    renderLineHighlight: "none",
+                    glyphMargin: false,
+                  }}
+                />
+              </Card>
             </Panel>
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
