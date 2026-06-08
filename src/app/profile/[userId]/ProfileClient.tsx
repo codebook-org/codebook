@@ -50,11 +50,18 @@ export default function ProfileClient({
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-white text-lg font-medium">
-            {user.username ?? user.displayName ?? "User"}
+            {user.displayName ?? user.username ?? "User"}
           </p>
           <p className="text-gray-400 text-sm">{user.email}</p>
         </div>
       </div>
+    
+    {/* Temp Bio display, REALLY UGLY AHHHH*/}
+    <div>
+        <p>{user.bio ?? "Hello there!"}</p>
+        
+        </div>
+      
 
       {/* ── TABS ── */}
       <div className="flex border-b border-white/10 mt-6">

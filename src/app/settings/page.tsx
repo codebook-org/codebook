@@ -1,37 +1,119 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import { getBio } from "./actions"
+import { getBio } from "./actions";
+import { useEffect, useState } from "react";
+
+// We'll be using the Profile page as a preview.
+import ProfileClient from "@/app/profile/[userId]/ProfileClient";
 
 export default function Settings() {
-    const { data: session, status } = useSession();
-    const [bio, setBio] = useState<string>(""); // State to hold the fetched bio
+  const { data: session, status } = useSession();
+  
+  // Variables
+  const [displayName, setDisplayName] = useState("");
+  const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState(""); <-- We can consider changing emails at a later date.
+  const [bio, setBio] = useState("");
 
-    useEffect(() => {
-        // Only fetch when the session is completely loaded and the user exists
-        if (status === "authenticated" && session?.user?.id) {
-            getBio(session.user.id).then((fetchedBio) => {
-                setBio(fetchedBio || ""); // Update state once the promise resolves
-            });
-        }
-    }, [session, status]);
-
-    if (status == "loading") {
-        return <main style={{ padding: "2rem" }}><h1>Loading...</h1></main>;
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+        // Their displayname should be the unique displayname. If not, then fall back on the username.
+      setUsername(session.user.name);
+      setDisplayName(session.user.displayName || session.user.name);
+      
+      // For some reason, I couldn't use await. Thanks Gemini.. Ehehe.... 
+      const fetchedBio = getBio(session.user.id).then((fetchedBio) => {
+        setBio(fetchedBio || "");
+      });
     }
+  }, [session, status]);
 
-    // We can't check settings if we're not logged in, so let's redirect to login.
-    if (!session?.user) {
-        redirect("/login");
+  // If auth is currently loading, then you shouldn't be kicked out. Let it load first..
+  if (status === "loading") {
+    return <main className="p-8"><h1>Loading...</h1></main>;
+  }
+
+  // But if you aren't logged in, you can't access settings. Nothing to change if you don't have an account.
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  // Since we're technically passing through an entire user, we need to create a fake one for now.
+  const previewUser = {
+    userId: parseInt(session.user.id, 10), // Have to parse the int
+    email: session.user.email,
+    username: session.user.username,
+    displayName: displayName,
+    bio: bio,
+    passwordHash: "" // This is ignored, not important information.
+  };
+
+  const grabinfo = () => {
+    if (username == "") {
+        // Username cannot be empty.
+    } else {
+        // We can have empty bios though. Not preferred, but it can happen.
+
     }
-    return (
-        <main style={{ padding: "2rem" }}>
-            <h1>TBA</h1>
-            <input placeholder={session.user.displayName}/>
-            <textarea placeholder={bio ?? "Tell us about yourself..."}/>
-        </main>
-    );
+  }
 
+  return (
+    <main className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+
+      {/* Change settings here */}
+      <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-xl border border-white/10">
+        <h1 className="text-xl font-bold text-white mb-2">Account Settings</h1>
+        
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-gray-400 font-medium">Display Name</label>
+          <input 
+            className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
+            value={displayName}
+            placeholder="Call me..."
+            onChange={(e) => setDisplayName(e.target.value)} 
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-gray-400 font-medium">Username</label>
+          <input 
+            className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
+            value={username}
+            placeholder="Username.."
+            onChange={(e) => setUsername(e.target.value)} 
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-gray-400 font-medium">Bio</label>
+          <textarea 
+            className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
+            value={bio} 
+            placeholder="Tell us about yourself..."
+            onChange={(e) => setBio(e.target.value)} 
+          />
+        </div>
+
+        <button className="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm py-2 rounded transition-colors">
+          Save Changes
+        </button>
+      </div>
+
+      {/* PROFILE PREVIEW */}
+      <div className="relative border border-white/10 rounded-xl bg-zinc-950 overflow-hidden">
+        <div className="absolute top-3 left-4 text-[10px] uppercase tracking-wider font-bold text-zinc-500 pointer-events-none z-10">
+          Preview
+        </div>
+        <div className="pt-4 opacity-90">
+          <ProfileClient 
+            user={previewUser} 
+            solvedProblems={[]}  // We can just push in nothing since we don't really want to display *everything*.
+            publishedProblems={[]} 
+          />
+        </div>
+      </div>
+    </main>
+  );
 }
