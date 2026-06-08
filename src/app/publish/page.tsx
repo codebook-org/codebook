@@ -111,11 +111,21 @@ export default function Publish() {
   };
 
   // removes a test case
+  // this feels a bit hacky to me now
+  // TODO: look into refactoring testCases from object to array
   const removeCase = (idToRemove: string) => {
     setTestCase((prev) => {
       const copy = { ...prev };
       delete copy[idToRemove];
-      return copy;
+      const remainingValues = Object.values(copy);
+      const newObject: Record<string, any> = {};
+
+      remainingValues.forEach((value, index) => {
+        const id = String(index + 1);
+        newObject[id] = value;
+      });
+
+      return newObject;
     });
 
     setHidden((prev) => prev.filter((id) => id !== Number(idToRemove)));
