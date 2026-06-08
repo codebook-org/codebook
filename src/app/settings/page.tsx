@@ -10,7 +10,7 @@ import ProfileClient from "@/app/profile/[userId]/ProfileClient";
 
 export default function Settings() {
   const { data: session, status } = useSession();
-  
+
   // Variables
   const [displayName, setDisplayName] = useState("");
   const [username, setUsername] = useState("");
@@ -19,11 +19,11 @@ export default function Settings() {
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-        // Their displayname should be the unique displayname. If not, then fall back on the username.
+      // Their displayname should be the unique displayname. If not, then fall back on the username.
       setUsername(session.user.name);
       setDisplayName(session.user.displayName || session.user.name);
-      
-      // For some reason, I couldn't use await. Thanks Gemini.. Ehehe.... 
+
+      // For some reason, I couldn't use await. Thanks Gemini.. Ehehe....
       const fetchedBio = getBio(session.user.id).then((fetchedBio) => {
         setBio(fetchedBio || "");
       });
@@ -32,7 +32,11 @@ export default function Settings() {
 
   // If auth is currently loading, then you shouldn't be kicked out. Let it load first..
   if (status === "loading") {
-    return <main className="p-8"><h1>Loading...</h1></main>;
+    return (
+      <main className="p-8">
+        <h1>Loading...</h1>
+      </main>
+    );
   }
 
   // But if you aren't logged in, you can't access settings. Nothing to change if you don't have an account.
@@ -47,60 +51,61 @@ export default function Settings() {
     username: session.user.username,
     displayName: displayName,
     bio: bio,
-    passwordHash: "" // This is ignored, not important information.
+    passwordHash: "", // This is ignored, not important information.
   };
 
   const grabinfo = async (e) => {
     e.preventDefault();
     if (username == "") {
-        // Username cannot be empty. Uhh make a notif here
+      // Username cannot be empty. Uhh make a notif here
     } else {
-        console.log("Submitting");
-        await changeSettings(session.user.id, username, displayName, bio);
+      console.log("Submitting");
+      await changeSettings(session.user.id, username, displayName, bio);
     }
-  }
+  };
 
   return (
     <main className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
-
       {/* Change settings here */}
       <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-xl border border-white/10">
         <h1 className="text-xl font-bold text-white mb-2">Account Settings</h1>
-        
+
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-gray-400 font-medium">Display Name</label>
-          <input 
+          <label className="text-xs text-gray-400 font-medium">
+            Display Name
+          </label>
+          <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
             value={displayName}
             placeholder="Call me..."
-            onChange={(e) => setDisplayName(e.target.value)} 
+            onChange={(e) => setDisplayName(e.target.value)}
           />
         </div>
 
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-400 font-medium">Username</label>
-          <input 
+          <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
             value={username}
             placeholder="Username.."
-            onChange={(e) => setUsername(e.target.value)} 
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-400 font-medium">Bio</label>
-          <textarea 
+          <textarea
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
-            value={bio} 
+            value={bio}
             placeholder="Tell us about yourself..."
-            onChange={(e) => setBio(e.target.value)} 
+            onChange={(e) => setBio(e.target.value)}
           />
         </div>
 
         <form onSubmit={grabinfo}>
-            <button className="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm py-2 rounded transition-colors">
+          <button className="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm py-2 rounded transition-colors">
             Save Changes
-            </button>
+          </button>
         </form>
       </div>
 
@@ -110,10 +115,10 @@ export default function Settings() {
           Preview
         </div>
         <div className="pt-4 opacity-90">
-          <ProfileClient 
-            user={previewUser} 
-            solvedProblems={[]}  // We can just push in nothing since we don't really want to display *everything*.
-            publishedProblems={[]} 
+          <ProfileClient
+            user={previewUser}
+            solvedProblems={[]} // We can just push in nothing since we don't really want to display *everything*.
+            publishedProblems={[]}
           />
         </div>
       </div>

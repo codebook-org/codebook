@@ -55,13 +55,11 @@ export default function ProfileClient({
           <p className="text-gray-400 text-sm">{user.email}</p>
         </div>
       </div>
-    
-    {/* Temp Bio display, REALLY UGLY AHHHH*/}
-    <div>
+
+      {/* Temp Bio display, REALLY UGLY AHHHH*/}
+      <div>
         <p>{user.bio ?? "Hello there!"}</p>
-        
-        </div>
-      
+      </div>
 
       {/* ── TABS ── */}
       <div className="flex border-b border-white/10 mt-6">

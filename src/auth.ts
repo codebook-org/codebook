@@ -91,7 +91,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const rawId = (user as any).postgresId ?? user.id;
         token.id = parseInt(rawId, 10);
 
-        token.display_name = (user as any).displayName ?? (user as any).display_name ?? (user as any).username;
+        token.display_name =
+          (user as any).displayName ??
+          (user as any).display_name ??
+          (user as any).username;
 
         console.log("SUCCESS: Token sub assigned:", token.sub);
       }

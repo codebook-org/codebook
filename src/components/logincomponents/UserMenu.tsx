@@ -88,7 +88,7 @@ export default function UserMenu() {
           </div>
 
           <div className="p-1">
-          <Link
+            <Link
               href={`/settings`}
               onClick={() => setIsOpen(false)}
               className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
