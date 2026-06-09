@@ -9,10 +9,15 @@ import CredSignIn from "@/components/logincomponents/CredSignIn";
 import CredRegister from "@/components/logincomponents/CredRegister";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
-  // Do we want to log in (default) or register a new credential login?
-  const [mode, setMode] = useState("login");
+  // login or register modes
+  const searchParams = useSearchParams();
+
+  const [mode, setMode] = useState(
+    searchParams.get("mode") === "register" ? "register" : "login",
+  );
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-black px-4 font-sans text-white">

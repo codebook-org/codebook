@@ -52,7 +52,7 @@ export default function HomeClient(): JSX.Element {
         <section className="mx-auto max-w-3xl px-8 py-24 text-center">
           <h1 className=" font-bold tracking-tight">Ready to Begin?</h1>
           <p className="mt-4 text-zinc-400"></p>
-          <Link href="/login" className="logo">
+          <Link href="/login?mode=register" className="logo">
             <button className="bg-white text-black px-10 py-4 rounded-lg hover:bg-gray-300 transition-all inline-flex items-center gap-2 cursor-pointer">
               <span>Create Free Account</span>
               <svg
