@@ -30,7 +30,6 @@ export default function ProblemClient({
   initialSolveCount,
   userHasSolved,
 }) {
-  console.log("Passed Prop LastVote:", lastVote);
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const languageDropdownRef = useRef(null);
