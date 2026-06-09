@@ -1,10 +1,10 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { saveCode, getResults, runCode } from "./actions";
+import { saveCode, getResults, runCode, submitVoteAction } from "./actions";
 import { Group, Panel, Separator } from "react-resizable-panels";
+import { useSession } from "next-auth/react";
 import { toClipboard } from "@/utils/toClipboard";
 import { toast } from "sonner";
-import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
@@ -20,7 +20,9 @@ export default function ProblemClient({
   problem,
   problemCreator,
   description,
+  lastVote,
 }) {
+  console.log("Passed Prop LastVote:", lastVote);
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const languageDropdownRef = useRef(null);
@@ -32,6 +34,10 @@ export default function ProblemClient({
   const [language, setLanguage] = useState("c++");
   const [keybind, setKeybind] = useState("standard");
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const { session } = useSession();
+  const [likeCount, setLikeCount] = useState(problem.likeCount);
+  const [dislikeCount, setDislikeCount] = useState(problem.dislikeCount);
+  const [currentVote, setCurrentVote] = useState(lastVote);
 
   useEffect(() => {
     const handleKeybindSwap = async () => {
@@ -75,6 +81,16 @@ export default function ProblemClient({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const fetchVote = async () => {
+      if (session?.user?.id) {
+        setCurrentVote(lastVote);
+      }
+    };
+
+    fetchVote();
+  }, [session?.user?.id, problem.problemId]);
+
   const handleSubmit = async () => {
     if (!editorRef.current) return;
     const code = editorRef.current.getValue();
@@ -82,10 +98,10 @@ export default function ProblemClient({
     setResults(null);
 
     setStatus("submitting");
-    const submissionId = await saveCode(problem.id, code);
+    const submissionId = await saveCode(problem.problemId, code);
 
     setStatus("running");
-    const data = await runCode(problem.problemId || problem.id, language, code);
+    const data = await runCode(problem.problemId, language, code);
 
     setResults(data);
     setStatus("done");
@@ -100,6 +116,30 @@ export default function ProblemClient({
     return false;
   };
 
+  const handleVote = async (isLike) => {
+    const newVote = currentVote === isLike ? null : isLike;
+
+    const result = await submitVoteAction(problem.problemId, newVote);
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    if (currentVote === null) {
+      if (newVote === true) setLikeCount((prev) => prev + 1);
+      if (newVote === false) setDislikeCount((prev) => prev + 1);
+    } else if (currentVote === true) {
+      setLikeCount((prev) => prev - 1);
+      if (newVote === false) setDislikeCount((prev) => prev + 1);
+    } else if (currentVote === false) {
+      setDislikeCount((prev) => prev - 1);
+      if (newVote === true) setLikeCount((prev) => prev + 1);
+    }
+
+    setCurrentVote(newVote);
+  };
+
   return (
     <div className="w-full h-full min-h-0 flex-1">
       <SplitPane
@@ -112,7 +152,10 @@ export default function ProblemClient({
                   <div className="flex items-center h-6 gap-3 rounded-lg bg-neutral-900 pr-3 text-xs text-neutral-300">
                     <div className="flex items-center h-[24px]">
                       <Tooltip content="Upvote">
-                        <button className="flex items-center justify-center h-full px-2 rounded-l-lg bg-monaco-mid hover:bg-monaco-light transition-colors font-semibold text-monaco-muted hover:text-white gap-2">
+                        <button
+                          className={`flex items-center justify-center h-full px-2 rounded-l-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === true ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"}`}
+                          onClick={() => handleVote(true)}
+                        >
                           <svg
                             viewBox="0 0 24 24"
                             className="w-4 h-4 fill-current scale-x-110"
@@ -120,11 +163,14 @@ export default function ProblemClient({
                           >
                             <path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z" />
                           </svg>
-                          0
+                          {likeCount - dislikeCount}
                         </button>
                       </Tooltip>
                       <Tooltip content="Downvote">
-                        <button className="flex items-center justify-center h-full ml-0.5 px-2 rounded-r-sm bg-monaco-mid hover:bg-monaco-light transition-colors text-monaco-muted hover:text-white">
+                        <button
+                          className={`flex items-center justify-center h-full px-2 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === false ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"}`}
+                          onClick={() => handleVote(false)}
+                        >
                           <svg
                             viewBox="0 0 24 24"
                             className="w-4 h-4 fill-current -scale-y-100 scale-x-110"
