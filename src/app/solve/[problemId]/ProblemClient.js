@@ -1,6 +1,12 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { saveCode, getResults, runCode, submitVote, recordSolve } from "./actions";
+import {
+  saveCode,
+  getResults,
+  runCode,
+  submitVote,
+  recordSolve,
+} from "./actions";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { useSession } from "next-auth/react";
 import { toClipboard } from "@/utils/toClipboard";
@@ -196,7 +202,9 @@ export default function ProblemClient({
                       </Tooltip>
                     </div>
                     <Tooltip content="Total accepted submissions">
-                      <div className={`flex font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}>
+                      <div
+                        className={`flex font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}
+                      >
                         {solveCount}
                         <svg
                           viewBox="0 0 42 42"

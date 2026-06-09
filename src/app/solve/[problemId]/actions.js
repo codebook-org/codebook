@@ -125,10 +125,17 @@ export async function submitVote(problemId, vote) {
 export async function recordSolve(problemId) {
   const session = await auth();
   if (!session?.user?.id) {
-    return { success: false, message: "You must be logged in to record your solution!" };
+    return {
+      success: false,
+      message: "You must be logged in to record your solution!",
+    };
   }
 
-  await CodebookDatabaseAPI.Problems.UserSolves.updateUserSolvedProblem(session.user.id, problemId, true);
+  await CodebookDatabaseAPI.Problems.UserSolves.updateUserSolvedProblem(
+    session.user.id,
+    problemId,
+    true,
+  );
 
   return { success: true };
 }
