@@ -107,24 +107,28 @@ export async function runCode(problemId, language, code) {
   };
 }
 
-export async function submitVoteAction(problemId, vote) {
+export async function submitVote(problemId, vote) {
   const session = await auth();
   if (!session?.user?.id) {
     return { success: false, message: "You must be logged in to vote!" };
   }
-
-  console.log("--- VOTE DEBUGGER ---");
-  console.log("Session exists?", !!session);
-  console.log("User object:", session?.user);
-  console.log("Problem ID received:", problemId);
-  console.log("Vote received:", vote);
-  console.log("---------------------");
 
   await CodebookDatabaseAPI.Problems.Votes.updateUserProblemVote(
     session.user.id,
     problemId,
     vote,
   );
+
+  return { success: true };
+}
+
+export async function recordSolve(problemId) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, message: "You must be logged in to record your solution!" };
+  }
+
+  await CodebookDatabaseAPI.Problems.UserSolves.updateUserSolvedProblem(session.user.id, problemId, true);
 
   return { success: true };
 }

@@ -23,14 +23,18 @@ export default async function SolvePage({ params }) {
   const problemCreator = await CodebookDatabaseAPI.Users.getUserById(
     problem.userId,
   );
+  const usersSolved = await CodebookDatabaseAPI.Problems.UserSolves.getUsersSolvedProblem(problem.problemId)
+  const solveCount = usersSolved.length;
   const session = await auth();
 
   let lastVote = null;
+  let userHasSolved = null;
   if (session?.user?.id) {
     lastVote = await CodebookDatabaseAPI.Problems.Votes.getUserProblemVote(
       session.user.id,
       problem.problemId,
     );
+    userHasSolved = await CodebookDatabaseAPI.Problems.UserSolves.getUserSolvedProblem(session.user.id, problem.problemId);
   }
 
   if (!problem) {
@@ -54,6 +58,8 @@ export default async function SolvePage({ params }) {
       problemCreator={problemCreator}
       description={renderedMarkdown}
       lastVote={lastVote}
+      initialSolveCount={solveCount}
+      userHasSolved={userHasSolved}
     />
   );
 }

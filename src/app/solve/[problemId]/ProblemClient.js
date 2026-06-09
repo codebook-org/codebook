@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { saveCode, getResults, runCode, submitVoteAction } from "./actions";
+import { saveCode, getResults, runCode, submitVote, recordSolve } from "./actions";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { useSession } from "next-auth/react";
 import { toClipboard } from "@/utils/toClipboard";
@@ -21,6 +21,8 @@ export default function ProblemClient({
   problemCreator,
   description,
   lastVote,
+  initialSolveCount,
+  userHasSolved,
 }) {
   console.log("Passed Prop LastVote:", lastVote);
   const editorRef = useRef(null);
@@ -38,6 +40,8 @@ export default function ProblemClient({
   const [likeCount, setLikeCount] = useState(problem.likeCount);
   const [dislikeCount, setDislikeCount] = useState(problem.dislikeCount);
   const [currentVote, setCurrentVote] = useState(lastVote);
+  const [solveCount, setSolveCount] = useState(initialSolveCount);
+  const [hasSolved, setHasSolved] = useState(userHasSolved);
 
   useEffect(() => {
     const handleKeybindSwap = async () => {
@@ -105,6 +109,15 @@ export default function ProblemClient({
 
     setResults(data);
     setStatus("done");
+
+    if (!hasSolved && data.verdict === "Accepted") {
+      const result = await recordSolve(problem.problemId);
+      if (!result.success) toast.error(result.message);
+      else {
+        setHasSolved(true);
+        setSolveCount((prev) => prev + 1);
+      }
+    }
   };
 
   const handleReset = async (value) => {
@@ -119,13 +132,14 @@ export default function ProblemClient({
   const handleVote = async (isLike) => {
     const newVote = currentVote === isLike ? null : isLike;
 
-    const result = await submitVoteAction(problem.problemId, newVote);
+    const result = await submitVote(problem.problemId, newVote);
 
     if (!result.success) {
       toast.error(result.message);
       return;
     }
 
+    // there may be a more elegent way to write this
     if (currentVote === null) {
       if (newVote === true) setLikeCount((prev) => prev + 1);
       if (newVote === false) setDislikeCount((prev) => prev + 1);
@@ -182,11 +196,11 @@ export default function ProblemClient({
                       </Tooltip>
                     </div>
                     <Tooltip content="Total accepted submissions">
-                      <div className="flex font-semibold text-monaco-muted select-none gap-2">
-                        1,234
+                      <div className={`flex font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}>
+                        {solveCount}
                         <svg
                           viewBox="0 0 42 42"
-                          className="w-3.5 h-3.5 fill-current"
+                          className={`w-3.5 h-3.5 ${hasSolved ? "fill-green-400" : "fill-monaco-muted"}`}
                           aria-hidden="true"
                         >
                           <path
