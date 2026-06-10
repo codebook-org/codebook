@@ -17,22 +17,49 @@ export default function CredRegister() {
     const displayName = e.target.displayName.value;
     const username = e.target.username.value;
 
-    // We'll handle the registering off this page.
-    const result = await registerAndLogin(
-      email,
-      password,
-      displayName,
-      username,
-    );
-
-    if (result?.error) {
+    if (!username) {
       setWarning({
-        // If we're getting an error in this case, it should be becuase the password matching an existing account isn't correct.
-        message: "This email is already in use!",
+        message: "You need a username!",
         type: "warning",
       });
+      return;
+    } else if (!email) {
+      setWarning({
+        message: "You need an email!",
+        type: "warning",
+      });
+      return;
+    } else if (!password) {
+      setWarning({
+        message: "You need a password!",
+        type: "warning",
+      });
+      return;
     } else {
-      window.location.href = "/problems-library";
+      // We'll handle the registering off this page.
+      const result = await registerAndLogin(
+        email,
+        password,
+        displayName || username,
+        username,
+      );
+
+      if (result?.error) {
+        if (result.error == "USERNAME_TAKEN") {
+          setWarning({
+            message: "That username is already taken. Try another one!",
+            type: "warning",
+          });
+        } else if (result.error == "EMAIL_TAKEN") {
+          setWarning({
+            // If we're getting an error in this case, it should be becuase the password matching an existing account isn't correct.
+            message: "This email has already been used.",
+            type: "warning",
+          });
+        }
+      } else {
+        window.location.href = "/problems-library";
+      }
     }
   };
 
