@@ -152,7 +152,7 @@ export namespace CodebookDatabaseAPI {
           WHERE user_id = ${userId} AND problem_id = ${problemId};
         `;
 
-        return result.length > 0 ? result[0].is_like : null;
+        return result.length > 0 ? result[0].isLike : null;
       }
 
       /**
