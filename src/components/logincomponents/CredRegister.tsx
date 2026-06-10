@@ -84,6 +84,11 @@ export default function CredRegister() {
             className="border mx-2 border-gray-500 rounded"
             name="username"
             id="username"
+            onKeyDown={(e) => {
+                if (e.key === " ") {
+                  e.preventDefault(); // Explicitly cancels the spacebar character entry
+                }
+            }}
           />
         </div>
 

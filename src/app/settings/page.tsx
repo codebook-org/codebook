@@ -106,7 +106,10 @@ export default function Settings() {
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
             value={username || ""}
             placeholder="Username.."
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+                const noSpaces = e.target.value.replace(/\s/g, "");
+                setUsername(noSpaces);
+              }}
           />
         </div>
 
