@@ -37,7 +37,7 @@ export default async function ProfilePage({ params }) {
   // We need to create an array based on what problemIDs are in the user's solvedlist and what problems exist.
   const solvedProblems = (allProblems ?? []).filter((problem) =>
     (rawSolved ?? []).some(
-      (solvedItem) => solvedItem.problemId == problem.problemId,
+      (solvedItem) => solvedItem.problemId === problem.problemId,
     ),
   );
 
