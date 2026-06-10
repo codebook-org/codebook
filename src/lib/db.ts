@@ -560,11 +560,13 @@ if (false) {
       title: "Test1",
       description: "TestDesc",
       starterCode: {
-        "cpp": "test1",
-        "python": "test2"
-      }
-    })
-    console.log(await CodebookDatabaseAPI.Problems.getProblemByProblemId(newId));
+        cpp: "test1",
+        python: "test2",
+      },
+    });
+    console.log(
+      await CodebookDatabaseAPI.Problems.getProblemByProblemId(newId),
+    );
   }
   // Problem Votes
   if (false) {
