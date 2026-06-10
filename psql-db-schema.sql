@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS problems (
     description           TEXT NOT NULL,
     user_id               INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE,
+    starter_code          JSONB NOT NULL,
     like_count            INT NOT NULL DEFAULT 0,
     dislike_count         INT NOT NULL DEFAULT 0
 );

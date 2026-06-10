@@ -47,6 +47,7 @@ export namespace CodebookDatabaseAPI {
     export type ProblemCreationData = {
       title: string;
       description: string;
+      starterCode: {};
       userId?: number;
     };
     export type Problem = ProblemCreationData & {
@@ -121,8 +122,8 @@ export namespace CodebookDatabaseAPI {
       problemCreationData: DataTypes.ProblemCreationData,
     ): Promise<number | null> {
       const result = await sql`
-        INSERT INTO problems (title, description, user_id)
-        VALUES(${problemCreationData.title}, ${problemCreationData.description}, ${problemCreationData.userId ?? null})
+        INSERT INTO problems (title, description, user_id, starter_code)
+        VALUES(${problemCreationData.title}, ${problemCreationData.description}, ${problemCreationData.userId ?? null}, ${sql.json(problemCreationData.starterCode)})
         RETURNING problem_id
       `;
 
@@ -551,6 +552,20 @@ if (false) {
   //     console.log(await CodebookDatabaseAPI.getUserByGoogleOauth("insertTest"))
   //   }
   // }
+  // Problems - JSON Column
+  if (false) {
+    console.log(await CodebookDatabaseAPI.Problems.getProblemByProblemId(1));
+    console.log(await CodebookDatabaseAPI.Problems.getProblemByProblemId(2));
+    const newId = await CodebookDatabaseAPI.Problems.createProblem({
+      title: "Test1",
+      description: "TestDesc",
+      starterCode: {
+        "cpp": "test1",
+        "python": "test2"
+      }
+    })
+    console.log(await CodebookDatabaseAPI.Problems.getProblemByProblemId(newId));
+  }
   // Problem Votes
   if (false) {
     const debugUpdate = async function (
