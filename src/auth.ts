@@ -73,11 +73,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // For now, let's tuck the
         (user as any).postgresId = userId;
 
-        (user as any).display_name = user.name;
+        (user as any).displayName = user.name;
 
-        (user as any).username = (user.name as string)
-          .toLowerCase()
-          .replace(/\s+/g, "");
+        (user as any).username = email.split("@")[0];
 
         return true; // Allow sign in
       }

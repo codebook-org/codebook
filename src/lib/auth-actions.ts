@@ -54,11 +54,13 @@ export async function oldUserByEmail(email: string) {
   return fakeUsers.find((user) => user.email == email);
 }
 
-export async function credentialLogIn(email: string, password: string) {
+export async function credentialLogIn(email: string, password: string, display_name: string, username: string) {
   try {
     await signIn("credentials", {
       email: email,
       password: password,
+      display_name: display_name,
+      username: username,
       redirect: false, // We handle the redirect on the client
     });
 
@@ -82,7 +84,7 @@ export async function registerAndLogin(email: string, password: string) {
     if (existingUser.passwordHash != password) {
       return { error: "Account exists!" };
     } else {
-      return await credentialLogIn(email, password);
+      return await credentialLogIn(email, password, existingUser.displayName, existingUser.username);
     }
   }
 
@@ -99,5 +101,5 @@ export async function registerAndLogin(email: string, password: string) {
   console.log("User registered on server");
 
   // NWe can log in the newly registered user.
-  return await credentialLogIn(email, password);
+  return await credentialLogIn(email, password, email.split("@")[0], email.split("@")[0]);
 }

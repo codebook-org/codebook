@@ -19,15 +19,11 @@ export default function Settings() {
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-      // I'm going to try to cheat here. This is no longer true sync.
-      if (!username) {
-        setUsername(session.user.name || "");
-      }
-      if (!displayName) {
-        setDisplayName(session.user.displayName || session.user.name || "");
-      }
       getBio(session.user.id).then((fetchedBio) => {
         setBio(fetchedBio || "");
+
+        setUsername(session.user.name || "");
+        setDisplayName(session.user.displayName || session.user.name || "");
       });
     }
   }, [session, status]);
@@ -68,7 +64,7 @@ export default function Settings() {
 
   return (
     <main
-      key={session.user.id} // Should refresh properly
+      key={status === "authenticated" ? session.user.id : "loading"} // Should refresh properly
       className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10"
     >
       {/* Change settings here */}
@@ -81,7 +77,7 @@ export default function Settings() {
           </label>
           <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
-            value={session.user.displayName}
+            value={displayName || ""}
             placeholder="Call me..."
             onChange={(e) => setDisplayName(e.target.value)}
           />
@@ -91,7 +87,7 @@ export default function Settings() {
           <label className="text-xs text-gray-400 font-medium">Username</label>
           <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
-            value={session.user.name}
+            value={username || ""}
             placeholder="Username.."
             onChange={(e) => setUsername(e.target.value)}
           />
