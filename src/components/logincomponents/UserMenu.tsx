@@ -87,9 +87,12 @@ export default function UserMenu() {
             <span className="text-xs text-zinc-400 truncate w-full text-center">
               {session.user.email}
             </span>
-            <span className="text-xs text-zinc-400 truncate w-full text-center">
+
+            {/* Uncomment the ID section if you want to debug with ID. */}
+
+            {/* <span className="text-xs text-zinc-400 truncate w-full text-center">
               {session.user.id}
-            </span>
+            </span> */}
           </div>
 
           <div className="p-1">

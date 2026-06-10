@@ -18,7 +18,12 @@ export default function CredRegister() {
     const username = e.target.username.value;
 
     // We'll handle the registering off this page.
-    const result = await registerAndLogin(email, password, displayName, username);
+    const result = await registerAndLogin(
+      email,
+      password,
+      displayName,
+      username,
+    );
 
     if (result?.error) {
       setWarning({
@@ -37,7 +42,6 @@ export default function CredRegister() {
         className="my-5 flex flex-col items-center border p-3 border-gray-200 rounded-md"
         onSubmit={handleRegister}
       >
-
         <div className="my-2">
           <label htmlFor="password">Display Name</label>
           <input
@@ -46,7 +50,7 @@ export default function CredRegister() {
             id="displayName"
           />
         </div>
-        
+
         <div className="my-2">
           <label htmlFor="password">Username</label>
           <input

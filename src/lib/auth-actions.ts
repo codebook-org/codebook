@@ -81,7 +81,12 @@ export async function credentialLogIn(
   }
 }
 
-export async function registerAndLogin(email: string, password: string, displayName: string, username: string) {
+export async function registerAndLogin(
+  email: string,
+  password: string,
+  displayName: string,
+  username: string,
+) {
   const existingUser = await CodebookDatabaseAPI.getUserByEmail(email);
 
   if (existingUser) {

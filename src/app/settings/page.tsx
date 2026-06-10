@@ -82,7 +82,8 @@ export default function Settings() {
       // I've verified this works, so once changeSettings is implemented, we should be good to go.
       await update({
         username: username,
-        displayName: displayName
+        displayName: displayName,
+        // We do not need to update bio since it's not attributed to the session :)
       });
     }
   };
