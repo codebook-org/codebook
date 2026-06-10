@@ -12,7 +12,9 @@ export default function Settings() {
   const { data: session, status } = useSession();
 
   // Variables
-  const [displayName, setDisplayName] = useState(session?.user?.displayName || session?.user?.name || "");
+  const [displayName, setDisplayName] = useState(
+    session?.user?.displayName || session?.user?.name || "",
+  );
   const [username, setUsername] = useState(session?.user?.name);
   // const [email, setEmail] = useState(""); <-- We can consider changing emails at a later date.
   const [bio, setBio] = useState("");

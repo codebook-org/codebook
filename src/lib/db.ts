@@ -487,13 +487,11 @@ export namespace CodebookDatabaseAPI {
 
   export async function getBio(userId) {
     return {
-        bio: "This is my totally Real bio that I totally really pulled"
+      bio: "This is my totally Real bio that I totally really pulled",
     };
   }
 
-  export async function changeInfo(userId, username, displayName, bio) {
-
-  }
+  export async function changeInfo(userId, username, displayName, bio) {}
 
   // Old Type Exports; Under a Soft Migration to DataTypes child namespace
 
