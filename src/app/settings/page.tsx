@@ -12,19 +12,21 @@ export default function Settings() {
   const { data: session, status } = useSession();
 
   // Variables
-  const [displayName, setDisplayName] = useState("");
-  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState(session?.user?.displayName || session?.user?.name || "");
+  const [username, setUsername] = useState(session?.user?.name);
   // const [email, setEmail] = useState(""); <-- We can consider changing emails at a later date.
   const [bio, setBio] = useState("");
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-      // Their displayname should be the unique displayname. If not, then fall back on the username.
-      setUsername(session.user.name);
-      setDisplayName(session.user.displayName || session.user.name);
-
-      // For some reason, I couldn't use await. Thanks Gemini.. Ehehe....
-      const fetchedBio = getBio(session.user.id).then((fetchedBio) => {
+      // I'm going to try to cheat here. This is no longer true sync.
+      if (!username) {
+        setUsername(session.user.name || "");
+      }
+      if (!displayName) {
+        setDisplayName(session.user.displayName || session.user.name || "");
+      }
+      getBio(session.user.id).then((fetchedBio) => {
         setBio(fetchedBio || "");
       });
     }
@@ -48,7 +50,7 @@ export default function Settings() {
   const previewUser = {
     userId: parseInt(session.user.id, 10), // Have to parse the int
     email: session.user.email,
-    username: session.user.username,
+    username: username,
     displayName: displayName,
     bio: bio,
     passwordHash: "", // This is ignored, not important information.
@@ -65,7 +67,10 @@ export default function Settings() {
   };
 
   return (
-    <main className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <main
+      key={session.user.id} // Should refresh properly
+      className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10"
+    >
       {/* Change settings here */}
       <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-xl border border-white/10">
         <h1 className="text-xl font-bold text-white mb-2">Account Settings</h1>
@@ -76,7 +81,7 @@ export default function Settings() {
           </label>
           <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
-            value={displayName}
+            value={session.user.displayName}
             placeholder="Call me..."
             onChange={(e) => setDisplayName(e.target.value)}
           />
@@ -86,7 +91,7 @@ export default function Settings() {
           <label className="text-xs text-gray-400 font-medium">Username</label>
           <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
-            value={username}
+            value={session.user.name}
             placeholder="Username.."
             onChange={(e) => setUsername(e.target.value)}
           />
