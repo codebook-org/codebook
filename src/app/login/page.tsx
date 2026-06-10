@@ -22,7 +22,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-black px-4 font-sans text-white">
       <h1 className="mb-8 text-2xl font-bold tracking-tight text-zinc-400">
-        welcome to <span className="text-orange-400">codebook.</span>
+        welcome to codebook.
       </h1>
 
       {/* The entire thing idotknow IMSLEEPY */}
@@ -43,7 +43,7 @@ export default function LoginPage() {
             : "Already have an account? "}
           <button
             onClick={() => setMode(mode == "login" ? "register" : "login")}
-            className="text-orange-400 font-medium hover:text-orange-300 underline underline-offset-4 transition-colors ml-1"
+            className="font-medium hover:text-orange-300 underline underline-offset-4 transition-colors ml-1"
           >
             {mode == "login" ? "Register" : "Login"}
           </button>
