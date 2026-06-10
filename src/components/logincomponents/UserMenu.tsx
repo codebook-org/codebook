@@ -41,19 +41,11 @@ export default function UserMenu() {
         className="flex focus:outline-none"
         style={{ background: "none", border: "none", padding: 0 }}
       >
-        {session.user.image ? (
-          <Image
-            className="h-14 w-14 rounded-full mb-2 border border-zinc-700 object-cover"
-            src={session.user.image}
-            alt="Profile"
-            width={56}
-            height={56}
-          />
-        ) : (
-          <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-            {session.user.name?.charAt(0).toUpperCase() || "U"}
-          </div>
-        )}
+        <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
+          {session.user.displayName?.charAt(0).toUpperCase() ||
+            session.user.username?.charAt(0).toUpperCase() ||
+            "?"}
+        </div>
       </button>
 
       {/* When our state is  "OPEN" (aka, we opened the dropdown,) */}
@@ -61,21 +53,12 @@ export default function UserMenu() {
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-64 z-[9999] bg-[#111] border border-zinc-800 shadow-2xl rounded-lg overflow-hidden">
           <div className="flex flex-col items-center p-4 border-b border-zinc-800">
-            {session.user.image ? (
-              <Image
-                className="h-14 w-14 rounded-full mb-2 border border-zinc-700 object-cover"
-                src={session.user.image}
-                alt="Profile"
-                width={56}
-                height={56}
-              />
-            ) : (
-              <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-                {session.user.displayName?.charAt(0).toUpperCase() ||
-                  session.user.username?.charAt(0).toUpperCase() ||
-                  "?"}
-              </div>
-            )}
+            <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
+              {session.user.displayName?.charAt(0).toUpperCase() ||
+                session.user.username?.charAt(0).toUpperCase() ||
+                "?"}
+            </div>
+
             {/* Grab all user information .. */}
             <span className="text-xs text-zinc-500">Signed in as</span>
             <span className="font-bold text-white text-sm">

@@ -52,12 +52,21 @@ export default function ProfileClient({
           <p className="text-white text-lg font-medium">
             {user.displayName ?? user.username ?? "User"}
           </p>
+          {!(user.displayName == user.username) && (
+            <p className="text-zinc-400 text-xs font-normal mt-0.5">
+              @{user.username || "User"}
+            </p>
+          )}
         </div>
       </div>
 
       {/* Temp Bio display, REALLY UGLY AHHHH*/}
-      <div>
-        <p>{user.bio ?? "Hello there!"}</p>
+      <div className="mt-4 max-w-prose">
+        <p
+          className={`text-sm leading-relaxed ${user.bio ? "text-zinc-300" : "text-zinc-500 italic"}`}
+        >
+          {user.bio || ""}
+        </p>
       </div>
 
       {/* ── TABS ── */}

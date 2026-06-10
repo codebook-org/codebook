@@ -280,8 +280,8 @@ export default function ProblemClient({
                 <h1 className="pr-1">By</h1>
                 <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
                   <h1 className="hover:underline hover:text-blue-500">
-                    {problemCreator?.username ??
-                      problemCreator?.displayName ??
+                    {problemCreator?.displayName ??
+                      problemCreator?.username ??
                       "Unknown Author"}
                   </h1>
                 </Link>
