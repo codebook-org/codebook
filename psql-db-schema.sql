@@ -159,6 +159,7 @@ CREATE TRIGGER problem_votes_count_trigger
 AFTER INSERT OR UPDATE OR DELETE ON problem_votes
 FOR EACH ROW EXECUTE FUNCTION update_problem_vote_counts();
 
+/*
 --------------------
 -- Default Values --
 --------------------
@@ -189,3 +190,4 @@ SELECT * FROM (
         (2, '333', '999', FALSE)
 ) AS new_rows(problem_id, input, expected_out)
 WHERE (SELECT COUNT(*) FROM testcases) < 4;
+*/
