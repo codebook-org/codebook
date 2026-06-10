@@ -71,13 +71,18 @@ export default function UserMenu() {
               />
             ) : (
               <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-                {session.user.name?.charAt(0).toUpperCase() || "U"}
+                {session.user.displayName?.charAt(0).toUpperCase() ||
+                  session.user.username?.charAt(0).toUpperCase() ||
+                  "?"}
               </div>
             )}
             {/* Grab all user information .. */}
             <span className="text-xs text-zinc-500">Signed in as</span>
             <span className="font-bold text-white text-sm">
-              {session.user.displayName}
+              {session.user.displayName ||
+                session.user.username ||
+                session.user.name ||
+                ""}
             </span>
             <span className="text-xs text-zinc-400 truncate w-full text-center">
               {session.user.email}

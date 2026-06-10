@@ -68,14 +68,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const oauthId = account.providerAccountId; // The unique OAuth ID
 
         // We got a user ID from our oAuth id
-        const userId = await syncOAuth(oauthId, email, user.name as string);
+        const pulledUser = await syncOAuth(oauthId, email, user.name as string);
 
-        // For now, let's tuck the
-        (user as any).postgresId = userId;
-
-        (user as any).displayName = user.name;
-
-        (user as any).username = email.split("@")[0];
+        // This is all the information we pull from the DB, and we'll be using it to push to the session.
+        (user as any).postgresId = pulledUser.userId;
+        (user as any).displayName = pulledUser.displayName;
+        (user as any).username = pulledUser.username;
 
         return true; // Allow sign in
       }
@@ -93,12 +91,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const rawId = (user as any).postgresId ?? user.id;
         token.id = parseInt(rawId, 10);
 
-        token.display_name =
-          (user as any).displayName ??
-          (user as any).display_name ??
-          (user as any).username;
+        token.displayName = user.displayName ?? user.username ?? ""; // Absolute fallback
 
-        token.username = (user as any).username || "";
+        token.username = (user as any).username;
 
         console.log("SUCCESS: Token sub assigned:", token.id);
       }
@@ -110,8 +105,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user && token.id) {
         session.user.id = `${token.id}`;
 
-        session.user.displayName = token.display_name as string;
-        session.user.name = token.username as string;
+        session.user.displayName = token.displayName as string;
+        session.user.username = token.username as string;
+
+        session.user.name = token.username as string; // ABSOLUTE FALLBACK!!!
       }
       return session;
     },

@@ -453,14 +453,14 @@ export namespace CodebookDatabaseAPI {
      */
     export async function registerUser(
       userCreationData: DataTypes.UserCreationInformation,
-    ): Promise<number | null> {
+    ): Promise<DataTypes.User | null> {
       const result = await sql`
         INSERT INTO users (username, email, password_hash, google_oauth_id, display_name, bio)
         VALUES(${userCreationData.username}, ${userCreationData.email ?? null}, ${userCreationData.passwordHash ?? null}, ${userCreationData.googleOauthId ?? null}, ${userCreationData.displayName ?? null}, ${"I'm new to codebook! Say hi!"})
-        RETURNING user_id
+        RETURNING *
       `;
 
-      return result[0]["userId"];
+      return result.length > 0 ? (result[0] as DataTypes.User) : null;
     }
   }
 

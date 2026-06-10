@@ -31,12 +31,12 @@ export async function syncOAuth(oauthId: string, email: string, name: string) {
 
   if (user) {
     // If they exist, return their actual integer userId
-    return user.userId;
+    return user;
   } else {
     // If they don't exist, register them and capture the new userId returned by Postgres
     const newUserId = await CodebookDatabaseAPI.registerUser({
       username: email.split("@")[0],
-      displayName: email.split("@")[0],
+      displayName: name,
       email: email, // Highly recommended to save their email here too!
       googleOauthId: oauthId,
     });
@@ -57,14 +57,14 @@ export async function oldUserByEmail(email: string) {
 export async function credentialLogIn(
   email: string,
   password: string,
-  display_name: string,
+  displayName: string,
   username: string,
 ) {
   try {
     await signIn("credentials", {
       email: email,
       password: password,
-      display_name: display_name,
+      displayName: displayName,
       username: username,
       redirect: false, // We handle the redirect on the client
     });
@@ -103,7 +103,7 @@ export async function registerAndLogin(email: string, password: string) {
   // Then we register them. The password is not yet hashed correctly.
   await CodebookDatabaseAPI.registerUser({
     username: email.split("@")[0],
-    displayName: email.split("@")[0],
+    // Removed automatic displayname fill
     email: email,
     passwordHash: password,
   });

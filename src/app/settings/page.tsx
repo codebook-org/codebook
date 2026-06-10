@@ -13,19 +13,35 @@ export default function Settings() {
 
   // Variables
   const [displayName, setDisplayName] = useState(
-    session?.user?.displayName || session?.user?.name || "",
+    session?.user?.displayName ||
+      session?.user?.username ||
+      session?.user?.name,
   );
-  const [username, setUsername] = useState(session?.user?.name);
+  const [username, setUsername] = useState(
+    session?.user?.username || session?.user?.name,
+  );
   // const [email, setEmail] = useState(""); <-- We can consider changing emails at a later date.
   const [bio, setBio] = useState("");
+
+  console.log("RENDER CYCLE LOG - Current State is:", {
+    displayName,
+    username,
+  });
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       getBio(session.user.id).then((fetchedBio) => {
         setBio(fetchedBio || "");
 
-        setUsername(session.user.name || "");
-        setDisplayName(session.user.displayName || session.user.name || "");
+        setDisplayName(session.user.displayName || session.user.username || "");
+        setUsername(session.user.username || "");
+
+        console.log(
+          "As of loading, the user's information is: \nDisplay Name: " +
+            displayName +
+            "\nUsername: " +
+            username,
+        );
       });
     }
   }, [session, status]);
