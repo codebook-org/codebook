@@ -2,9 +2,9 @@
 
 import { CodebookDatabaseAPI } from "@/lib/db";
 
-export async function getBio(userId) {
+export async function getUserProfile(userId) {
   let data = await CodebookDatabaseAPI.getUserById(userId);
-  return data.bio;
+  return data;
 }
 
 export async function changeSettings(userId, username, displayName, bio) {

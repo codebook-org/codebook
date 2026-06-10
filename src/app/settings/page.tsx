@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { getBio, changeSettings } from "./actions";
+import { getUserProfile, changeSettings } from "./actions";
 import { useEffect, useState } from "react";
 
 // We'll be using the Profile page as a preview.
@@ -13,9 +13,7 @@ export default function Settings() {
 
   // Variables
   const [displayName, setDisplayName] = useState(
-    session?.user?.displayName ||
-      session?.user?.username ||
-      session?.user?.name,
+    session?.user?.displayName || ""
   );
   const [username, setUsername] = useState(
     session?.user?.username || session?.user?.name,
@@ -30,19 +28,13 @@ export default function Settings() {
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-      getBio(session.user.id).then((fetchedBio) => {
-        setBio(fetchedBio || "");
-
-        setDisplayName(session.user.displayName || session.user.username || "");
-        setUsername(session.user.username || "");
-
-        console.log(
-          "As of loading, the user's information is: \nDisplay Name: " +
-            displayName +
-            "\nUsername: " +
-            username,
-        );
-      });
+        getUserProfile(session.user.id).then((dbUser) => {
+            if (dbUser) {
+              setBio(dbUser.bio || "");
+              setUsername(dbUser.username || "");
+              setDisplayName(dbUser.displayName || "");
+            }
+          });
     }
   }, [session, status]);
 
@@ -82,7 +74,7 @@ export default function Settings() {
       // I've verified this works, so once changeSettings is implemented, we should be good to go.
       await update({
         username: username,
-        displayName: displayName,
+        displayName: displayName ?? username,
         // We do not need to update bio since it's not attributed to the session :)
       });
     }
@@ -103,7 +95,7 @@ export default function Settings() {
           </label>
           <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"
-            value={displayName || ""}
+            value={displayName}
             placeholder="Call me..."
             onChange={(e) => setDisplayName(e.target.value)}
           />
