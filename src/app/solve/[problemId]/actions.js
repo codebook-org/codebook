@@ -1,5 +1,6 @@
 "use server";
 import { CodebookDatabaseAPI } from "@/lib/db";
+import { auth } from "@/auth";
 
 export async function saveCode(problemId, code) {
   const submission = await CodebookDatabaseAPI.createSubmission({
@@ -104,4 +105,37 @@ export async function runCode(problemId, language, code) {
     totalHiddenTests: totalHidden,
     results: results,
   };
+}
+
+export async function submitVote(problemId, vote) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, message: "You must be logged in to vote!" };
+  }
+
+  await CodebookDatabaseAPI.Problems.Votes.updateUserProblemVote(
+    session.user.id,
+    problemId,
+    vote,
+  );
+
+  return { success: true };
+}
+
+export async function recordSolve(problemId) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return {
+      success: false,
+      message: "You must be logged in to record your solution!",
+    };
+  }
+
+  await CodebookDatabaseAPI.Problems.UserSolves.updateUserSolvedProblem(
+    session.user.id,
+    problemId,
+    true,
+  );
+
+  return { success: true };
 }

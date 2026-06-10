@@ -1,5 +1,6 @@
 import React from "react";
 import { CodebookDatabaseAPI } from "@/lib/db";
+import { auth } from "@/auth";
 import ProblemClient from "./ProblemClient";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -17,8 +18,31 @@ const sanitizeSchema = {
 
 export default async function SolvePage({ params }) {
   const { problemId } = await params;
-  const problem = await CodebookDatabaseAPI.getProblemById(problemId);
-  const problemCreator = await CodebookDatabaseAPI.getUserById(problem.userId);
+  const problem =
+    await CodebookDatabaseAPI.Problems.getProblemByProblemId(problemId);
+  const problemCreator = await CodebookDatabaseAPI.Users.getUserById(
+    problem.userId,
+  );
+  const usersSolved =
+    await CodebookDatabaseAPI.Problems.UserSolves.getUsersSolvedProblem(
+      problem.problemId,
+    );
+  const solveCount = usersSolved.length;
+  const session = await auth();
+
+  let lastVote = null;
+  let userHasSolved = null;
+  if (session?.user?.id) {
+    lastVote = await CodebookDatabaseAPI.Problems.Votes.getUserProblemVote(
+      session.user.id,
+      problem.problemId,
+    );
+    userHasSolved =
+      await CodebookDatabaseAPI.Problems.UserSolves.getUserSolvedProblem(
+        session.user.id,
+        problem.problemId,
+      );
+  }
 
   if (!problem) {
     return <h1>Problem {problemId} not found</h1>;
@@ -40,6 +64,9 @@ export default async function SolvePage({ params }) {
       problem={problem}
       problemCreator={problemCreator}
       description={renderedMarkdown}
+      lastVote={lastVote}
+      initialSolveCount={solveCount}
+      userHasSolved={userHasSolved}
     />
   );
 }

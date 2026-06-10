@@ -3,16 +3,41 @@ import { render, screen } from "@testing-library/react";
 import SolvePage from "./page.js";
 import { CodebookDatabaseAPI } from "@/lib/db.ts";
 
-// intercepts any requests to db.ts
+jest.mock("../../../auth", () => ({
+  auth: jest.fn(() => Promise.resolve({ user: { id: "test-user-id" } })),
+}));
+
+jest.mock("next-auth/react", () => ({
+  useSession: jest.fn(() => ({
+    data: { user: { id: "test-user-id", name: "Test User" } },
+    status: "authenticated",
+  })),
+}));
+
 jest.mock("../../../lib/db.ts", () => ({
   CodebookDatabaseAPI: {
-    getProblemById: jest.fn().mockResolvedValue({
-      title: "Mock Title",
-      description: "This is a mock description.",
-    }),
-    getUserById: jest.fn().mockResolvedValue({
-      username: "bobjoe",
-    }),
+    Problems: {
+      getProblemByProblemId: jest.fn().mockResolvedValue({
+        problemId: "1",
+        userId: "42",
+        title: "Mock Title",
+        description: "This is a mock description.",
+        likeCount: 0,
+        dislikeCount: 0,
+      }),
+      UserSolves: {
+        getUsersSolvedProblem: jest.fn().mockResolvedValue([]),
+        getUserSolvedProblem: jest.fn().mockResolvedValue(true),
+      },
+      Votes: {
+        getUserProblemVote: jest.fn().mockResolvedValue(null),
+      },
+    },
+    Users: {
+      getUserById: jest.fn().mockResolvedValue({
+        username: "bobjoe",
+      }),
+    },
   },
 }));
 
@@ -57,28 +82,23 @@ jest.mock("react-resizable-panels", () => ({
   Separator: () => <div data-testid="mock-separator" />,
 }));
 
-// tests whether SolvePage component displays problem title and description correctly
 test("displays problem details", async () => {
   const mockParams = Promise.resolve({ problemId: "1" });
   const ResolvedPage = await SolvePage({ params: mockParams });
   render(ResolvedPage);
 
-  // is the title displaying correctly?
   const title = await screen.findByText("Mock Title");
   expect(title).toBeInTheDocument();
 
-  // is the description displaying correctly?
   const description = await screen.findByText("This is a mock description.");
   expect(description).toBeInTheDocument();
 });
 
-// tests whether SolvePage component displays test result card
 test("displays test results", async () => {
   const mockParams = Promise.resolve({ problemId: "1" });
   const ResolvedPage = await SolvePage({ params: mockParams });
   render(ResolvedPage);
 
-  // check if result card appears
   const resultsHeader = await screen.findByText(/test result/i);
   expect(resultsHeader).toBeInTheDocument();
 });
