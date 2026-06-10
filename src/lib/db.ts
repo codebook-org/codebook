@@ -24,7 +24,7 @@ export namespace CodebookDatabaseAPI {
       email?: string;
       passwordHash?: string;
       googleOauthId?: string;
-      displayName: string;
+      displayName?: string;
     };
 
     export type User = {
@@ -482,12 +482,6 @@ export namespace CodebookDatabaseAPI {
     return {
       id: submissionId,
       verdict: "Accepted",
-    };
-  }
-
-  export async function getBio(userId) {
-    return {
-      bio: "This is my totally Real bio that I totally really pulled",
     };
   }
 

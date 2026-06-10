@@ -3,7 +3,7 @@
 import { CodebookDatabaseAPI } from "@/lib/db";
 
 export async function getBio(userId) {
-  let data = await CodebookDatabaseAPI.getBio(userId);
+  let data = await CodebookDatabaseAPI.getUserById(userId);
   return data.bio;
 }
 
