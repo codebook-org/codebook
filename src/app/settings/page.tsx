@@ -21,18 +21,13 @@ export default function Settings() {
   // const [email, setEmail] = useState(""); <-- We can consider changing emails at a later date.
   const [bio, setBio] = useState("");
 
-  console.log("RENDER CYCLE LOG - Current State is:", {
-    displayName,
-    username,
-  });
-
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       getUserProfile(session.user.id).then((pulledUser) => {
         if (pulledUser) {
           setBio(pulledUser.bio || "");
           setUsername(pulledUser.username || "");
-          setDisplayName(pulledUser.displayName || "");
+          setDisplayName(displayName == username ? "" : displayName);
         }
       });
     }
@@ -57,7 +52,7 @@ export default function Settings() {
     userId: parseInt(session.user.id, 10), // Have to parse the int
     email: session.user.email,
     username: username,
-    displayName: displayName,
+    displayName: displayName.trim() == "" ? username : displayName,
     bio: bio,
     passwordHash: "", // This is ignored, not important information.
   };
@@ -67,16 +62,20 @@ export default function Settings() {
     if (username == "") {
       // Username cannot be empty. Uhh make a notif here
     } else {
+      const actDisplay = displayName.trim() === "" ? username : displayName;
+
       console.log("Submitting");
-      await changeSettings(session.user.id, username, displayName, bio);
+      await changeSettings(session.user.id, username, actDisplay, bio);
 
       // Tell the session to update itself, now that we have new data.
       // I've verified this works, so once changeSettings is implemented, we should be good to go.
       await update({
         username: username,
-        displayName: displayName ?? username,
+        displayName: actDisplay,
         // We do not need to update bio since it's not attributed to the session :)
       });
+
+      redirect("/profile/" + session.user.id);
     }
   };
 
