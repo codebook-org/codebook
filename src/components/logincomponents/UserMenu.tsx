@@ -41,19 +41,11 @@ export default function UserMenu() {
         className="flex focus:outline-none"
         style={{ background: "none", border: "none", padding: 0 }}
       >
-        {session.user.image ? (
-          <Image
-            className="h-14 w-14 rounded-full mb-2 border border-zinc-700 object-cover"
-            src={session.user.image}
-            alt="Profile"
-            width={56}
-            height={56}
-          />
-        ) : (
-          <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-            {session.user.name?.charAt(0).toUpperCase() || "U"}
-          </div>
-        )}
+        <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
+          {session.user.displayName?.charAt(0).toUpperCase() ||
+            session.user.username?.charAt(0).toUpperCase() ||
+            "?"}
+        </div>
       </button>
 
       {/* When our state is  "OPEN" (aka, we opened the dropdown,) */}
