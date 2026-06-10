@@ -463,6 +463,31 @@ export namespace CodebookDatabaseAPI {
 
       return result.length > 0 ? (result[0] as DataTypes.User) : null;
     }
+
+    /**
+     * Changes the given user information with the values provided.
+     *
+     * @param userId The id of the user to change the information of
+     * @param newValues A dictionary of different properties which can be changed
+     *
+     * @returns The new user values
+     */
+    export async function changeUserInformation(
+      userId: number,
+      newValues: { username?: string; displayName?: string; bio?: string },
+    ): Promise<DataTypes.User | null> {
+      const result = await sql`
+        UPDATE users
+        SET
+            username = COALESCE(${newValues.username ?? null}, username),
+            display_name = COALESCE(${newValues.displayName ?? null}, display_name),
+            bio = COALESCE(${newValues.bio ?? null}, bio)
+        WHERE user_id = ${userId}
+        RETURNING *;
+      `;
+
+      return result.length > 0 ? (result[0] as DataTypes.User) : null;
+    }
   }
 
   // TODO: Still Stubs
@@ -485,13 +510,6 @@ export namespace CodebookDatabaseAPI {
       verdict: "Accepted",
     };
   }
-
-  export async function changeInfo(
-    userId: string,
-    username: string,
-    displayName: string,
-    bio: string,
-  ) {}
 
   // Old Type Exports; Under a Soft Migration to DataTypes child namespace
 
@@ -536,6 +554,19 @@ export namespace CodebookDatabaseAPI {
   export const getUserById = Users.getUserById;
   /** @deprecated Use CodebookDatabaseAPI.Users.registerUser instead. */
   export const registerUser = Users.registerUser;
+  /** @deprecated Use CodebookDatabaseAPI.Users.changeUserInformation instead. */
+  export async function changeInfo(
+    userId: string,
+    username: string,
+    displayName: string,
+    bio: string,
+  ) {
+    Users.changeUserInformation(Number.parseInt(userId), {
+      username: username,
+      displayName: displayName,
+      bio: bio,
+    });
+  }
 }
 
 // if it isn't clear by now, these are DEBUG STUFF FOR THE DATABASE MAN
@@ -560,6 +591,16 @@ if (false) {
   //     console.log(await CodebookDatabaseAPI.getUserByGoogleOauth("insertTest"))
   //   }
   // }
+  // ChangeUserInformation
+  if (false) {
+    console.log(await CodebookDatabaseAPI.Users.getUserById(1));
+    console.log(
+      await CodebookDatabaseAPI.Users.changeUserInformation(1, {
+        bio: "This is a test bio!",
+      }),
+    );
+    console.log(await CodebookDatabaseAPI.Users.getUserById(1));
+  }
   // Problems - JSON Column
   if (false) {
     console.log(await CodebookDatabaseAPI.Problems.getProblemByProblemId(1));
