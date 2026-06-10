@@ -13,7 +13,7 @@ export default function Settings() {
 
   // Variables
   const [displayName, setDisplayName] = useState(
-    session?.user?.displayName || ""
+    session?.user?.displayName || "",
   );
   const [username, setUsername] = useState(
     session?.user?.username || session?.user?.name,
@@ -28,13 +28,13 @@ export default function Settings() {
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-        getUserProfile(session.user.id).then((dbUser) => {
-            if (dbUser) {
-              setBio(dbUser.bio || "");
-              setUsername(dbUser.username || "");
-              setDisplayName(dbUser.displayName || "");
-            }
-          });
+      getUserProfile(session.user.id).then((pulledUser) => {
+        if (pulledUser) {
+          setBio(pulledUser.bio || "");
+          setUsername(pulledUser.username || "");
+          setDisplayName(pulledUser.displayName || "");
+        }
+      });
     }
   }, [session, status]);
 

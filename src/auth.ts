@@ -101,7 +101,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // If an "update" is triggered, then we'll update.
       if (trigger === "update" && session) {
         if (session.username) token.username = session.username;
-        if (session.displayName) token.displayName = session.displayName ?? session.username;
+        if (session.displayName)
+          token.displayName = session.displayName ?? session.username;
       }
       return token;
     },
