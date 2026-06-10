@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import ProfileClient from "@/app/profile/[userId]/ProfileClient";
 
 export default function Settings() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
 
   // Variables
   const [displayName, setDisplayName] = useState(
@@ -77,6 +77,13 @@ export default function Settings() {
     } else {
       console.log("Submitting");
       await changeSettings(session.user.id, username, displayName, bio);
+
+      // Tell the session to update itself, now that we have new data.
+      // I've verified this works, so once changeSettings is implemented, we should be good to go.
+      await update({
+        username: username,
+        displayName: displayName
+      });
     }
   };
 

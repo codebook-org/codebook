@@ -485,7 +485,12 @@ export namespace CodebookDatabaseAPI {
     };
   }
 
-  export async function changeInfo(userId, username, displayName, bio) {}
+  export async function changeInfo(
+    userId: string, 
+    username: string, 
+    displayName: string,
+    bio: string
+  ) {}
 
   // Old Type Exports; Under a Soft Migration to DataTypes child namespace
 

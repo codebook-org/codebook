@@ -81,7 +81,7 @@ export async function credentialLogIn(
   }
 }
 
-export async function registerAndLogin(email: string, password: string) {
+export async function registerAndLogin(email: string, password: string, displayName: string, username: string) {
   const existingUser = await CodebookDatabaseAPI.getUserByEmail(email);
 
   if (existingUser) {
@@ -101,9 +101,9 @@ export async function registerAndLogin(email: string, password: string) {
   // Else, we...
 
   // Then we register them. The password is not yet hashed correctly.
-  await CodebookDatabaseAPI.registerUser({
-    username: email.split("@")[0],
-    // Removed automatic displayname fill
+  let newUser = await CodebookDatabaseAPI.registerUser({
+    username: username ?? email.split("@")[0],
+    displayName: displayName ?? "",
     email: email,
     passwordHash: password,
   });
@@ -114,7 +114,7 @@ export async function registerAndLogin(email: string, password: string) {
   return await credentialLogIn(
     email,
     password,
-    email.split("@")[0],
-    email.split("@")[0],
+    newUser.username,
+    newUser.displayName,
   );
 }

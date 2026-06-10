@@ -82,7 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     // When logging in, we'll first grab the profile id.
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
       // Initial sign-in for BOTH OAuth and Credentials
       if (account && user) {
         console.log("JWT Callback - User detected:", user.email);
@@ -96,6 +96,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.username = (user as any).username;
 
         console.log("SUCCESS: Token sub assigned:", token.id);
+      }
+
+      // If an "update" is triggered, then we'll update.
+      if (trigger === "update" && session) {
+        if (session.username) token.username = session.username;
+        if (session.displayName) token.displayName = session.displayName;
       }
       return token;
     },
