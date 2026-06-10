@@ -183,7 +183,7 @@ export function Carousel() {
             const Icon = step.icon;
             return (
               <div key={i} className="min-w-full px-4">
-                <div className="bg-[#111111] border-2 border-white rounded-lg p-12 min-h-125 flex flex-col items-center text-center">
+                <div className="bg-[#111111] border-2 border-white rounded-lg p-12 min-h-125 flex flex-col items-center text-center text-lg">
                   <div className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
                     <span className="text-2xl font-bold">{step.number}</span>
                   </div>

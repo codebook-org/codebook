@@ -173,7 +173,7 @@ export default function ProblemClient({
                     <div className="flex items-center h-[24px]">
                       <Tooltip content="Upvote">
                         <button
-                          className={`flex items-center justify-center h-full px-2 rounded-l-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === true ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"}`}
+                          className={`flex items-center justify-center h-full px-2 rounded-l-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === true ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(true)}
                         >
                           <svg
@@ -188,7 +188,7 @@ export default function ProblemClient({
                       </Tooltip>
                       <Tooltip content="Downvote">
                         <button
-                          className={`flex items-center justify-center h-full px-2 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === false ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"}`}
+                          className={`flex items-center justify-center h-full px-2 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === false ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
                           <svg
@@ -238,7 +238,7 @@ export default function ProblemClient({
                           setLinkCopied(false);
                         }, 2000);
                       }}
-                      className="mr-4 w-4 h-4 transition-all duration-150 text-monaco-muted hover:text-white"
+                      className="w-4 h-4 transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer"
                     >
                       <svg
                         viewBox="0 0 16 16"
@@ -251,6 +251,7 @@ export default function ProblemClient({
                       </svg>
                     </button>
                   </Tooltip>
+                  {/* Commenting out until save/favorite is implemented
                   <Tooltip content="Save">
                     <button
                       onClick={() => setFavorited(!favorited)}
@@ -267,6 +268,7 @@ export default function ProblemClient({
                       </svg>
                     </button>
                   </Tooltip>
+                  */}
                 </div>
               }
             >
@@ -294,7 +296,7 @@ export default function ProblemClient({
             className="flex flex-col h-full overflow-y-auto"
           >
             <Panel
-              defaultSize="80%"
+              defaultSize="70%"
               minSize="5.6%"
               maxSize="100%"
               className="pb-2"
@@ -311,7 +313,7 @@ export default function ProblemClient({
                               dropdownOpen === "language" ? null : "language",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
+                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {language}
                           <svg
@@ -333,7 +335,7 @@ export default function ProblemClient({
                                 setLanguage(lang);
                                 setDropdownOpen(null);
                               }}
-                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize ${
+                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize cursor-pointer ${
                                 language === lang
                                   ? "bg-monaco-mid text-white font-medium"
                                   : "text-monaco-muted hover:bg-monaco-light hover:text-white"
@@ -353,7 +355,7 @@ export default function ProblemClient({
                               dropdownOpen === "keybinds" ? null : "keybinds",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"}`}
+                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {keybind}
                           <svg
@@ -375,7 +377,7 @@ export default function ProblemClient({
                                 setKeybind(bind);
                                 setDropdownOpen(null);
                               }}
-                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize ${
+                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize cursor-pointer ${
                                 keybind === bind
                                   ? "bg-monaco-mid text-white font-medium"
                                   : "text-monaco-muted hover:bg-monaco-light hover:text-white"
@@ -404,7 +406,7 @@ export default function ProblemClient({
                           if (resetSuccessful) toast.success("Code reset!");
                         }}
                       >
-                        <button className="ml-4 w-4 h-4 transition-all duration-150 text-monaco-muted hover:text-white">
+                        <button className="ml-4 w-4 h-4 transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer">
                           <svg
                             viewBox="0 0 1920 1920"
                             className="w-4 h-4 fill-current text-monaco-muted hover:text-white transition-colors duration-150 shrink-0"
@@ -466,7 +468,7 @@ export default function ProblemClient({
                 type="submit"
                 onClick={handleSubmit}
                 disabled={status !== "" && status !== "done"}
-                className="px-16 py-1.5 w-full rounded text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
+                className="px-16 py-1.5 w-full rounded-lg text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
               >
                 {status !== "" && status !== "done" ? (
                   ""
@@ -497,7 +499,7 @@ export default function ProblemClient({
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
-            <Panel defaultSize="20%" minSize="4.5%" maxSize="100">
+            <Panel defaultSize="30%" minSize="4.5%" maxSize="100">
               <Card
                 id="test-results"
                 title="Test Result"

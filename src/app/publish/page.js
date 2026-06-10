@@ -91,7 +91,7 @@ export default function Publish() {
         );
         addAllTestCases(probData);
         toast.success("Problem published!");
-        router.push(`/solve/${probData}`);
+        router.replace(`/solve/${probData}`);
       } else {
         toast.error(result);
       }
@@ -264,7 +264,7 @@ export default function Publish() {
         >
           <button
             type="submit"
-            className="cursor-pointer flex items-center text-sm font-bold h-full px-32 ml-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors"
+            className="cursor-pointer flex items-center text-sm font-bold h-8 px-32 m-3 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors shadow-lg shadow-black/20"
           >
             <svg viewBox="0 0 500 420" className="w-5 h-5 fill-current">
               <g>
@@ -358,7 +358,7 @@ export default function Publish() {
             orientation="vertical"
             className="flex flex-col flex-1 min-h-0 overflow-y-auto"
           >
-            <Panel defaultSize="50%" minSize="4.65%" maxSize="95.35%">
+            <Panel defaultSize="70%" minSize="4.65%" maxSize="95.35%">
               <Card
                 title="Starter Code"
                 tabs={codeTabs}

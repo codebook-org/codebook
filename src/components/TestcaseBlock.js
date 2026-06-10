@@ -2,7 +2,7 @@
 
 export default function TestcaseBlock({ test, index }) {
   return (
-    <details className="group rounded-lg bg-monaco-mid overflow-hidden mb-2">
+    <details className="group rounded-lg bg-monaco-mid overflow-hidden mb-2 shadow-lg shadow-black/20">
       <summary className="flex items-center justify-between px-4 py-3 cursor-pointer list-none hover:bg-monaco-light transition-colors">
         <span className="font-bold text-monaco-txt group-hover:text-white">
           Testcase {index + 1}
