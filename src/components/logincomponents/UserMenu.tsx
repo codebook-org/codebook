@@ -62,11 +62,11 @@ export default function UserMenu() {
         <div className="absolute right-0 top-full mt-2 w-64 z-[9999] bg-[#111] border border-zinc-800 shadow-2xl rounded-lg overflow-hidden">
           <div className="flex flex-col items-center p-4 border-b border-zinc-800">
             <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-                {session.user.displayName?.charAt(0).toUpperCase() ||
-                  session.user.username?.charAt(0).toUpperCase() ||
-                  "?"}
-              </div>
-            
+              {session.user.displayName?.charAt(0).toUpperCase() ||
+                session.user.username?.charAt(0).toUpperCase() ||
+                "?"}
+            </div>
+
             {/* Grab all user information .. */}
             <span className="text-xs text-zinc-500">Signed in as</span>
             <span className="font-bold text-white text-sm">
