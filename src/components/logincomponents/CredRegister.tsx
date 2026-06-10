@@ -85,9 +85,9 @@ export default function CredRegister() {
             name="username"
             id="username"
             onKeyDown={(e) => {
-                if (e.key === " ") {
-                  e.preventDefault(); // Explicitly cancels the spacebar character entry
-                }
+              if (e.key === " ") {
+                e.preventDefault(); // Explicitly cancels the spacebar character entry
+              }
             }}
           />
         </div>

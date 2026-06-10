@@ -107,9 +107,9 @@ export default function Settings() {
             value={username || ""}
             placeholder="Username.."
             onChange={(e) => {
-                const noSpaces = e.target.value.replace(/\s/g, "");
-                setUsername(noSpaces);
-              }}
+              const noSpaces = e.target.value.replace(/\s/g, "");
+              setUsername(noSpaces);
+            }}
           />
         </div>
 
