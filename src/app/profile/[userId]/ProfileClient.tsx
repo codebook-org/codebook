@@ -52,7 +52,6 @@ export default function ProfileClient({
           <p className="text-white text-lg font-medium">
             {user.displayName ?? user.username ?? "User"}
           </p>
-          <p className="text-gray-400 text-sm">{user.email}</p>
         </div>
       </div>
 
