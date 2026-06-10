@@ -54,18 +54,20 @@ export async function oldUserByEmail(email: string) {
   return fakeUsers.find((user) => user.email == email);
 }
 
-export async function credentialLogIn(
-  email: string,
-  password: string,
-  displayName: string,
-  username: string,
-) {
+export async function credentialLogIn(email: string, password: string) {
+  // We should let the database tell us what we should push in. Not sure why I made the function do it.
   try {
+    const pulledUser = await CodebookDatabaseAPI.getUserByEmail(email);
+
+    if (!pulledUser) {
+      return { error: "Invalid credentials." };
+    }
+
     await signIn("credentials", {
       email: email,
       password: password,
-      displayName: displayName,
-      username: username,
+      displayName: pulledUser.displayName,
+      username: pulledUser.username,
       redirect: false, // We handle the redirect on the client
     });
 
@@ -92,34 +94,33 @@ export async function registerAndLogin(
   if (existingUser) {
     // Let's be safer here.
     if (existingUser.passwordHash != password) {
-      return { error: "Account exists!" };
+      return { error: "EMAIL_TAKEN" };
     } else {
-      return await credentialLogIn(
-        email,
-        password,
-        existingUser.displayName,
-        existingUser.username,
-      );
+      return await credentialLogIn(email, password);
     }
   }
 
   // Else, we...
+  try {
+    // Then we register them. The password is not yet hashed correctly.
+    let newUser = await CodebookDatabaseAPI.registerUser({
+      username: username ?? email.split("@")[0],
+      displayName: displayName ?? "",
+      email: email,
+      passwordHash: password,
+    });
 
-  // Then we register them. The password is not yet hashed correctly.
-  let newUser = await CodebookDatabaseAPI.registerUser({
-    username: username ?? email.split("@")[0],
-    displayName: displayName ?? "",
-    email: email,
-    passwordHash: password,
-  });
+    console.log("User registered on server");
 
-  console.log("User registered on server");
+    // NWe can log in the newly registered user.
+    return await credentialLogIn(email, password);
+  } catch (error: any) {
+    if (error.message?.includes("users_username_key")) {
+      // If a duped user is put in, it will catch and return an error for us.
+      return { error: "USERNAME_TAKEN" };
+    }
 
-  // NWe can log in the newly registered user.
-  return await credentialLogIn(
-    email,
-    password,
-    newUser.username,
-    newUser.displayName,
-  );
+    // Something else..? :Shy:
+    return { error: "Something fatal occured during registration." };
+  }
 }
