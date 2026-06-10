@@ -24,6 +24,23 @@ export default async function ProfilePage({ params }) {
   const publishedProblems =
     await CodebookDatabaseAPI.getProblemByUserId(userId);
 
+  // The problems we've solved, but it's done by ID.
+  const rawSolved =
+    await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(
+      userId,
+    );
+  // Thank you Lucas for boosting the API.. but Jenessa's architecture doesn't fit the date solved rn.
+
+  // All problems.
+  const allProblems = await CodebookDatabaseAPI.Problems.getProblems();
+
+  // We need to create an array based on what problemIDs are in the user's solvedlist and what problems exist.
+  const solvedProblems = (allProblems ?? []).filter((problem) =>
+    (rawSolved ?? []).some(
+      (solvedItem) => solvedItem.problemId == problem.problemId,
+    ),
+  );
+
   if (!userinfo) {
     return (
       <div className="p-6 text-zinc-400 max-w-2xl mx-auto text-center">
@@ -38,7 +55,7 @@ export default async function ProfilePage({ params }) {
   return (
     <ProfileClient
       user={userinfo}
-      solvedProblems={[]}
+      solvedProblems={solvedProblems ?? []}
       publishedProblems={publishedProblems ?? []}
     />
   );
