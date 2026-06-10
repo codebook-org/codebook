@@ -83,11 +83,11 @@ export default function Publish() {
       const result = verifyTestCases();
 
       if (result == "success") {
-        // TODO: pass starterCode in once new column is implemented
         let probData = await addProblem(
           trimmedTitle,
           trimmedDescription,
           session.user.id,
+          starterCode,
         );
         addAllTestCases(probData);
         toast.success("Problem published!");
