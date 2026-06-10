@@ -396,7 +396,11 @@ export default function ProblemClient({
                         title="Are you sure?"
                         description="This will revert your code to the default starter code."
                         onConfirm={async () => {
-                          const resetSuccessful = await handleReset(problem.starterCode[language === "c++" ? "cpp" : language]);
+                          const resetSuccessful = await handleReset(
+                            problem.starterCode[
+                              language === "c++" ? "cpp" : language
+                            ],
+                          );
                           if (resetSuccessful) toast.success("Code reset!");
                         }}
                       >
