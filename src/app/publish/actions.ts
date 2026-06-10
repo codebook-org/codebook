@@ -3,11 +3,12 @@ import { CodebookDatabaseAPI } from "@/lib/db";
 
 // Stealing Markos idea of having an actions js. but it doesn't really affect how this works, aha..
 
-export async function addProblem(title, description, userId) {
+export async function addProblem(title, description, userId, starterCode) {
   let data = await CodebookDatabaseAPI.createProblem({
     title: title,
     description: description,
     userId: userId,
+    starterCode: starterCode,
   });
   return data;
 }

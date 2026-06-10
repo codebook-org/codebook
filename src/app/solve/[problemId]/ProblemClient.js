@@ -30,6 +30,7 @@ export default function ProblemClient({
   initialSolveCount,
   userHasSolved,
 }) {
+  const { session } = useSession();
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const languageDropdownRef = useRef(null);
@@ -41,12 +42,12 @@ export default function ProblemClient({
   const [language, setLanguage] = useState("c++");
   const [keybind, setKeybind] = useState("standard");
   const [dropdownOpen, setDropdownOpen] = useState(null);
-  const { session } = useSession();
   const [likeCount, setLikeCount] = useState(problem.likeCount);
   const [dislikeCount, setDislikeCount] = useState(problem.dislikeCount);
   const [currentVote, setCurrentVote] = useState(lastVote);
   const [solveCount, setSolveCount] = useState(initialSolveCount);
   const [hasSolved, setHasSolved] = useState(userHasSolved);
+  const [code, setCode] = useState(problem.starterCode);
 
   useEffect(() => {
     const handleKeybindSwap = async () => {
@@ -395,7 +396,11 @@ export default function ProblemClient({
                         title="Are you sure?"
                         description="This will revert your code to the default starter code."
                         onConfirm={async () => {
-                          const resetSuccessful = await handleReset("");
+                          const resetSuccessful = await handleReset(
+                            problem.starterCode[
+                              language === "c++" ? "cpp" : language
+                            ],
+                          );
                           if (resetSuccessful) toast.success("Code reset!");
                         }}
                       >
@@ -430,7 +435,13 @@ export default function ProblemClient({
                   height="100%"
                   language={language === "c++" ? "cpp" : language}
                   theme="vs-dark"
-                  value=""
+                  value={code[language === "c++" ? "cpp" : language]}
+                  onChange={(newValue) => {
+                    setCode((prev) => ({
+                      ...prev,
+                      [language === "c++" ? "cpp" : language]: newValue ?? "",
+                    }));
+                  }}
                   options={{
                     minimap: { enabled: false },
                     stickyScroll: { enabled: false },
