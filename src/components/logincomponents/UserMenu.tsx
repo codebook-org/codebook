@@ -71,26 +71,38 @@ export default function UserMenu() {
               />
             ) : (
               <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-                {session.user.name?.charAt(0).toUpperCase() || "U"}
+                {session.user.displayName?.charAt(0).toUpperCase() ||
+                  session.user.username?.charAt(0).toUpperCase() ||
+                  "?"}
               </div>
             )}
             {/* Grab all user information .. */}
             <span className="text-xs text-zinc-500">Signed in as</span>
             <span className="font-bold text-white text-sm">
-              {session.user.name}
+              {session.user.displayName ||
+                session.user.username ||
+                session.user.name ||
+                ""}
             </span>
             <span className="text-xs text-zinc-400 truncate w-full text-center">
               {session.user.email}
             </span>
-            <span className="text-xs text-zinc-400 truncate w-full text-center">
+
+            {/* Uncomment the ID section if you want to debug with ID. */}
+
+            {/* <span className="text-xs text-zinc-400 truncate w-full text-center">
               {session.user.id}
-            </span>
+            </span> */}
           </div>
 
           <div className="p-1">
-            <button className="w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition">
-              Settings [TBA]
-            </button>
+            <Link
+              href={`/settings`}
+              onClick={() => setIsOpen(false)}
+              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
+            >
+              Settings
+            </Link>
 
             <Link
               href={`/profile/${session?.user?.id}`}

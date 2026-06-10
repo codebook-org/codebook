@@ -24,6 +24,7 @@ export namespace CodebookDatabaseAPI {
       email?: string;
       passwordHash?: string;
       googleOauthId?: string;
+      displayName?: string;
     };
 
     export type User = {
@@ -453,14 +454,14 @@ export namespace CodebookDatabaseAPI {
      */
     export async function registerUser(
       userCreationData: DataTypes.UserCreationInformation,
-    ): Promise<number | null> {
+    ): Promise<DataTypes.User | null> {
       const result = await sql`
-        INSERT INTO users (username, email, password_hash, google_oauth_id)
-        VALUES(${userCreationData.username}, ${userCreationData.email ?? null}, ${userCreationData.passwordHash ?? null}, ${userCreationData.googleOauthId ?? null})
-        RETURNING user_id
+        INSERT INTO users (username, email, password_hash, google_oauth_id, display_name, bio)
+        VALUES(${userCreationData.username}, ${userCreationData.email ?? null}, ${userCreationData.passwordHash ?? null}, ${userCreationData.googleOauthId ?? null}, ${userCreationData.displayName ?? null}, ${"I'm new to codebook! Say hi!"})
+        RETURNING *
       `;
 
-      return result[0]["userId"];
+      return result.length > 0 ? (result[0] as DataTypes.User) : null;
     }
   }
 
@@ -484,6 +485,13 @@ export namespace CodebookDatabaseAPI {
       verdict: "Accepted",
     };
   }
+
+  export async function changeInfo(
+    userId: string,
+    username: string,
+    displayName: string,
+    bio: string,
+  ) {}
 
   // Old Type Exports; Under a Soft Migration to DataTypes child namespace
 

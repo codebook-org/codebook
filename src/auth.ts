@@ -47,7 +47,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return {
               id: user.userId.toString(),
               email: user.email,
-              name: user.displayName || user.username, // Use the username (email splice) if we don't have a display at the moment.
+              username: user.username, // Use the username (email splice) if we don't have a display at the moment.
+              displayName: user.displayName,
               image: `https://api.dicebear.com/7.x/initials/svg?seed=${user.email}`,
             };
           }
@@ -67,10 +68,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const oauthId = account.providerAccountId; // The unique OAuth ID
 
         // We got a user ID from our oAuth id
-        const userId = await syncOAuth(oauthId, email, user.name as string);
+        const pulledUser = await syncOAuth(oauthId, email, user.name as string);
 
-        // For now, let's tuck the
-        (user as any).postgresId = userId;
+        // This is all the information we pull from the DB, and we'll be using it to push to the session.
+        (user as any).postgresId = pulledUser.userId;
+        (user as any).displayName = pulledUser.displayName;
+        (user as any).username = pulledUser.username;
 
         return true; // Allow sign in
       }
@@ -79,7 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     // When logging in, we'll first grab the profile id.
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
       // Initial sign-in for BOTH OAuth and Credentials
       if (account && user) {
         console.log("JWT Callback - User detected:", user.email);
@@ -88,7 +91,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const rawId = (user as any).postgresId ?? user.id;
         token.id = parseInt(rawId, 10);
 
-        console.log("SUCCESS: Token sub assigned:", token.sub);
+        token.displayName = user.displayName ?? user.username ?? ""; // Absolute fallback
+
+        token.username = (user as any).username;
+
+        console.log("SUCCESS: Token sub assigned:", token.id);
+      }
+
+      // If an "update" is triggered, then we'll update.
+      if (trigger === "update" && session) {
+        if (session.username) token.username = session.username;
+        if (session.displayName)
+          token.displayName = session.displayName ?? session.username;
       }
       return token;
     },
@@ -96,7 +110,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // Then, we make it available to read. We simply just use session.user.id to pull that information.
     async session({ session, token }) {
       if (session.user && token.id) {
-        session.user.id = token.id as string;
+        session.user.id = `${token.id}`;
+
+        session.user.displayName = token.displayName as string;
+        session.user.username = token.username as string;
+
+        session.user.name = token.username as string; // ABSOLUTE FALLBACK!!!
       }
       return session;
     },

@@ -31,11 +31,12 @@ export async function syncOAuth(oauthId: string, email: string, name: string) {
 
   if (user) {
     // If they exist, return their actual integer userId
-    return user.userId;
+    return user;
   } else {
     // If they don't exist, register them and capture the new userId returned by Postgres
     const newUserId = await CodebookDatabaseAPI.registerUser({
       username: email.split("@")[0],
+      displayName: name,
       email: email, // Highly recommended to save their email here too!
       googleOauthId: oauthId,
     });
@@ -53,11 +54,18 @@ export async function oldUserByEmail(email: string) {
   return fakeUsers.find((user) => user.email == email);
 }
 
-export async function credentialLogIn(email: string, password: string) {
+export async function credentialLogIn(
+  email: string,
+  password: string,
+  displayName: string,
+  username: string,
+) {
   try {
     await signIn("credentials", {
       email: email,
       password: password,
+      displayName: displayName,
+      username: username,
       redirect: false, // We handle the redirect on the client
     });
 
@@ -73,7 +81,12 @@ export async function credentialLogIn(email: string, password: string) {
   }
 }
 
-export async function registerAndLogin(email: string, password: string) {
+export async function registerAndLogin(
+  email: string,
+  password: string,
+  displayName: string,
+  username: string,
+) {
   const existingUser = await CodebookDatabaseAPI.getUserByEmail(email);
 
   if (existingUser) {
@@ -81,15 +94,21 @@ export async function registerAndLogin(email: string, password: string) {
     if (existingUser.passwordHash != password) {
       return { error: "Account exists!" };
     } else {
-      return await credentialLogIn(email, password);
+      return await credentialLogIn(
+        email,
+        password,
+        existingUser.displayName,
+        existingUser.username,
+      );
     }
   }
 
   // Else, we...
 
   // Then we register them. The password is not yet hashed correctly.
-  await CodebookDatabaseAPI.registerUser({
-    username: email.split("@")[0],
+  let newUser = await CodebookDatabaseAPI.registerUser({
+    username: username ?? email.split("@")[0],
+    displayName: displayName ?? "",
     email: email,
     passwordHash: password,
   });
@@ -97,5 +116,10 @@ export async function registerAndLogin(email: string, password: string) {
   console.log("User registered on server");
 
   // NWe can log in the newly registered user.
-  return await credentialLogIn(email, password);
+  return await credentialLogIn(
+    email,
+    password,
+    newUser.username,
+    newUser.displayName,
+  );
 }
