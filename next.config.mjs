@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // have Next.js transpile monaco-vim to fix Turbopack compilation errors
+  transpilePackages: ["monaco-vim"],
   output: "standalone",
   images: {
     remotePatterns: [
