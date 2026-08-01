@@ -2,7 +2,6 @@
 
 import { signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
-import { fakeUsers } from "@/lib/data";
 
 import { revalidatePath } from "next/cache";
 
@@ -48,10 +47,6 @@ export async function syncOAuth(oauthId: string, email: string, name: string) {
 
     return newUserId;
   }
-}
-
-export async function oldUserByEmail(email: string) {
-  return fakeUsers.find((user) => user.email == email);
 }
 
 export async function credentialLogIn(email: string, password: string) {
