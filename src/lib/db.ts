@@ -513,29 +513,15 @@ export namespace CodebookDatabaseAPI {
 
   // Old Type Exports; Under a Soft Migration to DataTypes child namespace
 
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.UserCreationInformation instead */
-  export type UserCreationInformation = DataTypes.UserCreationInformation;
   /** @deprecated Use CodebookDatabaseAPI.DataTypes.User instead */
   export type User = DataTypes.User;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.TestCaseCreationData instead */
-  export type TestCaseData = DataTypes.TestCaseCreationData;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.TestCase instead */
-  export type TestCase = DataTypes.TestCase;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.ProblemCreationData instead */
-  export type ProblemData = DataTypes.ProblemCreationData;
   /** @deprecated Use CodebookDatabaseAPI.DataTypes.Problem instead */
   export type Problem = DataTypes.Problem;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.SubmissionData instead */
-  export type SubmissionData = DataTypes.SubmissionData;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.SubmissionDataResponse instead */
-  export type SubmissionDataResponse = DataTypes.SubmissionDataResponse;
 
   // Old API Exports; Under a Soft Migration to their respective child namespaces
 
   /** @deprecated Use CodebookDatabaseAPI.Problems.getProblems instead. */
   export const getProblems = Problems.getProblems;
-  /** @deprecated Use CodebookDatabaseAPI.Problems.getProblemByProblemId instead. */
-  export const getProblemById = Problems.getProblemByProblemId;
   /** @deprecated Use CodebookDatabaseAPI.Problems.getProblemsByUserId instead. */
   export const getProblemByUserId = Problems.getProblemsByUserId;
   /** @deprecated Use CodebookDatabaseAPI.Problems.createProblem instead. */
