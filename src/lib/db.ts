@@ -400,6 +400,21 @@ export namespace CodebookDatabaseAPI {
    */
   export namespace Users {
     /**
+     * Gets the user data from a given username
+     *
+     * @param email - The case-insensitive username of the user to get the data of
+     *
+     * @returns The data of the user found, null if no user was found
+     */
+    export async function getUserByUsername(
+      username: string,
+    ): Promise<DataTypes.User | null> {
+      const result = await sql`SELECT * FROM users WHERE username = ${username}`;
+
+      return result.length > 0 ? (result[0] as DataTypes.User) : null;
+    }
+
+    /**
      * Gets the user data from a given email
      *
      * @param email - The case-insensitive email of the user to get the data of
