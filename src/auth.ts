@@ -6,7 +6,6 @@ import Credentials from "next-auth/providers/credentials";
 import { syncOAuth } from "@/lib/auth-actions";
 
 import { CodebookDatabaseAPI } from "@/lib/db";
-import { oldUserByEmail } from "@/lib/auth-actions";
 
 type OldUser = {
   userId: number;
