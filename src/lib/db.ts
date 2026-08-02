@@ -132,6 +132,37 @@ export namespace CodebookDatabaseAPI {
     }
 
     /**
+     * Deletes a given problem
+     *
+     * @param problemId - The ID of the problem to delete
+     *
+     * @returns A boolean representing if the problem was deleted or not
+     */
+    export async function deleteProblemByProblemId(
+      problemId: number,
+    ): Promise<boolean> {
+      const result = await sql`
+        DELETE FROM problems
+        WHERE problem_id = ${problemId}
+        RETURNING problem_id;
+      `;
+      if (result.length > 0) {
+        if (result.length > 1) {
+          // TODO: Figure out how to report invalid database return states without throwing errors
+        }
+
+        if (result[0].problemId == problemId) {
+          return true;
+        } else {
+          // TODO: Figure out how to report invalid database return states without throwing errors
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+
+    /**
      * All Problem Vote APIs
      */
     export namespace Votes {
@@ -400,6 +431,22 @@ export namespace CodebookDatabaseAPI {
    */
   export namespace Users {
     /**
+     * Gets the user data from a given username
+     *
+     * @param username - The case-insensitive username of the user to get the data of
+     *
+     * @returns The data of the user found, null if no user was found
+     */
+    export async function getUserByUsername(
+      username: string,
+    ): Promise<DataTypes.User | null> {
+      const result =
+        await sql`SELECT * FROM users WHERE username = ${username}`;
+
+      return result.length > 0 ? (result[0] as DataTypes.User) : null;
+    }
+
+    /**
      * Gets the user data from a given email
      *
      * @param email - The case-insensitive email of the user to get the data of
@@ -513,29 +560,15 @@ export namespace CodebookDatabaseAPI {
 
   // Old Type Exports; Under a Soft Migration to DataTypes child namespace
 
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.UserCreationInformation instead */
-  export type UserCreationInformation = DataTypes.UserCreationInformation;
   /** @deprecated Use CodebookDatabaseAPI.DataTypes.User instead */
   export type User = DataTypes.User;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.TestCaseCreationData instead */
-  export type TestCaseData = DataTypes.TestCaseCreationData;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.TestCase instead */
-  export type TestCase = DataTypes.TestCase;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.ProblemCreationData instead */
-  export type ProblemData = DataTypes.ProblemCreationData;
   /** @deprecated Use CodebookDatabaseAPI.DataTypes.Problem instead */
   export type Problem = DataTypes.Problem;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.SubmissionData instead */
-  export type SubmissionData = DataTypes.SubmissionData;
-  /** @deprecated Use CodebookDatabaseAPI.DataTypes.SubmissionDataResponse instead */
-  export type SubmissionDataResponse = DataTypes.SubmissionDataResponse;
 
   // Old API Exports; Under a Soft Migration to their respective child namespaces
 
   /** @deprecated Use CodebookDatabaseAPI.Problems.getProblems instead. */
   export const getProblems = Problems.getProblems;
-  /** @deprecated Use CodebookDatabaseAPI.Problems.getProblemByProblemId instead. */
-  export const getProblemById = Problems.getProblemByProblemId;
   /** @deprecated Use CodebookDatabaseAPI.Problems.getProblemsByUserId instead. */
   export const getProblemByUserId = Problems.getProblemsByUserId;
   /** @deprecated Use CodebookDatabaseAPI.Problems.createProblem instead. */
@@ -569,7 +602,9 @@ export namespace CodebookDatabaseAPI {
   }
 }
 
-// if it isn't clear by now, these are DEBUG STUFF FOR THE DATABASE MAN
+// if it isn't clear by now, these are DEBUG STUFF FOR THE DATABASE MAN.
+// These are being kept temporarily until we have a solution for a proper jest test file;
+// they will then be moved to that test file and run routinely.
 if (false) {
   // OLD TESTS
   // if (false) {
@@ -591,6 +626,7 @@ if (false) {
   //     console.log(await CodebookDatabaseAPI.getUserByGoogleOauth("insertTest"))
   //   }
   // }
+
   // ChangeUserInformation
   if (false) {
     console.log(await CodebookDatabaseAPI.Users.getUserById(1));
@@ -601,6 +637,7 @@ if (false) {
     );
     console.log(await CodebookDatabaseAPI.Users.getUserById(1));
   }
+
   // Problems - JSON Column
   if (false) {
     console.log(await CodebookDatabaseAPI.Problems.getProblemByProblemId(1));
@@ -617,6 +654,7 @@ if (false) {
       await CodebookDatabaseAPI.Problems.getProblemByProblemId(newId),
     );
   }
+
   // Problem Votes
   if (false) {
     const debugUpdate = async function (
@@ -669,6 +707,7 @@ if (false) {
 
     console.log("");
   }
+
   // Solved Problems
   if (false) {
     const debugUpdate = async function (
@@ -719,6 +758,197 @@ if (false) {
     await debugUpdate(2, 1, false);
 
     console.log("");
+  }
+
+  // Deleting Problems
+  if (false) {
+    let problem1Id = await CodebookDatabaseAPI.Problems.createProblem({
+      title: "Problem 1",
+      description: "Description 1",
+      starterCode: {},
+    });
+
+    let problem2Id = await CodebookDatabaseAPI.Problems.createProblem({
+      title: "Problem 2",
+      description: "Description 2",
+      starterCode: {},
+    });
+
+    console.log("Problem 1 Id: " + String(problem1Id));
+    console.log("Problem 2 Id: " + String(problem2Id));
+
+    console.log(
+      "Problem 1 Deleted: " +
+        String(
+          await CodebookDatabaseAPI.Problems.deleteProblemByProblemId(
+            problem1Id,
+          ),
+        ),
+    );
+
+    let problem3Id = await CodebookDatabaseAPI.Problems.createProblem({
+      title: "Problem 3",
+      description: "Description 3",
+      starterCode: {},
+    });
+
+    console.log("Problem 3 Id: " + String(problem3Id));
+
+    let user = await CodebookDatabaseAPI.Users.getUserByUsername(
+      "TestUserProblemDeletion",
+    );
+    if (user == null) {
+      user = await CodebookDatabaseAPI.Users.registerUser({
+        username: "TestUserProblemDeletion",
+      });
+    }
+
+    console.log("User: " + JSON.stringify(user));
+
+    console.log(
+      "Vote changed on problem 2: " +
+        String(
+          await CodebookDatabaseAPI.Problems.Votes.updateUserProblemVote(
+            user.userId,
+            problem2Id,
+            true,
+          ),
+        ),
+    );
+    console.log(
+      "Vote changed on problem 3: " +
+        String(
+          await CodebookDatabaseAPI.Problems.Votes.updateUserProblemVote(
+            user.userId,
+            problem3Id,
+            false,
+          ),
+        ),
+    );
+    console.log(
+      "Problem 2 solved by user updated: " +
+        (await CodebookDatabaseAPI.Problems.UserSolves.updateUserSolvedProblem(
+          user.userId,
+          problem2Id,
+          true,
+        )),
+    );
+    console.log(
+      "Problem 3 solved by user updated: " +
+        (await CodebookDatabaseAPI.Problems.UserSolves.updateUserSolvedProblem(
+          user.userId,
+          problem3Id,
+          true,
+        )),
+    );
+
+    console.log(
+      "Problem 2 votes: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.Votes.getUsersVotedOnProblem(
+            problem2Id,
+          ),
+        ),
+    );
+    console.log(
+      "Problem 2 solves: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.UserSolves.getUsersSolvedProblem(
+            problem2Id,
+          ),
+        ),
+    );
+    console.log(
+      "User votes: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.Votes.getProblemsVotedOnByUser(
+            user.userId,
+          ),
+        ),
+    );
+    console.log(
+      "User solves: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(
+            user.userId,
+          ),
+        ),
+    );
+
+    console.log("");
+
+    console.log(
+      "Problem 2 deleted: " +
+        (await CodebookDatabaseAPI.Problems.deleteProblemByProblemId(
+          problem2Id,
+        )),
+    );
+
+    console.log("");
+
+    console.log(
+      "Problem 2 votes: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.Votes.getUsersVotedOnProblem(
+            problem2Id,
+          ),
+        ),
+    );
+    console.log(
+      "Problem 2 solves: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.UserSolves.getUsersSolvedProblem(
+            problem2Id,
+          ),
+        ),
+    );
+    console.log(
+      "User votes: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.Votes.getProblemsVotedOnByUser(
+            user.userId,
+          ),
+        ),
+    );
+    console.log(
+      "User solves: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(
+            user.userId,
+          ),
+        ),
+    );
+
+    console.log(
+      "Problem 3 deleted: " +
+        (await CodebookDatabaseAPI.Problems.deleteProblemByProblemId(
+          problem3Id,
+        )),
+    );
+
+    console.log(
+      "User votes: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.Votes.getProblemsVotedOnByUser(
+            user.userId,
+          ),
+        ),
+    );
+    console.log(
+      "User solves: " +
+        JSON.stringify(
+          await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(
+            user.userId,
+          ),
+        ),
+    );
+
+    console.log(
+      "Problem 2 deleted (after already deleted): " +
+        (await CodebookDatabaseAPI.Problems.deleteProblemByProblemId(
+          problem2Id,
+        )),
+    );
   }
 }
 

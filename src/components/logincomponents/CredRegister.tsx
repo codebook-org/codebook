@@ -1,5 +1,3 @@
-import { fakeUsers } from "@/lib/data";
-
 import { credentialLogIn, registerAndLogin } from "@/lib/auth-actions";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
