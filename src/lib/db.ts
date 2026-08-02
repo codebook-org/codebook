@@ -433,7 +433,7 @@ export namespace CodebookDatabaseAPI {
     /**
      * Gets the user data from a given username
      *
-     * @param email - The case-insensitive username of the user to get the data of
+     * @param username - The case-insensitive username of the user to get the data of
      *
      * @returns The data of the user found, null if no user was found
      */
