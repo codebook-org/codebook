@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { problems } from "@/lib/data";
 import { addProblem, addTestCasedb } from "./actions";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
@@ -225,21 +224,6 @@ export default function Publish() {
         return [...prev, targetId];
       }
     });
-  };
-
-  // may remove this soon as it is no longer needed
-  const testExport = (e) => {
-    e.preventDefault();
-
-    for (let i = 0; i < problems.length; i++) {
-      console.log(
-        problems[i].id +
-          " : " +
-          problems[i].title +
-          "  |  " +
-          problems[i].description,
-      );
-    }
   };
 
   if (!session?.user) {
