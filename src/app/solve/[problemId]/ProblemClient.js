@@ -48,6 +48,7 @@ export default function ProblemClient({
   const [solveCount, setSolveCount] = useState(initialSolveCount);
   const [hasSolved, setHasSolved] = useState(userHasSolved);
   const [code, setCode] = useState(problem.starterCode);
+  const [minPanelHeight, setMinPanelHeight] = useState(10);
 
   useEffect(() => {
     const handleKeybindSwap = async () => {
@@ -297,12 +298,12 @@ export default function ProblemClient({
           >
             <Panel
               defaultSize="70%"
-              minSize="5.6%"
+              minSize={`${minPanelHeight}px`}
               maxSize="100%"
-              className="pb-2"
             >
               <Card
                 title="Code"
+                getMinHeight={setMinPanelHeight}
                 optionsLeft={
                   <div className="flex items-center gap-0.5">
                     <div className="relative" ref={languageDropdownRef}>
@@ -468,7 +469,7 @@ export default function ProblemClient({
                 type="submit"
                 onClick={handleSubmit}
                 disabled={status !== "" && status !== "done"}
-                className="px-16 py-1.5 w-full rounded-lg text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
+                className="px-16 py-1.5 mt-2 w-full rounded-lg text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
               >
                 {status !== "" && status !== "done" ? (
                   ""
@@ -499,10 +500,15 @@ export default function ProblemClient({
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
-            <Panel defaultSize="30%" minSize="4.5%" maxSize="100">
+            <Panel
+              defaultSize="30%"
+              minSize={`${minPanelHeight}px`}
+              maxSize="100%"
+            >
               <Card
                 id="test-results"
                 title="Test Result"
+                getMinHeight={setMinPanelHeight}
                 className={status === "done" ? "animate-flash-blue" : ""}
               >
                 {!results && !status && (

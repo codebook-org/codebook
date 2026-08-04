@@ -1,6 +1,9 @@
+import { useRef, useLayoutEffect } from "react";
+
 export default function Card({
   id,
   title,
+  getMinHeight,
   tabs,
   activeTab,
   onTabChange,
@@ -10,13 +13,28 @@ export default function Card({
   statusBar,
   className = "",
 }) {
+  const headerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (headerRef.current) {
+      const height = headerRef.current.offsetHeight;
+
+      if (getMinHeight) {
+        getMinHeight(height);
+      }
+    }
+  }, []);
+
   return (
     <div
       id={id}
       className={`bg-monaco-dark rounded-lg h-full overflow-hidden flex flex-col outline-1 outline-transparent focus-within:outline-monaco-light focus-within:outline-offset-[-1px] ${className}`}
       tabIndex="0"
     >
-      <div className="bg-monaco-mid text-sm font-semibold px-4 py-1.5 shrink-0">
+      <div
+        ref={headerRef}
+        className="bg-monaco-mid text-sm font-semibold px-4 py-1.5 shrink-0"
+      >
         <h1 className="text-monaco-txt">{title || "Card Header"}</h1>
       </div>
       {tabs && tabs.length > 0 && (
