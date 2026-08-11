@@ -13,12 +13,12 @@ import { toClipboard } from "@/utils/toClipboard";
 import { toast } from "sonner";
 import {
   ThumbsUp,
-  ThumbsDown, 
-  Check, 
+  ThumbsDown,
+  Check,
   SquareArrowOutUpRight,
   ChevronDown,
   RotateCcw,
-  Upload
+  Upload,
 } from "lucide-react";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
@@ -205,7 +205,11 @@ export default function ProblemClient({
                         className={`flex items-center font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}
                       >
                         {solveCount}
-                        <Check className={`size-5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`} strokeWidth={2.5} aria-hidden="true" />
+                        <Check
+                          className={`size-5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        />
                       </div>
                     </Tooltip>
                   </div>
@@ -297,7 +301,10 @@ export default function ProblemClient({
                           className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {language}
-                          <ChevronDown className="size-4 -mr-1" strokeWidth={3}/>
+                          <ChevronDown
+                            className="size-4 -mr-1"
+                            strokeWidth={3}
+                          />
                         </button>
                       </Tooltip>
                       {dropdownOpen === "language" && (
@@ -332,7 +339,10 @@ export default function ProblemClient({
                           className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {keybind}
-                          <ChevronDown className="size-4 -mr-1" strokeWidth={3}/>
+                          <ChevronDown
+                            className="size-4 -mr-1"
+                            strokeWidth={3}
+                          />
                         </button>
                       </Tooltip>
                       {dropdownOpen === "keybinds" && (
@@ -374,7 +384,7 @@ export default function ProblemClient({
                         }}
                       >
                         <button className="ml-4 flex items-center transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer">
-                          <RotateCcw className="size-4.5" strokeWidth={2.5}/>
+                          <RotateCcw className="size-4.5" strokeWidth={2.5} />
                         </button>
                       </Confirmation>
                     </Tooltip>
