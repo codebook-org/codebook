@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BookType } from "lucide-react";
+import Logo from "@/components/Logo";
 
 import UserMenu from "@/components/logincomponents/UserMenu";
 
@@ -19,9 +21,6 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const { data: session, status, update } = useSession();
-
-  // Uncomment this if you're having issues with seeing current status (unauth, auth, etc.)
-  // console.log("NAVBAR RENDER:", { status, hasUser: !!session?.user });
 
   const visibleLinks = NAV_LINKS.filter((link) => {
     // If the user is logged in, don't show the Login link
@@ -41,8 +40,9 @@ export default function Navbar() {
   });
 
   return (
-    <nav className="nav h-18">
-      <Link href="/" className="logo">
+    <nav className="flex items-center justify-between p-4 sticky top-0 bg-background z-[100] overflow-visible h-12">
+      <Link href="/" className="logo flex items-center">
+        <Logo className="mr-1" />
         codebook
       </Link>
       <div className="flex items-center gap-3">
@@ -55,7 +55,6 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-        {/* Moved Session Provider out to the Layout, so everything will obtain acces to SessionProvider. */}
         <UserMenu key={status} />
       </div>
     </nav>
