@@ -1,34 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { BookType } from "lucide-react";
 import Logo from "@/components/Logo";
-
+import Tooltip from "@/components/Tooltip";
 import UserMenu from "@/components/logincomponents/UserMenu";
-
+import { Home, Info, CircleQuestionMark, CodeXml, PencilLine } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/problems-library", label: "Browse Problems" },
-  { href: "/publish", label: "Publish" },
-  { href: "/login", label: "Login" }, // Likely temporary, I have to figure out a way to fix this.
+  { href: "/", label: "Home", icon: Home, isExternal: false },
+  { href: "/about", label: "About", icon: Info, isExternal: false },
+  { href: "/guide", label: "Guide", icon: CircleQuestionMark, isExternal: false },
+  { href: "https://github.com/codebook-org/codebook", label: "GitHub", icon: CodeXml, isExternal: true },
+  { href: "/publish", label: "Publish", icon: PencilLine, isExternal: false },
+  // { href: "/login", label: "Login" },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
-
   const { data: session, status, update } = useSession();
 
   const visibleLinks = NAV_LINKS.filter((link) => {
-    // If the user is logged in, don't show the Login link
     if (status == "authenticated" && link.href == "/login") {
       return false;
     }
 
-    // If the user isn't logged in, let's be safe and not let them see the publish page.
     if (
       status == "unauthenticated" &&
       (link.href == "/profile" || link.href == "/publish")
@@ -40,23 +35,33 @@ export default function Navbar() {
   });
 
   return (
-    <nav className="flex items-center justify-between p-4 sticky top-0 bg-background z-[100] overflow-visible h-12">
-      <Link href="/" className="logo flex items-center">
-        <Logo className="mr-1" />
-        codebook
-      </Link>
-      <div className="flex items-center gap-3">
-        <ul className="nav-links flex justify-end">
-          {visibleLinks.map(({ href, label }) => (
-            <li key={href}>
-              <Link href={href} className={pathname === href ? "active" : ""}>
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <UserMenu key={status} />
+    <nav className="flex items-center justify-between p-4 sticky top-0 bg-background z-[100] overflow-visible h-16">
+      <div className="flex items-center gap-6">
+        <Link href="/" className="logo flex items-center">
+          <Logo className="mr-1" />
+          codebook
+        </Link>
+        <div className="flex items-center gap-3">
+          <ul className="flex items-center gap-3">
+            {visibleLinks.map(({ href, label, icon: Icon, isExternal }) => (
+              <li key={href}>
+                <Tooltip content={label}>
+                  <Link
+                    href={href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                  >
+                    <div className=" border-1 border-monaco-muted p-2 rounded-lg">
+                      <Icon className="size-4 text-monaco-muted" />
+                    </div>
+                  </Link>
+                </Tooltip>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+      <UserMenu key={status} />
     </nav>
   );
 }
