@@ -88,7 +88,10 @@ export async function registerAndLogin(
   const existingUser = await CodebookDatabaseAPI.getUserByEmail(email);
 
   if (existingUser) {
-    const isPasswordCorrect = await verifyPassword(password, existingUser.passwordHash);
+    const isPasswordCorrect = await verifyPassword(
+      password,
+      existingUser.passwordHash,
+    );
 
     // Let's be safer here.
     if (!isPasswordCorrect) {

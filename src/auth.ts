@@ -21,7 +21,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
   },
 
-  logger: { // This is used to suppress the really large, [auth][error] that would appear when invalid credentials were in play.
+  logger: {
+    // This is used to suppress the really large, [auth][error] that would appear when invalid credentials were in play.
     error(error: any) {
       if (
         error.name === "CredentialsSignin" ||
@@ -59,7 +60,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             credentials.email as string, // Grab email
           );
 
-          if (user && user.passwordHash && verifyPassword(credentials.password as string, user.passwordHash)) {
+          if (
+            user &&
+            user.passwordHash &&
+            verifyPassword(credentials.password as string, user.passwordHash)
+          ) {
             return {
               id: user.userId.toString(),
               email: user.email,
