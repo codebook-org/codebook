@@ -1,4 +1,4 @@
-"use client";
+import { Check, X } from "lucide-react";
 
 export default function TestcaseBlock({ test, index }) {
   return (
@@ -9,19 +9,9 @@ export default function TestcaseBlock({ test, index }) {
         </span>
         <span>
           {test.passed ? (
-            <svg
-              viewBox="0 0 512 512"
-              className="w-5 h-5 fill-current text-green-500"
-            >
-              <path d="M96 448Q82 448 73 439 64 430 64 416L64 96Q64 82 73 73 82 64 96 64L416 64Q430 64 439 73 448 82 448 96L448 416Q448 430 439 439 430 448 416 448L96 448ZM367 192L331 160 230 282 177 229 145 261 234 350 367 192Z" />
-            </svg>
+            <Check className="size-5 text-green-500" strokeWidth={3} />
           ) : (
-            <svg
-              viewBox="0 0 512 512"
-              className="w-5 h-5 fill-current text-red-500"
-            >
-              <path d="M96 448Q82 448 73 439 64 430 64 416L64 96Q64 82 73 73 82 64 96 64L416 64Q430 64 439 73 448 82 448 96L448 416Q448 430 439 439 430 448 416 448L96 448ZM256 288L320 352 352 320 288 256 352 192 320 160 256 224 192 160 160 192 224 256 160 320 192 352 256 288Z" />
-            </svg>
+            <X className="size-5 text-red-500" strokeWidth={3} />
           )}
         </span>
       </summary>

@@ -11,6 +11,15 @@ import { Group, Panel, Separator } from "react-resizable-panels";
 import { useSession } from "next-auth/react";
 import { toClipboard } from "@/utils/toClipboard";
 import { toast } from "sonner";
+import {
+  ThumbsUp,
+  ThumbsDown,
+  Check,
+  SquareArrowOutUpRight,
+  ChevronDown,
+  RotateCcw,
+  Upload,
+} from "lucide-react";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
@@ -18,6 +27,7 @@ import TestcaseBlock from "../../../components/TestcaseBlock";
 import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
 import Confirmation from "@/components/Confirmation";
+import Loader from "@/components/Loader";
 
 const LANGUAGES = ["c++", "python", "java"];
 const KEYBINDS = ["standard", "vim"];
@@ -177,13 +187,7 @@ export default function ProblemClient({
                           className={`flex items-center justify-center h-full px-2 rounded-l-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === true ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(true)}
                         >
-                          <svg
-                            viewBox="0 0 24 24"
-                            className="w-4 h-4 fill-current scale-x-110"
-                            aria-hidden="true"
-                          >
-                            <path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z" />
-                          </svg>
+                          <ThumbsUp className="size-4" aria-hidden="true" />
                           {likeCount - dislikeCount}
                         </button>
                       </Tooltip>
@@ -192,32 +196,20 @@ export default function ProblemClient({
                           className={`flex items-center justify-center h-full px-2 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === false ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
-                          <svg
-                            viewBox="0 0 24 24"
-                            className="w-4 h-4 fill-current -scale-y-100 scale-x-110"
-                            aria-hidden="true"
-                          >
-                            <path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z" />
-                          </svg>
+                          <ThumbsDown className="size-4" aria-hidden="true" />
                         </button>
                       </Tooltip>
                     </div>
                     <Tooltip content="Total accepted submissions">
                       <div
-                        className={`flex font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}
+                        className={`flex items-center font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}
                       >
                         {solveCount}
-                        <svg
-                          viewBox="0 0 42 42"
-                          className={`w-3.5 h-3.5 ${hasSolved ? "fill-green-400" : "fill-monaco-muted"}`}
+                        <Check
+                          className={`size-5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
+                          strokeWidth={2.5}
                           aria-hidden="true"
-                        >
-                          <path
-                            d="M39.04,7.604l-2.398-1.93c-1.182-0.95-1.869-0.939-2.881,0.311L16.332,27.494l-8.111-6.739
-	c-1.119-0.94-1.819-0.89-2.739,0.26l-1.851,2.41c-0.939,1.182-0.819,1.853,0.291,2.78l11.56,9.562c1.19,1,1.86,0.897,2.78-0.222
-	l21.079-25.061C40.331,9.294,40.271,8.583,39.04,7.604z"
-                          />
-                        </svg>
+                        />
                       </div>
                     </Tooltip>
                   </div>
@@ -239,17 +231,9 @@ export default function ProblemClient({
                           setLinkCopied(false);
                         }, 2000);
                       }}
-                      className="w-4 h-4 transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer"
+                      className="transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer"
                     >
-                      <svg
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        className="w-full h-full"
-                      >
-                        <path d="M7.05025 1.53553C8.03344 0.552348 9.36692 0 10.7574 0C13.6528 0 16 2.34721 16 5.24264C16 6.63308 15.4477 7.96656 14.4645 8.94975L12.4142 11L11 9.58579L13.0503 7.53553C13.6584 6.92742 14 6.10264 14 5.24264C14 3.45178 12.5482 2 10.7574 2C9.89736 2 9.07258 2.34163 8.46447 2.94975L6.41421 5L5 3.58579L7.05025 1.53553Z" />
-                        <path d="M7.53553 13.0503L9.58579 11L11 12.4142L8.94975 14.4645C7.96656 15.4477 6.63308 16 5.24264 16C2.34721 16 0 13.6528 0 10.7574C0 9.36693 0.552347 8.03344 1.53553 7.05025L3.58579 5L5 6.41421L2.94975 8.46447C2.34163 9.07258 2 9.89736 2 10.7574C2 12.5482 3.45178 14 5.24264 14C6.10264 14 6.92742 13.6584 7.53553 13.0503Z" />
-                        <path d="M5.70711 11.7071L11.7071 5.70711L10.2929 4.29289L4.29289 10.2929L5.70711 11.7071Z" />
-                      </svg>
+                      <SquareArrowOutUpRight className="size-4.5" />
                     </button>
                   </Tooltip>
                   {/* Commenting out until save/favorite is implemented
@@ -317,14 +301,10 @@ export default function ProblemClient({
                           className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {language}
-                          <svg
-                            viewBox="0 0 512 298.04"
-                            className="w-2.5 h-2.5 fill-current shrink-0 duration-150"
-                          >
-                            <g>
-                              <path d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z" />
-                            </g>
-                          </svg>
+                          <ChevronDown
+                            className="size-4 -mr-1"
+                            strokeWidth={3}
+                          />
                         </button>
                       </Tooltip>
                       {dropdownOpen === "language" && (
@@ -359,14 +339,10 @@ export default function ProblemClient({
                           className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {keybind}
-                          <svg
-                            viewBox="0 0 512 298.04"
-                            className="w-2.5 h-2.5 fill-current shrink-0 duration-150"
-                          >
-                            <g>
-                              <path d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z" />
-                            </g>
-                          </svg>
+                          <ChevronDown
+                            className="size-4 -mr-1"
+                            strokeWidth={3}
+                          />
                         </button>
                       </Tooltip>
                       {dropdownOpen === "keybinds" && (
@@ -407,16 +383,8 @@ export default function ProblemClient({
                           if (resetSuccessful) toast.success("Code reset!");
                         }}
                       >
-                        <button className="ml-4 w-4 h-4 transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer">
-                          <svg
-                            viewBox="0 0 1920 1920"
-                            className="w-4 h-4 fill-current text-monaco-muted hover:text-white transition-colors duration-150 shrink-0"
-                          >
-                            <path
-                              d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0"
-                              fillRule="evenodd"
-                            />
-                          </svg>
+                        <button className="ml-4 flex items-center transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer">
+                          <RotateCcw className="size-4.5" strokeWidth={2.5} />
                         </button>
                       </Confirmation>
                     </Tooltip>
@@ -474,23 +442,9 @@ export default function ProblemClient({
                 {status !== "" && status !== "done" ? (
                   ""
                 ) : (
-                  <svg viewBox="0 0 500 420" className="w-5 h-5 fill-current">
-                    <g>
-                      <path
-                        d="M344.058,207.506c-16.568,0-30,13.432-30,30v76.609h-254v-76.609c0-16.568-13.432-30-30-30c-16.568,0-30,13.432-30,30
-		v106.609c0,16.568,13.432,30,30,30h314c16.568,0,30-13.432,30-30V237.506C374.058,220.938,360.626,207.506,344.058,207.506z"
-                      />
-                      <path
-                        d="M123.57,135.915l33.488-33.488v111.775c0,16.568,13.432,30,30,30c16.568,0,30-13.432,30-30V102.426l33.488,33.488
-		c5.857,5.858,13.535,8.787,21.213,8.787c7.678,0,15.355-2.929,21.213-8.787c11.716-11.716,11.716-30.71,0-42.426L208.271,8.788
-		c-11.715-11.717-30.711-11.717-42.426,0L81.144,93.489c-11.716,11.716-11.716,30.71,0,42.426
-		C92.859,147.631,111.855,147.631,123.57,135.915z"
-                      />
-                    </g>
-                  </svg>
+                  <Upload className="size-4" strokeWidth={2.5} />
                 )}
-
-                <span>
+                <span className="ml-1">
                   {status !== "" && status !== "done"
                     ? "Running code..."
                     : "Submit"}
@@ -520,199 +474,7 @@ export default function ProblemClient({
                 )}
                 {!results && status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="w-12 h-12 fill-monaco-muted flex-shrink-0"
-                    >
-                      <circle cx="4" cy="12" r="0">
-                        <animate
-                          begin="0;spinner_z0Or.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="0;3"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_OLMs.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="4;12"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_UHR2.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="12;20"
-                          fill="freeze"
-                        />
-                        <animate
-                          id="spinner_lo66"
-                          begin="spinner_Aguh.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="3;0"
-                          fill="freeze"
-                        />
-                        <animate
-                          id="spinner_z0Or"
-                          begin="spinner_lo66.end"
-                          attributeName="cx"
-                          dur="0.001s"
-                          values="20;4"
-                          fill="freeze"
-                        />
-                      </circle>
-                      <circle cx="4" cy="12" r="3">
-                        <animate
-                          begin="0;spinner_z0Or.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="4;12"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_OLMs.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="12;20"
-                          fill="freeze"
-                        />
-                        <animate
-                          id="spinner_JsnR"
-                          begin="spinner_UHR2.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="3;0"
-                          fill="freeze"
-                        />
-                        <animate
-                          id="spinner_Aguh"
-                          begin="spinner_JsnR.end"
-                          attributeName="cx"
-                          dur="0.001s"
-                          values="20;4"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_Aguh.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="0;3"
-                          fill="freeze"
-                        />
-                      </circle>
-                      <circle cx="12" cy="12" r="3">
-                        <animate
-                          begin="0;spinner_z0Or.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="12;20"
-                          fill="freeze"
-                        />
-                        <animate
-                          id="spinner_hSjk"
-                          begin="spinner_OLMs.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="3;0"
-                          fill="freeze"
-                        />
-                        <animate
-                          id="spinner_UHR2"
-                          begin="spinner_hSjk.end"
-                          attributeName="cx"
-                          dur="0.001s"
-                          values="20;4"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_UHR2.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="0;3"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_Aguh.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="4;12"
-                          fill="freeze"
-                        />
-                      </circle>
-                      <circle cx="20" cy="12" r="3">
-                        <animate
-                          id="spinner_4v5M"
-                          begin="0;spinner_z0Or.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="3;0"
-                          fill="freeze"
-                        />
-                        <animate
-                          id="spinner_OLMs"
-                          begin="spinner_4v5M.end"
-                          attributeName="cx"
-                          dur="0.001s"
-                          values="20;4"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_OLMs.end"
-                          attributeName="r"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="0;3"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_UHR2.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="4;12"
-                          fill="freeze"
-                        />
-                        <animate
-                          begin="spinner_Aguh.end"
-                          attributeName="cx"
-                          calcMode="spline"
-                          dur="0.5s"
-                          keySplines=".36,.6,.31,1"
-                          values="12;20"
-                          fill="freeze"
-                        />
-                      </circle>
-                    </svg>
+                    <Loader />
                   </div>
                 )}
                 {results && results.code === 0 && (
