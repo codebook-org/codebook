@@ -38,9 +38,10 @@ export default function Navbar() {
     <nav className="flex items-center justify-between p-4 sticky top-0 bg-background z-[100] overflow-visible h-16">
       <div className="flex items-center gap-6">
         <Link href="/" className="logo flex items-center">
-          <Logo className="mr-1" />
+          <Logo className="mx-2" />
           codebook
         </Link>
+        <div className="w-[1px] h-4 bg-monaco-muted mx-2" />
         <div className="flex items-center gap-3">
           <ul className="flex items-center gap-3">
             {visibleLinks.map(({ href, label, icon: Icon, isExternal }) => (
@@ -51,8 +52,8 @@ export default function Navbar() {
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
                   >
-                    <div className=" border-1 border-monaco-muted p-2 rounded-lg">
-                      <Icon className="size-4 text-monaco-muted" />
+                    <div className="group border-1 border-monaco-muted p-2 rounded-lg hover:bg-monaco-mid hover:border-monaco-txt">
+                      <Icon className="size-4 text-monaco-muted group-hover:text-white transition-colors" />
                     </div>
                   </Link>
                 </Tooltip>
