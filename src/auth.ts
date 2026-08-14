@@ -6,6 +6,7 @@ import Credentials from "next-auth/providers/credentials";
 import { syncOAuth } from "@/lib/auth-actions";
 
 import { CodebookDatabaseAPI } from "@/lib/db";
+import { verifyPassword } from "@/lib/auth-crypt";
 
 type OldUser = {
   userId: number;
@@ -42,7 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             credentials.email as string, // Grab email
           );
 
-          if (user && user.passwordHash == credentials.password) {
+          if (user && user.passwordHash && verifyPassword(credentials.password as string, user.passwordHash)) {
             return {
               id: user.userId.toString(),
               email: user.email,
