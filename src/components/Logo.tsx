@@ -2,13 +2,14 @@ import { Book, Terminal } from 'lucide-react';
 
 export default function Logo({
   className = "",
+  color = ""
 }) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <div className="relative flex items-center justify-center w-6 h-6">
-        <Book className="w-6 h-6 text-white stroke-[2]" />
+        <Book className={`w-6 h-6 text-${color} stroke-[2]`} />
         <div className="absolute top-[3px] left-[5.8px] flex items-center justify-center">
-          <Terminal className="w-3 h-3 text-white stroke-[5]" />
+          <Terminal className={`w-3 h-3 text-${color} stroke-[5]`} />
         </div>
       </div>
     </div>
