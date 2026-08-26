@@ -41,7 +41,7 @@ export default function UserMenu() {
         className="flex focus:outline-none"
         style={{ background: "none", border: "none", padding: 0 }}
       >
-        <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
+        <div className="h-10 w-10 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-sm">
           {session.user.displayName?.charAt(0).toUpperCase() ||
             session.user.username?.charAt(0).toUpperCase() ||
             "?"}
