@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <nav className="flex items-center justify-between p-4 sticky top-0 bg-background z-[100] overflow-visible h-16">
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
         <Link href="/" className="logo flex items-center">
           <Logo 
             className="mx-2" 
@@ -53,7 +53,7 @@ export default function Navbar() {
           </ul>
         </div>
       </div>
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4 mr-2">
         {status === "unauthenticated" ? (
           <Link href="/login">
             <div className="border-1 border-monaco-light p-2 px-6 text-sm text-monaco-muted rounded-lg hover:bg-monaco-dark">
@@ -80,7 +80,6 @@ export default function Navbar() {
           </ul>
         )}
       <UserMenu key={status} />
-      {session.user.displayName}
       </div>
     </nav>
   );
