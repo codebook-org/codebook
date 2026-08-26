@@ -36,7 +36,7 @@ export default function Navbar() {
           <div className="text-monaco-txt">codebook</div>
         </Link>
         <div className="w-[1px] h-4 bg-monaco-light mx-2" />
-        <ul className="flex items-center gap-2">
+        <ul className="flex items-center gap-2 -ml-2">
           {NAV_LINKS_LEFT.map(({ href, label, icon: Icon, isExternal }) => (
             <li key={href}>
               <Tooltip content={label}>
@@ -45,8 +45,8 @@ export default function Navbar() {
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
                 >
-                  <div className="border-1 border-monaco-light p-2 rounded-lg hover:bg-monaco-dark">
-                    <Icon className="size-4 text-monaco-muted" />
+                  <div className=" group border-monaco-light p-2 rounded-lg hover:bg-monaco-mid">
+                    <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
                   </div>
                 </Link>
               </Tooltip>
@@ -63,7 +63,7 @@ export default function Navbar() {
           </Link>
         ) : (
           <div className="flex items-center">
-            <ul className="flex items-center gap-2 mr-4">
+            <ul className="flex items-center gap-2 mr-2">
               {NAV_LINKS_RIGHT.map(({ href, label, icon: Icon, isExternal }) => (
                 <li key={href}>
                   <Tooltip content={label}>
@@ -72,8 +72,8 @@ export default function Navbar() {
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noopener noreferrer" : undefined}
                     >
-                      <div className="border-1 border-monaco-light p-2 rounded-lg hover:bg-monaco-dark">
-                        <Icon className="size-4 text-monaco-muted" />
+                      <div className=" group border-monaco-light p-2 rounded-lg hover:bg-monaco-mid">
+                        <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
                       </div>
                     </Link>
                   </Tooltip>
