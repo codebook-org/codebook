@@ -4,9 +4,10 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import Tooltip from "@/components/Tooltip";
 import UserMenu from "@/components/logincomponents/UserMenu";
-import { Home, Info, CircleQuestionMark, CodeXml, PencilLine } from "lucide-react";
+import { Home, Info, CircleQuestionMark, CodeXml, PencilLine, Settings } from "lucide-react";
 import { useSession } from "next-auth/react";
 
+// general links for navigating codebook
 const NAV_LINKS_LEFT = [
   { href: "/", label: "Home", icon: Home, isExternal: false },
   { href: "/about", label: "About", icon: Info, isExternal: false },
@@ -14,8 +15,10 @@ const NAV_LINKS_LEFT = [
   { href: "https://github.com/codebook-org/codebook", label: "GitHub", icon: CodeXml, isExternal: true },
 ];
 
+// additional links that require a user to be logged in
 const NAV_LINKS_RIGHT = [
   { href: "/publish", label: "Publish", icon: PencilLine, isExternal: false },
+  { href: "/settings", label: "Settings", icon: Settings, isExternal: false },
 ];
 
 export default function Navbar() {
@@ -32,7 +35,7 @@ export default function Navbar() {
           />
           <div className="text-monaco-txt">codebook</div>
         </Link>
-        <div className="w-[1px] h-4 bg-monaco-muted mx-2" />
+        <div className="w-[1px] h-4 bg-monaco-light mx-2" />
         <div className="flex items-center gap-3">
           <ul className="flex items-center gap-2">
             {NAV_LINKS_LEFT.map(({ href, label, icon: Icon, isExternal }) => (
@@ -79,7 +82,8 @@ export default function Navbar() {
             ))}
           </ul>
         )}
-      <UserMenu key={status} />
+        <div className="w-[1px] h-4 bg-monaco-light mx-2" />
+        <UserMenu key={status} />
       </div>
     </nav>
   );
