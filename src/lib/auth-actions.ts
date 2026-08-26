@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { CodebookDatabaseAPI } from "@/lib/db";
+import { hashPassword, verifyPassword } from "@/lib/auth-crypt"; // Allows for proper hashing and password verification
 
 // OAuth Functions
 export async function handleSignIn() {
@@ -87,8 +88,13 @@ export async function registerAndLogin(
   const existingUser = await CodebookDatabaseAPI.getUserByEmail(email);
 
   if (existingUser) {
+    const isPasswordCorrect = await verifyPassword(
+      password,
+      existingUser.passwordHash,
+    );
+
     // Let's be safer here.
-    if (existingUser.passwordHash != password) {
+    if (!isPasswordCorrect) {
       return { error: "EMAIL_TAKEN" };
     } else {
       return await credentialLogIn(email, password);
@@ -97,15 +103,17 @@ export async function registerAndLogin(
 
   // Else, we...
   try {
+    const hashedPassword = hashPassword(password);
+
     // Then we register them. The password is not yet hashed correctly.
     let newUser = await CodebookDatabaseAPI.registerUser({
       username: username ?? email.split("@")[0],
       displayName: displayName ?? "",
       email: email,
-      passwordHash: password,
+      passwordHash: hashedPassword,
     });
 
-    console.log("User registered on server");
+    console.log("User registered on server.");
 
     // NWe can log in the newly registered user.
     return await credentialLogIn(email, password);

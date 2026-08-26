@@ -6,6 +6,7 @@ import Credentials from "next-auth/providers/credentials";
 import { syncOAuth } from "@/lib/auth-actions";
 
 import { CodebookDatabaseAPI } from "@/lib/db";
+import { verifyPassword } from "@/lib/auth-crypt";
 
 type OldUser = {
   userId: number;
@@ -18,6 +19,23 @@ type OldUser = {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
+  },
+
+  logger: {
+    // This is used to suppress the really large, [auth][error] that would appear when invalid credentials were in play.
+    error(error: any) {
+      if (
+        error.name === "CredentialsSignin" ||
+        error.type === "CredentialsSignin" ||
+        error.message?.includes("CredentialsSignin")
+      ) {
+        console.log("Failed login: Invalid email or password.");
+        return;
+      }
+
+      // Other normal errors
+      console.log(error);
+    },
   },
 
   providers: [
@@ -42,7 +60,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             credentials.email as string, // Grab email
           );
 
-          if (user && user.passwordHash == credentials.password) {
+          if (
+            user &&
+            user.passwordHash &&
+            verifyPassword(credentials.password as string, user.passwordHash)
+          ) {
             return {
               id: user.userId.toString(),
               email: user.email,
