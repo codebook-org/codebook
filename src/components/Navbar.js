@@ -36,25 +36,23 @@ export default function Navbar() {
           <div className="text-monaco-txt">codebook</div>
         </Link>
         <div className="w-[1px] h-4 bg-monaco-light mx-2" />
-        <div className="flex items-center gap-3">
-          <ul className="flex items-center gap-2">
-            {NAV_LINKS_LEFT.map(({ href, label, icon: Icon, isExternal }) => (
-              <li key={href}>
-                <Tooltip content={label}>
-                  <Link
-                    href={href}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                  >
-                    <div className="border-1 border-monaco-light p-2 rounded-lg hover:bg-monaco-dark">
-                      <Icon className="size-4 text-monaco-muted" />
-                    </div>
-                  </Link>
-                </Tooltip>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="flex items-center gap-2">
+          {NAV_LINKS_LEFT.map(({ href, label, icon: Icon, isExternal }) => (
+            <li key={href}>
+              <Tooltip content={label}>
+                <Link
+                  href={href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                >
+                  <div className="border-1 border-monaco-light p-2 rounded-lg hover:bg-monaco-dark">
+                    <Icon className="size-4 text-monaco-muted" />
+                  </div>
+                </Link>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="flex items-center gap-4 mr-2">
         {status === "unauthenticated" ? (
@@ -64,23 +62,26 @@ export default function Navbar() {
             </div>
           </Link>
         ) : (
-          <ul className="flex items-center gap-2">
-            {NAV_LINKS_RIGHT.map(({ href, label, icon: Icon, isExternal }) => (
-              <li key={href}>
-                <Tooltip content={label}>
-                  <Link
-                    href={href}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                  >
-                    <div className="border-1 border-monaco-light p-2 rounded-lg hover:bg-monaco-dark">
-                      <Icon className="size-4 text-monaco-muted" />
-                    </div>
-                  </Link>
-                </Tooltip>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center">
+            <ul className="flex items-center gap-2 mr-4">
+              {NAV_LINKS_RIGHT.map(({ href, label, icon: Icon, isExternal }) => (
+                <li key={href}>
+                  <Tooltip content={label}>
+                    <Link
+                      href={href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                    >
+                      <div className="border-1 border-monaco-light p-2 rounded-lg hover:bg-monaco-dark">
+                        <Icon className="size-4 text-monaco-muted" />
+                      </div>
+                    </Link>
+                  </Tooltip>
+                </li>
+              ))}
+            </ul>
+            <div className="w-[1px] h-4 bg-monaco-light mx-2" />
+          </div>
         )}
         <UserMenu key={status} />
       </div>
