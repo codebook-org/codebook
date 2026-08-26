@@ -13,7 +13,7 @@ export default function Tooltip({ children, content, side = "top" }) {
             side={side}
             sideOffset={6}
             className={`
-              z-50 overflow-hidden rounded-md 
+              z-9999 overflow-hidden rounded-md 
               bg-monaco-dark border border-monaco-light py-1.5 px-2 
               text-xs font-medium text-monaco-txt 
               shadow-xl shadow-black/25 

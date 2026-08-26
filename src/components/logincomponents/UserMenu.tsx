@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import Tooltip from "@/components/Tooltip";
 
 import Image from "next/image"; // Required for Next.js image.
 
@@ -11,7 +12,6 @@ export default function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Had Gemini help me out with some of the code.
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -25,31 +25,31 @@ export default function UserMenu() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // For now, this says if you're not logged in, don't display the dropdown.
+  // return null if not logged in
   if (status !== "authenticated" || !session?.user) return null;
 
-  // This is the dropdown, as of right now.
   return (
     <div
       className="relative"
       ref={dropdownRef}
       style={{ display: "inline-block" }}
     >
-      {/* This is the icon turned button. */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex focus:outline-none"
-        style={{ background: "none", border: "none", padding: 0 }}
-      >
-        <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-          {session.user.displayName?.charAt(0).toUpperCase() ||
-            session.user.username?.charAt(0).toUpperCase() ||
-            "?"}
-        </div>
-      </button>
-
-      {/* When our state is  "OPEN" (aka, we opened the dropdown,) */}
-
+      <Tooltip content="Open user navigation menu">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="group flex cursor-pointer focus:outline-none items-center gap-3"
+          style={{ background: "none", border: "none", padding: 0 }}
+        >
+          <div className="h-8 w-8 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">
+            {session.user.displayName?.charAt(0).toUpperCase() ||
+              session.user.username?.charAt(0).toUpperCase() ||
+              "?"}
+          </div>
+          <div className="text-xs text-monaco-muted group-hover:text-monaco-txt">
+            {session.user.displayName || session.user.username || "?"}
+          </div>
+        </button>
+      </Tooltip>
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-64 z-[9999] bg-[#111] border border-zinc-800 shadow-2xl rounded-lg overflow-hidden">
           <div className="flex flex-col items-center p-4 border-b border-zinc-800">
@@ -58,8 +58,6 @@ export default function UserMenu() {
                 session.user.username?.charAt(0).toUpperCase() ||
                 "?"}
             </div>
-
-            {/* Grab all user information .. */}
             <span className="text-xs text-zinc-500">Signed in as</span>
             <span className="font-bold text-white text-sm">
               {session.user.displayName ||

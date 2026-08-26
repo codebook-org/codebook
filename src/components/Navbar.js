@@ -1,61 +1,103 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
+import Logo from "@/components/Logo";
+import Tooltip from "@/components/Tooltip";
 import UserMenu from "@/components/logincomponents/UserMenu";
-
+import {
+  Home,
+  Info,
+  CircleQuestionMark,
+  CodeXml,
+  PencilLine,
+  Settings,
+} from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
 
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/problems-library", label: "Browse Problems" },
-  { href: "/publish", label: "Publish" },
-  { href: "/login", label: "Login" }, // Likely temporary, I have to figure out a way to fix this.
+// general links for navigating codebook
+const NAV_LINKS_LEFT = [
+  { href: "/", label: "Home", icon: Home, isExternal: false },
+  { href: "/about", label: "About", icon: Info, isExternal: false },
+  {
+    href: "/guide",
+    label: "Guide",
+    icon: CircleQuestionMark,
+    isExternal: false,
+  },
+  {
+    href: "https://github.com/codebook-org/codebook",
+    label: "GitHub",
+    icon: CodeXml,
+    isExternal: true,
+  },
+];
+
+// additional links that require a user to be logged in
+const NAV_LINKS_RIGHT = [
+  { href: "/publish", label: "Publish", icon: PencilLine, isExternal: false },
+  { href: "/settings", label: "Settings", icon: Settings, isExternal: false },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
-
   const { data: session, status, update } = useSession();
 
-  // Uncomment this if you're having issues with seeing current status (unauth, auth, etc.)
-  // console.log("NAVBAR RENDER:", { status, hasUser: !!session?.user });
-
-  const visibleLinks = NAV_LINKS.filter((link) => {
-    // If the user is logged in, don't show the Login link
-    if (status == "authenticated" && link.href == "/login") {
-      return false;
-    }
-
-    // If the user isn't logged in, let's be safe and not let them see the publish page.
-    if (
-      status == "unauthenticated" &&
-      (link.href == "/profile" || link.href == "/publish")
-    ) {
-      return false;
-    }
-
-    return true;
-  });
-
   return (
-    <nav className="nav h-18">
-      <Link href="/" className="logo">
-        codebook
-      </Link>
-      <div className="flex items-center gap-3">
-        <ul className="nav-links flex justify-end">
-          {visibleLinks.map(({ href, label }) => (
+    <nav className="flex items-center justify-between p-4 sticky top-0 bg-background z-[100] overflow-visible h-16">
+      <div className="flex items-center gap-4">
+        <Link href="/" className="logo flex items-center">
+          <Logo className="mx-2" color="text-monaco-txt" />
+          <div className="text-monaco-txt">codebook</div>
+        </Link>
+        <div className="w-[1px] h-4 bg-monaco-light mx-2" />
+        <ul className="flex items-center gap-2 -ml-2">
+          {NAV_LINKS_LEFT.map(({ href, label, icon: Icon, isExternal }) => (
             <li key={href}>
-              <Link href={href} className={pathname === href ? "active" : ""}>
-                {label}
-              </Link>
+              <Tooltip content={label}>
+                <Link
+                  href={href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                >
+                  <div className=" group border-monaco-light p-2 rounded-lg hover:bg-monaco-mid">
+                    <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
+                  </div>
+                </Link>
+              </Tooltip>
             </li>
           ))}
         </ul>
-        {/* Moved Session Provider out to the Layout, so everything will obtain acces to SessionProvider. */}
+      </div>
+      <div className="flex items-center gap-4 mr-2">
+        {status === "unauthenticated" ? (
+          <Link href="/login">
+            <div className="border-1 border-monaco-light p-2 px-6 text-sm text-monaco-muted rounded-lg hover:bg-monaco-dark">
+              Sign In
+            </div>
+          </Link>
+        ) : (
+          <div className="flex items-center">
+            <ul className="flex items-center gap-2 mr-2">
+              {NAV_LINKS_RIGHT.map(
+                ({ href, label, icon: Icon, isExternal }) => (
+                  <li key={href}>
+                    <Tooltip content={label}>
+                      <Link
+                        href={href}
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                      >
+                        <div className=" group border-monaco-light p-2 rounded-lg hover:bg-monaco-mid">
+                          <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
+                        </div>
+                      </Link>
+                    </Tooltip>
+                  </li>
+                ),
+              )}
+            </ul>
+            <div className="w-[1px] h-4 bg-monaco-light mx-2" />
+          </div>
+        )}
         <UserMenu key={status} />
       </div>
     </nav>
