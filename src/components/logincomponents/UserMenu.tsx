@@ -34,22 +34,25 @@ export default function UserMenu() {
       ref={dropdownRef}
       style={{ display: "inline-block" }}
     >
-      <Tooltip content="Open user navigation menu">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="group flex cursor-pointer focus:outline-none items-center gap-3"
-          style={{ background: "none", border: "none", padding: 0 }}
-        >
-          <div className="h-8 w-8 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">
-            {session.user.displayName?.charAt(0).toUpperCase() ||
-              session.user.username?.charAt(0).toUpperCase() ||
-              "?"}
-          </div>
-          <div className="text-xs text-monaco-muted group-hover:text-monaco-txt">
-            {session.user.displayName || session.user.username || "?"}
-          </div>
-        </button>
-      </Tooltip>
+      <div className="flex items-center gap-4">
+        <div className="w-[1px] h-4 bg-monaco-light mx-2" />
+          <Tooltip content="Open user navigation menu">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="group flex cursor-pointer focus:outline-none items-center gap-3"
+              style={{ background: "none", border: "none", padding: 0 }}
+            >
+              <div className="h-8 w-8 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">
+                {session.user.displayName?.charAt(0).toUpperCase() ||
+                  session.user.username?.charAt(0).toUpperCase() ||
+                  "?"}
+              </div>
+              <div className="text-xs text-monaco-muted group-hover:text-monaco-txt">
+                {session.user.displayName || session.user.username || "?"}
+              </div>
+            </button>
+          </Tooltip>
+        </div>
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-64 z-[9999] bg-[#111] border border-zinc-800 shadow-2xl rounded-lg overflow-hidden">
           <div className="flex flex-col items-center p-4 border-b border-zinc-800">

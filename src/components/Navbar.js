@@ -82,7 +82,6 @@ export default function Navbar() {
             ))}
           </ul>
         )}
-        <div className="w-[1px] h-4 bg-monaco-light mx-2" />
         <UserMenu key={status} />
       </div>
     </nav>
