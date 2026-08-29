@@ -6,14 +6,7 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
-import {
-  MoveRight,
-  Lock,
-  LockOpen,
-  X,
-  Plus,
-  Upload,
-} from "lucide-react";
+import { MoveRight, Lock, LockOpen, X, Plus, Upload } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
