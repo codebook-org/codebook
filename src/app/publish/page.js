@@ -10,8 +10,6 @@ import {
   MoveRight,
   Lock,
   LockOpen,
-  Eye,
-  EyeClosed,
   X,
   Plus,
   Upload,
@@ -120,8 +118,6 @@ export default function Publish() {
   };
 
   // removes a test case
-  // this feels a bit hacky to me now
-  // TODO: look into refactoring testCases from object to array
   const removeCase = (idToRemove) => {
     setTestCase((prev) => {
       const copy = { ...prev };
@@ -171,39 +167,6 @@ export default function Publish() {
         return `Test case ${id} has empty fields.`;
       }
     }
-
-    // removing this for now since we don't care about types
-    //
-    //let inputForceArr = false;
-    //let outputForceArr = false;
-
-    //// Next, we check if entries are consistent. If one input contains an array, all should.
-
-    //// What type is our passed in string? Is it an array? Is it a number? Perhaps, even a string?
-    //const typeOf = (str) => {
-    //  try {
-    //    const parsed = JSON.parse(str);
-    //    if (Array.isArray(parsed)) return "array";
-    //    return typeof parsed; // This is the case for NUMBERS, objects, bools, etc.
-    //  } catch (e) {
-    //    // JSON.parse() struggles with strings, so any error caught is a string.
-    //    return "string";
-    //  }
-    //};
-
-    //const [firstId, firstData] = Object.entries(testCases)[0];
-    //const inputType = typeOf(firstData.input);
-    //const outputType = typeOf(firstData.output);
-
-    //for (const [id, data] of Object.entries(testCases)) {
-    //  if (typeOf(data.input) !== inputType) {
-    //    return `Case ${id}'s input is a ${typeOf(data.input)}. Did you mean a ${inputType}?`;
-    //  }
-
-    //  if (typeOf(data.output) !== outputType) {
-    //    return `Case ${id}'s output is a ${typeOf(data.output)}. Did you mean a ${outputType}?`;
-    //  }
-    //}
 
     // verify that at least one test case is visible
     let totalHidden = 0;
