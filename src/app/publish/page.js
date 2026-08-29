@@ -142,8 +142,8 @@ export default function Publish() {
     for (const [id, data] of Object.entries(testCases)) {
       addTestCasedb(
         problemId,
-        data.input,
-        data.output,
+        data.input?.replace(/\\n/g, '\n'),
+        data.output?.replace(/\\n/g, '\n'),
         hiddenCase.includes(Number(id)) ? false : true,
       );
     }
