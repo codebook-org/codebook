@@ -14,11 +14,11 @@ import { toast } from "sonner";
 import {
   ThumbsUp,
   ThumbsDown,
-  Check,
+  CircleCheck,
   SquareArrowOutUpRight,
   ChevronDown,
   RotateCcw,
-  Upload,
+  CloudUpload,
 } from "lucide-react";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
@@ -187,7 +187,7 @@ export default function ProblemClient({
                           className={`flex items-center justify-center h-full px-2 rounded-l-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === true ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(true)}
                         >
-                          <ThumbsUp className="size-4" aria-hidden="true" />
+                          <ThumbsUp className="size-4.5" aria-hidden="true" />
                           {likeCount - dislikeCount}
                         </button>
                       </Tooltip>
@@ -196,7 +196,7 @@ export default function ProblemClient({
                           className={`flex items-center justify-center h-full px-2 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === false ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
-                          <ThumbsDown className="size-4" aria-hidden="true" />
+                          <ThumbsDown className="size-4.5" aria-hidden="true" />
                         </button>
                       </Tooltip>
                     </div>
@@ -205,9 +205,8 @@ export default function ProblemClient({
                         className={`flex items-center font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}
                       >
                         {solveCount}
-                        <Check
-                          className={`size-5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
-                          strokeWidth={2.5}
+                        <CircleCheck
+                          className={`size-4.5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
                           aria-hidden="true"
                         />
                       </div>
@@ -302,7 +301,7 @@ export default function ProblemClient({
                         >
                           {language}
                           <ChevronDown
-                            className="size-4 -mr-1"
+                            className="size-4.5 -mr-1"
                             strokeWidth={3}
                           />
                         </button>
@@ -340,7 +339,7 @@ export default function ProblemClient({
                         >
                           {keybind}
                           <ChevronDown
-                            className="size-4 -mr-1"
+                            className="size-4.5 -mr-1"
                             strokeWidth={3}
                           />
                         </button>
@@ -384,7 +383,7 @@ export default function ProblemClient({
                         }}
                       >
                         <button className="ml-4 flex items-center transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer">
-                          <RotateCcw className="size-4.5" strokeWidth={2.5} />
+                          <RotateCcw className="size-4.5" />
                         </button>
                       </Confirmation>
                     </Tooltip>
@@ -442,7 +441,7 @@ export default function ProblemClient({
                 {status !== "" && status !== "done" ? (
                   ""
                 ) : (
-                  <Upload className="size-4" strokeWidth={2.5} />
+                  <CloudUpload className="size-4.5" strokeWidth={2.5} />
                 )}
                 <span className="ml-1">
                   {status !== "" && status !== "done"

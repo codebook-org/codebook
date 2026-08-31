@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
+import { MoveRight, Lock, LockOpen, X, Plus, Upload } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -110,8 +111,6 @@ export default function Publish() {
   };
 
   // removes a test case
-  // this feels a bit hacky to me now
-  // TODO: look into refactoring testCases from object to array
   const removeCase = (idToRemove) => {
     setTestCase((prev) => {
       const copy = { ...prev };
@@ -161,39 +160,6 @@ export default function Publish() {
         return `Test case ${id} has empty fields.`;
       }
     }
-
-    // removing this for now since we don't care about types
-    //
-    //let inputForceArr = false;
-    //let outputForceArr = false;
-
-    //// Next, we check if entries are consistent. If one input contains an array, all should.
-
-    //// What type is our passed in string? Is it an array? Is it a number? Perhaps, even a string?
-    //const typeOf = (str) => {
-    //  try {
-    //    const parsed = JSON.parse(str);
-    //    if (Array.isArray(parsed)) return "array";
-    //    return typeof parsed; // This is the case for NUMBERS, objects, bools, etc.
-    //  } catch (e) {
-    //    // JSON.parse() struggles with strings, so any error caught is a string.
-    //    return "string";
-    //  }
-    //};
-
-    //const [firstId, firstData] = Object.entries(testCases)[0];
-    //const inputType = typeOf(firstData.input);
-    //const outputType = typeOf(firstData.output);
-
-    //for (const [id, data] of Object.entries(testCases)) {
-    //  if (typeOf(data.input) !== inputType) {
-    //    return `Case ${id}'s input is a ${typeOf(data.input)}. Did you mean a ${inputType}?`;
-    //  }
-
-    //  if (typeOf(data.output) !== outputType) {
-    //    return `Case ${id}'s output is a ${typeOf(data.output)}. Did you mean a ${outputType}?`;
-    //  }
-    //}
 
     // verify that at least one test case is visible
     let totalHidden = 0;
@@ -250,20 +216,7 @@ export default function Publish() {
             type="submit"
             className="cursor-pointer flex items-center text-sm font-bold h-8 px-32 m-3 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors shadow-lg shadow-black/20"
           >
-            <svg viewBox="0 0 500 420" className="w-5 h-5 fill-current">
-              <g>
-                <path
-                  d="M344.058,207.506c-16.568,0-30,13.432-30,30v76.609h-254v-76.609c0-16.568-13.432-30-30-30c-16.568,0-30,13.432-30,30
-  v106.609c0,16.568,13.432,30,30,30h314c16.568,0,30-13.432,30-30V237.506C374.058,220.938,360.626,207.506,344.058,207.506z"
-                />
-                <path
-                  d="M123.57,135.915l33.488-33.488v111.775c0,16.568,13.432,30,30,30c16.568,0,30-13.432,30-30V102.426l33.488,33.488
-  c5.857,5.858,13.535,8.787,21.213,8.787c7.678,0,15.355-2.929,21.213-8.787c11.716-11.716,11.716-30.71,0-42.426L208.271,8.788
-  c-11.715-11.717-30.711-11.717-42.426,0L81.144,93.489c-11.716,11.716-11.716,30.71,0,42.426
-  C92.859,147.631,111.855,147.631,123.57,135.915z"
-                />
-              </g>
-            </svg>
+            <Upload className="size-4 mr-2" />
             Publish
           </button>
         </Confirmation>
@@ -408,7 +361,7 @@ export default function Publish() {
                               updateCase(id, "input", e.target.value)
                             }
                           />
-                          <span className="text-monaco-muted font-bold">→</span>
+                          <MoveRight className="size-4.5 text-monaco-muted" />
                           <input
                             className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Output"
@@ -423,34 +376,12 @@ export default function Publish() {
                             <button
                               type="button"
                               onClick={() => updateHidden(id)}
-                              className="group w-6 h-6 p-0.75 mx-1 transition-colors text-monaco-muted hover:text-monaco-txt cursor-pointer"
+                              className="transition-colors ml-1 text-monaco-muted hover:text-monaco-txt cursor-pointer"
                             >
                               {isHidden ? (
-                                <svg
-                                  viewBox="0 0 16 16"
-                                  fill="none"
-                                  className="w-full h-full"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M4 6V4C4 1.79086 5.79086 0 8 0C10.2091 0 12 1.79086 12 4V6H14V16H2V6H4ZM6 4C6 2.89543 6.89543 2 8 2C9.10457 2 10 2.89543 10 4V6H6V4ZM7 13V9H9V13H7Z"
-                                    fill="currentColor"
-                                  />
-                                </svg>
+                                <Lock className="size-4.5" />
                               ) : (
-                                <svg
-                                  viewBox="0 0 16 16"
-                                  fill="none"
-                                  className="w-full h-full"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M11.5 2C10.6716 2 10 2.67157 10 3.5V6H13V16H1V6H8V3.5C8 1.567 9.567 0 11.5 0C13.433 0 15 1.567 15 3.5V4H13V3.5C13 2.67157 12.3284 2 11.5 2ZM9 10H5V12H9V10Z"
-                                    fill="currentColor"
-                                  />
-                                </svg>
+                                <LockOpen className="size-4.5" />
                               )}
                             </button>
                           </Tooltip>
@@ -458,41 +389,23 @@ export default function Publish() {
                             <button
                               type="button"
                               onClick={() => removeCase(id)}
-                              className="w-6 h-6 p-1 text-monaco-muted hover:text-monaco-txt transition-all cursor-pointer"
+                              className="text-monaco-muted hover:text-monaco-txt transition-colors cursor-pointer"
                             >
-                              <svg
-                                viewBox="0 0 16 16"
-                                className="w-full h-full"
-                                fill="currentColor"
-                              >
-                                <path
-                                  d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z"
-                                  fillRule="evenodd"
-                                />
-                              </svg>
+                              <X className="size-6" />
                             </button>
                           </Tooltip>
                         </div>
                       </div>
                     );
                   })}
-                  <div className="flex justify-center pt-2 mt-1">
+                  <div className="mt-1 flex justify-center pt-2">
                     <Tooltip content="Add test case">
                       <button
                         type="button"
                         onClick={addCase}
-                        className="group w-12 h-12 rounded-xl bg-monaco-mid p-4 hover:bg-monaco-light shadow-xl shadow-black/20 cursor-pointer"
+                        className="group flex size-12 cursor-pointer items-center justify-center rounded-xl bg-monaco-mid text-monaco-muted shadow-xl shadow-black/20 transition-colors duration-200 hover:bg-monaco-light hover:text-monaco-txt"
                       >
-                        <svg
-                          viewBox="0 0 21 20"
-                          fill="none"
-                          className="w-4 h-4 text-monaco-muted group-hover:text-monaco-txt transition-colors"
-                        >
-                          <polygon
-                            points="21 9 21 11 11.55 11 11.55 20 9.45 20 9.45 11 0 11 0 9 9.45 9 9.45 0 11.55 0 11.55 9"
-                            fill="currentColor"
-                          />
-                        </svg>
+                        <Plus className="size-6" />
                       </button>
                     </Tooltip>
                   </div>
