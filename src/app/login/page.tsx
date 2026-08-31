@@ -1,13 +1,8 @@
 "use client";
 
-// This is for OAuth Login
 import SignIn from "@/components/logincomponents/SignIn";
-import SignOut from "@/components/logincomponents/SignOut";
-
-// This is for Credential Login
 import CredSignIn from "@/components/logincomponents/CredSignIn";
 import CredRegister from "@/components/logincomponents/CredRegister";
-
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -24,19 +19,13 @@ export default function LoginPage() {
       <h1 className="mb-8 text-2xl font-bold tracking-tight text-zinc-400">
         welcome to codebook.
       </h1>
-
-      {/* The entire thing idotknow IMSLEEPY */}
       <div className="w-full max-w-md rounded-xl border border-zinc-800 bg-zinc-900/50 p-8 shadow-2xl backdrop-blur-md flex flex-col">
         <h3 className="mb-6 text-xl font-semibold tracking-wide text-zinc-100 text-center">
           {mode == "login" ? "Welcome Back" : "Create Account"}
         </h3>
-
-        {/* Which one are we? Are we loggin in or creating? */}
         <div className="w-full mb-6">
           {mode == "login" ? <CredSignIn /> : <CredRegister />}
         </div>
-
-        {/* "Button" to toggle login/register state */}
         <div className="text-sm text-zinc-400 text-center border-t border-zinc-800/60 pt-4">
           {mode == "login"
             ? "Don't have an account? "
@@ -49,8 +38,6 @@ export default function LoginPage() {
           </button>
         </div>
       </div>
-
-      {/* Social Provider OAuth Lower Tray */}
       <div className="mt-8 flex items-center gap-4 border-t border-zinc-900 pt-6">
         <SignIn />
       </div>
