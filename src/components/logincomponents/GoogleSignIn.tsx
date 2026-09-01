@@ -21,7 +21,7 @@ export default function SignIn() {
   `;
 
   return (
-    <div 
+    <div
       onClick={handleSignIn}
       dangerouslySetInnerHTML={{ __html: googleButtonHtml }}
       className="flex justify-center"

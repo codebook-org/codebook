@@ -67,37 +67,37 @@ export default function CredRegister() {
         className="my-4 w-full flex flex-col items-center"
         onSubmit={handleRegister}
       >
-          <input
-            className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 mb-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Display name"
-            name="displayName"
-            id="displayName"
-          />
-          <input
-            className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Username"
-            name="username"
-            id="username"
-            onKeyDown={(e) => {
-              if (e.key === " ") {
-                e.preventDefault(); // Explicitly cancels the spacebar character entry
-              }
-            }}
-          />
-          <input
-            className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Email"
-            type="email"
-            name="email"
-            id="email"
-          />
-          <input
-            className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Password"
-            type="password"
-            name="password"
-            id="password"
-          />
+        <input
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 mb-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Display name"
+          name="displayName"
+          id="displayName"
+        />
+        <input
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Username"
+          name="username"
+          id="username"
+          onKeyDown={(e) => {
+            if (e.key === " ") {
+              e.preventDefault(); // Explicitly cancels the spacebar character entry
+            }
+          }}
+        />
+        <input
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Email"
+          type="email"
+          name="email"
+          id="email"
+        />
+        <input
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Password"
+          type="password"
+          name="password"
+          id="password"
+        />
         <button
           type="submit"
           className="bg-monaco-mid mt-1 rounded-lg py-3 flex justify-center items-center text-sm w-full cursor-pointer hover:bg-yellow-600 transition-colors shadow-lg shadow-black/20"

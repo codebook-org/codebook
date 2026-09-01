@@ -18,9 +18,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex w-full h-full mt-16 flex-col items-center bg-background">
-      <div
-        className="w-full max-w-md min-h-[425px] rounded-3xl border border-monaco-light bg-monaco-dark p-8 shadow-2xl backdrop-blur-md flex flex-col"
-      >
+      <div className="w-full max-w-md min-h-[425px] rounded-3xl border border-monaco-light bg-monaco-dark p-8 shadow-2xl backdrop-blur-md flex flex-col">
         <AnimatePresence mode="wait">
           <motion.div
             key={mode}
