@@ -15,6 +15,7 @@
     "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "framer-motion": "^13.1.1",
     "lucide-react": "^1.31.0",
     "monaco-editor": "0.50.0",
     "monaco-vim": "^0.4.4",
