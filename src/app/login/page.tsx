@@ -1,6 +1,6 @@
 "use client";
 
-import SignIn from "@/components/logincomponents/SignIn";
+import GoogleSignIn from "@/components/logincomponents/GoogleSignIn";
 import CredSignIn from "@/components/logincomponents/CredSignIn";
 import CredRegister from "@/components/logincomponents/CredRegister";
 import { useState } from "react";
@@ -58,7 +58,7 @@ export default function LoginPage() {
           </motion.div>
         </AnimatePresence>
         <div className="h-[1px] w-full my-6 bg-monaco-light" />
-        <SignIn />
+        <GoogleSignIn />
       </div>
     </div>
   );
