@@ -34,14 +34,14 @@ export default function CredSignIn() {
         onSubmit={handleLogin}
       >
         <input
-          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 mb-1.5 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 mb-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
           placeholder="Email"
           type="email"
           name="email"
           id="email"
         />
         <input
-          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1.5 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
           placeholder="Password"
           type="password"
           name="password"
@@ -49,7 +49,7 @@ export default function CredSignIn() {
         />
         <button
           type="submit"
-          className="bg-monaco-mid mt-1.5 rounded-lg py-3 flex justify-center items-center text-sm w-full cursor-pointer hover:bg-yellow-600 transition-colors shadow-lg shadow-black/20"
+          className="bg-monaco-mid mt-1 rounded-lg py-3 flex justify-center items-center text-sm w-full cursor-pointer hover:bg-yellow-600 transition-colors shadow-lg shadow-black/20"
         >
           Sign in
         </button>

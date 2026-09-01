@@ -5,6 +5,7 @@ import CredSignIn from "@/components/logincomponents/CredSignIn";
 import CredRegister from "@/components/logincomponents/CredRegister";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { KeySquare, User } from "lucide-react";
 
 export default function LoginPage() {
   // login or register modes
@@ -18,7 +19,17 @@ export default function LoginPage() {
     <div className="flex w-full h-full mt-16 flex-col items-center bg-background">
       <div className="w-full max-w-md rounded-3xl border border-monaco-light bg-monaco-dark p-8 shadow-2xl backdrop-blur-md flex flex-col">
         <div className="tracking-wide text-monaco-txt font-semibold mb-2">
-          {mode == "login" ? "Sign in" : "Create an account"}
+          {mode == "login" ? (
+            <div className="flex items-center">
+              <KeySquare className="size-5 mr-3" />
+              Sign in
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <User className="size-5 mr-3" />
+              Create an account
+            </div>
+          )}
         </div>
         <div className="w-full">
           {mode == "login" ? <CredSignIn /> : <CredRegister />}
@@ -34,12 +45,8 @@ export default function LoginPage() {
             {mode == "login" ? "Register" : "Sign in"}
           </button>
         </div>
-        {mode == "login" && (
-          <div className="flex flex-col justify-center">
-            <div className="h-[1px] w-full my-6 bg-monaco-light" />
-            <SignIn />
-          </div>
-        )}
+        <div className="h-[1px] w-full my-6 bg-monaco-light" />
+        <SignIn />
       </div>
     </div>
   );
