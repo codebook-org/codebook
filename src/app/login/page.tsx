@@ -15,31 +15,31 @@ export default function LoginPage() {
   );
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-black px-4 font-sans text-white">
-      <h1 className="mb-8 text-2xl font-bold tracking-tight text-zinc-400">
-        welcome to codebook.
-      </h1>
-      <div className="w-full max-w-md rounded-xl border border-zinc-800 bg-zinc-900/50 p-8 shadow-2xl backdrop-blur-md flex flex-col">
-        <h3 className="mb-6 text-xl font-semibold tracking-wide text-zinc-100 text-center">
-          {mode == "login" ? "Welcome Back" : "Create Account"}
-        </h3>
-        <div className="w-full mb-6">
+    <div className="flex w-full h-full mt-16 flex-col items-center bg-background">
+      <div className="w-full max-w-md rounded-3xl border border-monaco-light bg-monaco-dark p-8 shadow-2xl backdrop-blur-md flex flex-col">
+        <div className="tracking-wide text-monaco-txt font-semibold mb-2">
+          {mode == "login" ? "Sign in" : "Create an account"}
+        </div>
+        <div className="w-full">
           {mode == "login" ? <CredSignIn /> : <CredRegister />}
         </div>
-        <div className="text-sm text-zinc-400 text-center border-t border-zinc-800/60 pt-4">
+        <div className="text-xs text-monaco-muted text-center mt-2">
           {mode == "login"
             ? "Don't have an account? "
             : "Already have an account? "}
           <button
             onClick={() => setMode(mode == "login" ? "register" : "login")}
-            className="font-medium hover:text-orange-300 underline underline-offset-4 transition-colors ml-1"
+            className="font-medium hover:text-blue-500 transition-colors cursor-pointer underline transition-colors"
           >
-            {mode == "login" ? "Register" : "Login"}
+            {mode == "login" ? "Register" : "Sign in"}
           </button>
         </div>
-      </div>
-      <div className="mt-8 flex items-center gap-4 border-t border-zinc-900 pt-6">
-        <SignIn />
+        {mode == "login" && (
+          <div className="flex flex-col justify-center">
+            <div className="h-[1px] w-full my-6 bg-monaco-light" />
+            <SignIn />
+          </div>
+        )}
       </div>
     </div>
   );
