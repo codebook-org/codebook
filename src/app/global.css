@@ -24,6 +24,7 @@
   --color-code-error: #ef4444;
 
   --animate-flash-blue: flash-blue 1s ease-out forwards;
+  --animate-blink: blink 1s steps(2, start) infinite;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -321,4 +322,8 @@ body {
 .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
   background-color: white;
   opacity: 8%;
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
