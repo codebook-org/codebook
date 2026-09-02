@@ -3,6 +3,7 @@ export default function GuidePage() {
       <main className="min-h-[calc(100vh-4rem)] max-w-2xl mx-auto px-6 py-16 text-left space-y-16">       
         {/* Introduction */}
         <section className="space-y-3">
+        <section id="introduction" className="space-y-3">
           <h1 className="text-monaco-txt font-mono text-2xl font-bold">
             {`> `}introduction
           </h1>
@@ -15,7 +16,7 @@ export default function GuidePage() {
         </section>
   
         {/*Account*/}
-        <section className="space-y-6">
+        <section id="accounts" className="space-y-6">
           <div className="space-y-2">
             <h2 className="text-monaco-txt font-mono text-xl font-bold border-b pb-1">
               {`> `}accounts
@@ -27,7 +28,7 @@ export default function GuidePage() {
           </div>
           
           <div className="space-y-1">
-            <h3 className="font-semibold">register</h3>
+            <h3 id="register" className="font-semibold">register</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -38,9 +39,62 @@ export default function GuidePage() {
             </p>
           </div>
   
-          <div className="space-y-1">
+          <div id="login" className="space-y-1">
             <h3 className="font-semibold">log in</h3>
-            
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+        </section>
+
+        {/*Solve Problems*/}
+        <section id="solve-problems" className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-monaco-txt font-mono text-xl font-bold border-b pb-1">
+              {`> `}solve problems
+            </h2>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              awesome flavour text that claims 1500 scientific documents say using codebook increases your iq by 100!
+            </p>
+          </div>
+          
+          <div className="space-y-1">
+            <h3 id="solve-description" className="font-semibold">description</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="code-editor" className="font-semibold">code editor</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+  
+          <div className="space-y-1">
+            <h3 id="submission" className="font-semibold">submitting solutions</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="test-case-viewing" className="font-semibold">view accuracy</h3>
+
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
               Aenean nec sapien lorem. Proin in eleifend neque. 
