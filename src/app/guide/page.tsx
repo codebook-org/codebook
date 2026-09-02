@@ -89,11 +89,11 @@ export default function GuidePage() {
             {`> `}introduction
           </h1>
           <p className="text-sm opacity-80 leading-relaxed">
-            welcome to codebook. whether you&apos;re here to prepare for upcoming
-            technical interviews, test your problem solving limits, or design
-            and share your own challenges, this guide will walk you through
-            everything codebook has to offer. dive into the sections below to
-            get started, or use the sidebar to jump to a section.
+            welcome to codebook. whether you&apos;re here to prepare for
+            upcoming technical interviews, test your problem solving limits, or
+            design and share your own challenges, this guide will walk you
+            through everything codebook has to offer. dive into the sections
+            below to get started, or use the sidebar to jump to a section.
           </p>
         </section>
 
