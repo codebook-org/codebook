@@ -5,7 +5,7 @@ export default async function AboutPage() {
           <h1 className="text-monaco-txt font-mono text-2xl font-bold mb-3">
             {`> `}about
           </h1>
-          <p>
+          <p className="text-sm opacity-80 leading-relaxed">
             codebook is a collaborative coding platform designed to make technical interview prep and practice interactive.
             unlike other traditional, solo-grind platforms, codebook lets you take the wheel, letting you create and publish your own problems.
           </p>
@@ -15,7 +15,7 @@ export default async function AboutPage() {
           <h1 className="text-monaco-txt font-mono text-xl font-bold mb-3">
             {`> `}features
           </h1>
-          <ul className="list-disc pl-5 space-y-2">
+          <ul className="list-disc pl-5 space-y-2 text-sm opacity-80 leading-relaxed">
             <li>
               <strong>community problems</strong> — write, test, and publish your
               own coding problems and test cases.
