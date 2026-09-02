@@ -30,36 +30,29 @@ export default function CredSignIn() {
   return (
     <div className="flex w-full flex-col items-center justify-center">
       <form
-        className="my-5 flex flex-col items-center border p-3 border-gray-200 rounded-md"
+        className="my-4 w-full flex flex-col items-center"
         onSubmit={handleLogin}
       >
-        <div className="my-2">
-          <label htmlFor="email">Email Address</label>
-          <input
-            className="border mx-2 border-gray-500 rounded"
-            type="email"
-            name="email"
-            id="email"
-          />
-        </div>
-
-        <div className="my-2">
-          <label htmlFor="password">Password</label>
-          <input
-            className="border mx-2 border-gray-500 rounded"
-            type="password"
-            name="password"
-            id="password"
-          />
-        </div>
-
+        <input
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 mb-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Email"
+          type="email"
+          name="email"
+          id="email"
+        />
+        <input
+          className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 my-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Password"
+          type="password"
+          name="password"
+          id="password"
+        />
         <button
           type="submit"
-          className="bg-orange-300 mt-4 rounded flex justify-center items-center w-36"
+          className="bg-monaco-mid mt-1 rounded-lg py-3 flex justify-center items-center text-sm w-full cursor-pointer hover:bg-yellow-600 transition-colors shadow-lg shadow-black/20"
         >
-          Login
+          Sign in
         </button>
-
         {warning.message && (
           <div
             className={`warning ${warning.type}`}
