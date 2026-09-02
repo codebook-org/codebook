@@ -2,7 +2,6 @@ export default function GuidePage() {
     return (
       <main className="min-h-[calc(100vh-4rem)] max-w-2xl mx-auto px-6 py-16 text-left space-y-16">       
         {/* Introduction */}
-        <section className="space-y-3">
         <section id="introduction" className="space-y-3">
           <h1 className="text-monaco-txt font-mono text-2xl font-bold">
             {`> `}introduction
@@ -39,8 +38,8 @@ export default function GuidePage() {
             </p>
           </div>
   
-          <div id="login" className="space-y-1">
-            <h3 className="font-semibold">log in</h3>
+          <div className="space-y-1">
+            <h3 id="login" className="font-semibold">log in</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -103,6 +102,101 @@ export default function GuidePage() {
           </div>
         </section>
 
+        {/* Create Problems */}
+        <section id="create-problems" className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-monaco-txt font-mono text-xl font-bold border-b pb-1">
+              {`> `}create problems
+            </h2>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              more flavour text claiming that donating 1000 dollars to each codebook member will extend life expectancy..
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="create-description" className="font-semibold">description</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="starter-code" className="font-semibold">starter code</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="test-cases" className="font-semibold">test cases</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="title" className="font-semibold">title</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+        </section>
+
+        {/* Profiles */}
+        <section id="profiles" className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-monaco-txt font-mono text-xl font-bold border-b pb-1">
+              {`> `}profiles
+            </h2>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              flavour text about codebook's awesome members!
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="displayed-info" className="font-semibold">displayed information</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="problems-solved" className="font-semibold">problems solved</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <h3 id="published-problems" className="font-semibold">published problems</h3>
+
+            <p className="text-sm opacity-80 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Aenean nec sapien lorem. Proin in eleifend neque. 
+              Ut porttitor risus sed posuere commodo.
+            </p>
+          </div>
+        </section>
       </main>
     );
   }
