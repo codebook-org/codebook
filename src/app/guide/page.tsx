@@ -1,5 +1,52 @@
 export default function GuidePage() {
     return (
+    <div className="flex justify-center gap-12 max-w-5xl mx-auto px-6">
+      
+      {/* Sidebar/Simple ToC */}
+      <aside className="text-monaco-txt font-mono text-xs w-40 sticky top-20 self-start space-y-3 text-sm">
+        <div>
+            <a href="#introduction" className="block font-semibold">{`> `} introduction</a>
+        </div>
+
+        <div className="space-y-1">
+          <a href="#accounts" className="block font-semibold">{`> `} accounts</a>
+            <div className="pl-3 space-y-1 opacity-80">
+              <a href="#register" className="block">register</a>
+              <a href="#login" className="block">log in</a>
+            </div>
+        </div>
+
+        <div className="space-y-1">
+          <a href="#solve-problems" className="block font-semibold">{`> `} solve problems</a>
+            <div className="pl-3 space-y-1 opacity-80">
+              <a href="#solve-description" className="block">description</a>
+              <a href="#code-editor" className="block">code editor</a>
+              <a href="#submission" className="block">submitting solutions</a>
+              <a href="#test-case-viewing" className="block">view accuracy</a>
+            </div>
+        </div>
+
+        <div className="space-y-1">
+          <a href="#create-problems" className="block font-semibold">{`> `} create problems</a>
+          <div className="pl-3 space-y-1 opacity-80">
+            <a href="#create-description" className="block">description</a>
+            <a href="#starter-code" className="block">starter code</a>
+            <a href="#test-cases" className="block">test cases</a>
+            <a href="#title" className="block">title</a>
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <a href="#profiles" className="block font-semibold">{`> `} profiles</a>
+          <div className="pl-3 space-y-1 opacity-80">
+            <a href="#displayed-info" className="block">displayed info</a>
+            <a href="#problems-solved" className="block">problems solved</a>
+            <a href="#published-problems" className="block">published problems</a>
+          </div>
+        </div>
+      </aside>
+        
+      {/* Main Documentation */}
       <main className="min-h-[calc(100vh-4rem)] max-w-2xl mx-auto px-6 py-16 text-left space-y-16">       
         {/* Introduction */}
         <section id="introduction" className="space-y-3">
@@ -198,5 +245,7 @@ export default function GuidePage() {
           </div>
         </section>
       </main>
+
+    </div>
     );
   }
