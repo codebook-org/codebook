@@ -1,6 +1,6 @@
 export default async function AboutPage() {
     return (
-      <main className="h-screen flex flex-col justify-center max-w-2xl mx-auto px-6 py-16 text-left">
+      <main className="min-h-[calc(100vh-4rem)] flex flex-col justify-center max-w-2xl mx-auto px-6 py-16 text-left">
         <section className="mb-8">
           <h1 className="text-monaco-txt font-mono text-2xl font-bold mb-3">
             {`> `}about
