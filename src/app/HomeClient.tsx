@@ -51,7 +51,7 @@ export default function HomeClient(): JSX.Element {
             rel="noopener noreferrer"
           >
             <button 
-              className="border border-blue-500 hover:bg-blue-500 cursor-pointer text-blue-500 hover:text-monaco-txt transition-colors px-2 py-1 -mt-1 rounded-lg ml-2"
+              className="border border-blue-500 hover:bg-blue-500 cursor-pointer text-blue-500 hover:text-monaco-txt transition-colors px-2 py-1 -my-1 rounded-lg ml-2"
             >
                 GitHub
             </button>
