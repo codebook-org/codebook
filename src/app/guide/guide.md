@@ -8,7 +8,7 @@ flavour text, that occurs before our sections. Can be easily removed if we just 
 
 ### register
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.
+Check it out! I'm certifiably using the markdown file. You won't find this altered line in the expage.tsx! Isn't that super cool? I am the Bone of my Sword Steel is my Body and Fire is my Blood. I have created over a Thousand Blades, Unknown to Death, Nor known to Life. Have withstood Pain to create many Weapons Yet those Hands will never hold Anything. So, as I Pray-- Unlimited Blade Works
 
 ### log In
 
@@ -38,7 +38,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem
 
 more flavour text claiming that donating 1000 dollars to each codebook member will extend life expectancy..
 
-### description
+### writing descriptions
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.
 
