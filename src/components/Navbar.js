@@ -46,7 +46,7 @@ export default function Navbar() {
       <div className="flex items-center gap-4">
         <Link href="/" className="logo flex items-center">
           <Logo className="mx-2" color="text-monaco-txt" />
-          <div className="text-monaco-txt">codebook</div>
+          <div className="text-monaco-txt font-mono">codebook</div>
         </Link>
         <div className="w-[1px] h-4 bg-monaco-light mx-2" />
         <ul className="flex items-center gap-2 -ml-2">
@@ -58,7 +58,7 @@ export default function Navbar() {
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
                 >
-                  <div className=" group border-monaco-light p-2 rounded-lg hover:bg-monaco-mid">
+                  <div className="group border-monaco-light p-2 transition-colors rounded-lg hover:bg-monaco-mid">
                     <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
                   </div>
                 </Link>
@@ -70,8 +70,8 @@ export default function Navbar() {
       <div className="flex items-center gap-4 mr-2">
         {status === "unauthenticated" ? (
           <Link href="/login">
-            <div className="border-1 border-monaco-mid p-2 px-6 text-sm text-monaco-muted rounded-lg hover:text-monaco-txt hover:bg-monaco-mid">
-              Sign In
+            <div className="border-1 border-monaco-mid p-2 px-6 text-sm text-monaco-muted transition-colors rounded-lg hover:text-monaco-txt hover:bg-monaco-mid">
+              Sign in
             </div>
           </Link>
         ) : (
@@ -86,7 +86,7 @@ export default function Navbar() {
                         target={isExternal ? "_blank" : undefined}
                         rel={isExternal ? "noopener noreferrer" : undefined}
                       >
-                        <div className=" group border-monaco-light p-2 rounded-lg hover:bg-monaco-mid">
+                        <div className=" group border-monaco-light p-2 transition-colors rounded-lg hover:bg-monaco-mid">
                           <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
                         </div>
                       </Link>

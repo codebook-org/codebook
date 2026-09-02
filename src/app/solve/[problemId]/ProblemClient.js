@@ -426,6 +426,7 @@ export default function ProblemClient({
                     overviewRulerBorder: false,
                     renderLineHighlight: "none",
                     glyphMargin: false,
+                    fontFamily: "JetBrains Mono",
                     lineNumbers: keybind === "vim" ? "relative" : "on",
                   }}
                 />
