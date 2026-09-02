@@ -49,7 +49,7 @@ export default function GuidePage() {
       {/* Main Documentation */}
       <main className="min-h-[calc(100vh-4rem)] max-w-2xl mx-auto px-6 py-16 text-left space-y-16">       
         {/* Introduction */}
-        <section id="introduction" className="space-y-3">
+        <section id="introduction" className="space-y-3 scroll-mt-20">
           <h1 className="text-monaco-txt font-mono text-2xl font-bold">
             {`> `}introduction
           </h1>
@@ -74,7 +74,7 @@ export default function GuidePage() {
           </div>
           
           <div className="space-y-1">
-            <h3 id="register" className="font-semibold">register</h3>
+            <h3 id="register" className="font-semibold scroll-mt-20">register</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -86,7 +86,7 @@ export default function GuidePage() {
           </div>
   
           <div className="space-y-1">
-            <h3 id="login" className="font-semibold">log in</h3>
+            <h3 id="login" className="font-semibold scroll-mt-20">log in</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -97,7 +97,7 @@ export default function GuidePage() {
         </section>
 
         {/*Solve Problems*/}
-        <section id="solve-problems" className="space-y-6">
+        <section id="solve-problems" className="space-y-6 scroll-mt-20">
           <div className="space-y-2">
             <h2 className="text-monaco-txt font-mono text-xl font-bold border-b pb-1">
               {`> `}solve problems
@@ -109,7 +109,7 @@ export default function GuidePage() {
           </div>
           
           <div className="space-y-1">
-            <h3 id="solve-description" className="font-semibold">description</h3>
+            <h3 id="solve-description" className="font-semibold scroll-mt-20">description</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -119,7 +119,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="code-editor" className="font-semibold">code editor</h3>
+            <h3 id="code-editor" className="font-semibold scroll-mt-20">code editor</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -129,7 +129,7 @@ export default function GuidePage() {
           </div>
   
           <div className="space-y-1">
-            <h3 id="submission" className="font-semibold">submitting solutions</h3>
+            <h3 id="submission" className="font-semibold scroll-mt-20">submitting solutions</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -139,7 +139,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="test-case-viewing" className="font-semibold">view accuracy</h3>
+            <h3 id="test-case-viewing" className="font-semibold scroll-mt-20">view accuracy</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -150,7 +150,7 @@ export default function GuidePage() {
         </section>
 
         {/* Create Problems */}
-        <section id="create-problems" className="space-y-6">
+        <section id="create-problems" className="space-y-6 scroll-mt-20">
           <div className="space-y-2">
             <h2 className="text-monaco-txt font-mono text-xl font-bold border-b pb-1">
               {`> `}create problems
@@ -162,7 +162,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="create-description" className="font-semibold">description</h3>
+            <h3 id="create-description" className="font-semibold scroll-mt-20">description</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -172,7 +172,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="starter-code" className="font-semibold">starter code</h3>
+            <h3 id="starter-code" className="font-semibold scroll-mt-20">starter code</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -182,7 +182,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="test-cases" className="font-semibold">test cases</h3>
+            <h3 id="test-cases" className="font-semibold scroll-mt-20">test cases</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -192,7 +192,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="title" className="font-semibold">title</h3>
+            <h3 id="title" className="font-semibold scroll-mt-20">title</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -203,7 +203,7 @@ export default function GuidePage() {
         </section>
 
         {/* Profiles */}
-        <section id="profiles" className="space-y-6">
+        <section id="profiles" className="space-y-6 scroll-mt-20">
           <div className="space-y-2">
             <h2 className="text-monaco-txt font-mono text-xl font-bold border-b pb-1">
               {`> `}profiles
@@ -215,7 +215,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="displayed-info" className="font-semibold">displayed information</h3>
+            <h3 id="displayed-info" className="font-semibold scroll-mt-20">displayed information</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -225,7 +225,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="problems-solved" className="font-semibold">problems solved</h3>
+            <h3 id="problems-solved" className="font-semibold scroll-mt-20">problems solved</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -235,7 +235,7 @@ export default function GuidePage() {
           </div>
 
           <div className="space-y-1">
-            <h3 id="published-problems" className="font-semibold">published problems</h3>
+            <h3 id="published-problems" className="font-semibold scroll-mt-20">published problems</h3>
 
             <p className="text-sm opacity-80 leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
