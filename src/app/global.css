@@ -323,6 +323,7 @@ body {
 .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
   background-color: white;
   opacity: 8%;
+}
 
 @keyframes blink {
   0%, 49% { opacity: 1; }
