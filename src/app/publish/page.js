@@ -265,6 +265,7 @@ export default function Publish() {
                     folding: false,
                     lineDecorationsWidth: 0,
                     lineNumbersMinChars: 0,
+                    fontFamily: "JetBrains Mono",
                   }}
                 />
               </div>
@@ -332,6 +333,7 @@ export default function Publish() {
                     overviewRulerBorder: false,
                     renderLineHighlight: "none",
                     glyphMargin: false,
+                    fontFamily: "JetBrains Mono",
                   }}
                 />
               </Card>
@@ -354,7 +356,7 @@ export default function Publish() {
                         </span>
                         <div className="flex flex-1 items-center gap-3">
                           <input
-                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Input"
                             value={data.input}
                             onChange={(e) =>
@@ -363,7 +365,7 @@ export default function Publish() {
                           />
                           <MoveRight className="size-4.5 text-monaco-muted" />
                           <input
-                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Output"
                             value={data.output}
                             onChange={(e) =>
