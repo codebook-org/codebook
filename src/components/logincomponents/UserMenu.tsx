@@ -12,7 +12,11 @@ export default function UserMenu() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const MENU_LINKS = [
-    { href: `/profile/${session?.user?.id}`, label: "Profile", icon: UserRound },
+    {
+      href: `/profile/${session?.user?.id}`,
+      label: "Profile",
+      icon: UserRound,
+    },
     { href: "/myproblems", label: "My problems", icon: Notebook },
     { href: "/favorites", label: "Favorites", icon: Heart },
     { href: "/settings", label: "User settings", icon: Settings },
