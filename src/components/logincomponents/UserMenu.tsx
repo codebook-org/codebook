@@ -1,18 +1,22 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { UserRound, Settings } from "lucide-react";
+import { UserRound, Settings, LogOut, Notebook, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
 
-import Image from "next/image"; // Required for Next.js image.
-
 export default function UserMenu() {
   const { data: session, status } = useSession();
-
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const MENU_LINKS = [
+    { href: `/profile/${session?.user?.id}`, label: "Profile", icon: UserRound },
+    { href: "/myproblems", label: "My problems", icon: Notebook },
+    { href: "/favorites", label: "Favorites", icon: Heart },
+    { href: "/settings", label: "User settings", icon: Settings },
+  ];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -77,21 +81,18 @@ export default function UserMenu() {
                 </div>
               </div>
               <div className="flex flex-col gap-0.5">
-                <Link
-                  href={`/profile/${session?.user?.id}`}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center w-full px-3 py-2.5 text-xs text-monaco-txt rounded-lg hover:bg-monaco-mid transition"
-                >
-                  <UserRound className="size-4 text-monaco-muted mr-2 shrink-0" />
-                  Profile
-                </Link>
-                <Link
-                  href="/settings"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center w-full px-3 py-2 text-xs text-zinc-300 rounded-lg hover:bg-zinc-800 transition"
-                >
-                  Settings
-                </Link>
+                {MENU_LINKS.map(({ href, label, icon: Icon }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center w-full px-3 py-2.5 text-xs text-monaco-txt rounded-lg hover:bg-monaco-mid transition-colors"
+                    >
+                      <Icon className="size-4 text-monaco-muted mr-2 shrink-0" />
+                      {label}
+                    </Link>
+                  </li>
+                ))}
               </div>
               <div className="pt-1 mt-1 border-t border-monaco-light">
                 <button
@@ -99,8 +100,9 @@ export default function UserMenu() {
                     setIsOpen(false);
                     signOut({ callbackUrl: "/" });
                   }}
-                  className="w-full text-left px-3 py-2 text-xs text-red-400 rounded-lg hover:bg-red-950/30 transition font-medium"
+                  className="flex items-center w-full text-left px-3 py-2.5 text-xs cursor-pointer text-red-400 rounded-lg hover:bg-red-950/30 transition-colors font-medium"
                 >
+                  <LogOut className="size-4 text-red-400/70 mr-2" />
                   Sign Out
                 </button>
               </div>
