@@ -14,7 +14,7 @@ export default function Tooltip({ children, content, side = "top" }) {
             sideOffset={6}
             className={`
               z-9999 overflow-hidden rounded-md 
-              bg-monaco-dark border border-monaco-light py-1.5 px-2 
+              bg-monaco-dark border border-monaco-light py-1.5 px-3 
               text-xs font-medium text-monaco-txt 
               shadow-xl shadow-black/25 
               transition-all 
