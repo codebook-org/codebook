@@ -105,5 +105,3 @@ track your problems solved! this tab lists every challenge you have successfully
 ### published problems
 
 manage and show off the challenges you’ve created. this tab displays all the problems you’ve authored and published to codebook, allowing other users to explore, solve, and rate your contributions.
-
-

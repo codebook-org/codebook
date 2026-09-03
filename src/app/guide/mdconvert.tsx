@@ -78,9 +78,7 @@ export default function ConvertedGuide() {
               </ul>
             ),
             li: ({ children }) => (
-              <li className="text-sm opacity-80 leading-relaxed">
-                {children}
-              </li>
+              <li className="text-sm opacity-80 leading-relaxed">{children}</li>
             ),
             pre: ({ children }) => (
               <pre className="my-5 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950 p-4 font-mono text-sm leading-relaxed text-zinc-200 shadow-xl scrollbar-none">
