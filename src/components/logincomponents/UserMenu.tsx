@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { UserRound, Settings } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
@@ -30,16 +31,11 @@ export default function UserMenu() {
   if (status !== "authenticated" || !session?.user) return null;
 
   return (
-    <div
-      className="relative"
-      ref={dropdownRef}
-      style={{ display: "inline-block" }}
-    >
+    <div className="relative inline-block" ref={dropdownRef}>
       <Tooltip content="Open user navigation menu">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="group flex cursor-pointer focus:outline-none items-center gap-3"
-          style={{ background: "none", border: "none", padding: 0 }}
+          className="group flex cursor-pointer items-center gap-3 bg-transparent p-0 border-0 focus:outline-none"
         >
           <div className="h-8 w-8 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">
             {session.user.displayName?.charAt(0).toUpperCase() ||
@@ -51,65 +47,59 @@ export default function UserMenu() {
           </div>
         </button>
       </Tooltip>
-      <AnimatePresence >
+      <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -5 }}
+            key="user-dropdown"
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.15, ease: "easeInOut" }}
             className="w-full"
           >
-            <div className="absolute right-0 top-full mt-2 w-64 z-[9999] bg-monaco-dark border border-monaco-light shadow-2xl rounded-2xl overflow-hidden">
-              <div className="flex flex-col items-center p-4 border-b border-zinc-800">
-                <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
+            <div className="absolute right-0 top-full mt-2 p-2 w-56 z-[9999] bg-monaco-dark border border-monaco-light shadow-xl shadow-black/40 rounded-2xl overflow-hidden">
+              <div className="flex items-center pb-2">
+                <div className="h-12 w-12 shrink-0 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
                   {session.user.displayName?.charAt(0).toUpperCase() ||
                     session.user.username?.charAt(0).toUpperCase() ||
                     "?"}
                 </div>
-                <span className="text-xs text-zinc-500">Signed in as</span>
-                <span className="font-bold text-white text-sm">
-                  {session.user.displayName ||
-                    session.user.username ||
-                    session.user.name ||
-                    ""}
-                </span>
-                <span className="text-xs text-zinc-400 truncate w-full text-center">
-                  {session.user.email}
-                </span>
-
-                {/* Uncomment the ID section if you want to debug with ID. */}
-
-                {/* <span className="text-xs text-zinc-400 truncate w-full text-center">
-                  {session.user.id}
-                </span> */}
+                <div className="flex flex-col ml-3 min-w-0">
+                  <span className="font-bold text-monaco-txt text-xs truncate">
+                    {session.user.displayName ||
+                      session.user.username ||
+                      session.user.name ||
+                      ""}
+                  </span>
+                  <span className="text-xs text-monaco-muted truncate">
+                    {session.user.email}
+                  </span>
+                </div>
               </div>
-
-              <div className="p-1">
-                <Link
-                  href={`/settings`}
-                  onClick={() => setIsOpen(false)}
-                  className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
-                >
-                  Settings
-                </Link>
-
+              <div className="flex flex-col gap-0.5">
                 <Link
                   href={`/profile/${session?.user?.id}`}
                   onClick={() => setIsOpen(false)}
-                  className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
+                  className="flex items-center w-full px-3 py-2.5 text-xs text-monaco-txt rounded-lg hover:bg-monaco-mid transition"
                 >
+                  <UserRound className="size-4 text-monaco-muted mr-2 shrink-0" />
                   Profile
                 </Link>
+                <Link
+                  href="/settings"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center w-full px-3 py-2 text-xs text-zinc-300 rounded-lg hover:bg-zinc-800 transition"
+                >
+                  Settings
+                </Link>
               </div>
-
-              <div className="p-1 border-t border-zinc-800">
+              <div className="pt-1 mt-1 border-t border-monaco-light">
                 <button
                   onClick={() => {
                     setIsOpen(false);
                     signOut({ callbackUrl: "/" });
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-950/30 transition font-medium"
+                  className="w-full text-left px-3 py-2 text-xs text-red-400 rounded-lg hover:bg-red-950/30 transition font-medium"
                 >
                   Sign Out
                 </button>
