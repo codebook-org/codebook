@@ -34,7 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.
 
-## create Problems
+## create problems
 
 more flavour text claiming that donating 1000 dollars to each codebook member will extend life expectancy..
 
@@ -58,7 +58,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem
 
 flavour text about codebook's awesome members!
 
-### displayed Information
+### displayed information
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.
 

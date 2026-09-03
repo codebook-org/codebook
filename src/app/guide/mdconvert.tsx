@@ -1,17 +1,47 @@
 import ReactMarkdown from "react-markdown";
-import fs from "fs";
-import path from "path";
 import rehypeSlug from "rehype-slug";
+import { guides } from "#site/content";
 
-// Refreshes fetch upon page refresh. Kinda gets around nextJs issue?
 export const dynamic = "force-dynamic";
 
+class TocItem {
+  title: string;
+  url: string;
+  depth: number;
+}
+
+// Our headers are nested into eachother, as items. We need to calculate depth.
+function flattenToc(items: any[], depth = 1): TocItem[] {
+  return items.flatMap((item) => [
+    { title: item.title, url: item.url, depth },
+    ...(item.items ? flattenToc(item.items, depth + 1) : []),
+  ]);
+}
+
 export default function ConvertedGuide() {
-  const filePath = path.join(process.cwd(), "src", "app", "guide", "guide.md");
-  const markdownContent = fs.readFileSync(filePath, "utf8");
+  // Guides exports as an array, so we need to grab the information ("first index")
+  const guide = guides[0];
+
+  const flatToc = flattenToc(guide.toc);
 
   return (
-    <div>
+    <div className="flex justify-center gap-12 max-w-5xl mx-auto px-6">
+      <aside className="text-monaco-txt font-mono text-sm w-40 sticky top-20 self-start space-y-1">
+        {flatToc.map((item) => (
+          <a
+            key={item.url}
+            href={item.url}
+            className={`${
+              item.depth <= 2
+                ? "block font-semibold mt-4"
+                : "block pl-3 opacity-80"
+            }`}
+          >
+            {item.depth <= 2 ? `> ${item.title}` : item.title}
+          </a>
+        ))}
+      </aside>
+
       <main className="min-h-[calc(100vh-4rem)] max-w-2xl mx-auto px-6 py-16 text-left space-y-16">
         <ReactMarkdown
           rehypePlugins={[rehypeSlug]}
@@ -44,7 +74,7 @@ export default function ConvertedGuide() {
             ),
           }}
         >
-          {markdownContent}
+          {guide.raw}
         </ReactMarkdown>
       </main>
     </div>

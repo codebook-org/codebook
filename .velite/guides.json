@@ -1,1 +1,104 @@
-[]
+[
+  {
+    "slug": "guide/guide",
+    "raw": "# introduction\n\nwelcome to codebook. whether you're here to prepare for upcoming technical interviews, test your problem solving limits, or design and share your own challenges, this guide will walk you through everything codebook has to offer. dive into the sections below to get started, or use the sidebar to jump to a section.\n\n## accounts\n\nflavour text, that occurs before our sections. Can be easily removed if we just want to get straight into the sections.\n\n### register\n\nCheck it out! I'm certifiably using the markdown file. You won't find this altered line in the expage.tsx! Isn't that super cool? I am the Bone of my Sword Steel is my Body and Fire is my Blood. I have created over a Thousand Blades, Unknown to Death, Nor known to Life. Have withstood Pain to create many Weapons Yet those Hands will never hold Anything. So, as I Pray-- Unlimited Blade Works\n\n### log In\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n## solve problems\n\nawesome flavour text that claims 1500 scientific documents say using codebook increases your iq by 100!\n\n### description\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### code editor\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### submitting solutions\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### view accuracy\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n## create problems\n\nmore flavour text claiming that donating 1000 dollars to each codebook member will extend life expectancy..\n\n### writing descriptions\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### starter Code\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### test Cases\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### title\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n## profiles\n\nflavour text about codebook's awesome members!\n\n### displayed information\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### problems Solved\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.\n\n### published Problems\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.",
+    "content": "<h1 id=\"introduction\">introduction</h1>\n<p>welcome to codebook. whether you're here to prepare for upcoming technical interviews, test your problem solving limits, or design and share your own challenges, this guide will walk you through everything codebook has to offer. dive into the sections below to get started, or use the sidebar to jump to a section.</p>\n<h2 id=\"accounts\">accounts</h2>\n<p>flavour text, that occurs before our sections. Can be easily removed if we just want to get straight into the sections.</p>\n<h3 id=\"register\">register</h3>\n<p>Check it out! I'm certifiably using the markdown file. You won't find this altered line in the expage.tsx! Isn't that super cool? I am the Bone of my Sword Steel is my Body and Fire is my Blood. I have created over a Thousand Blades, Unknown to Death, Nor known to Life. Have withstood Pain to create many Weapons Yet those Hands will never hold Anything. So, as I Pray-- Unlimited Blade Works</p>\n<h3 id=\"log-in\">log In</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h2 id=\"solve-problems\">solve problems</h2>\n<p>awesome flavour text that claims 1500 scientific documents say using codebook increases your iq by 100!</p>\n<h3 id=\"description\">description</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"code-editor\">code editor</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"submitting-solutions\">submitting solutions</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"view-accuracy\">view accuracy</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h2 id=\"create-problems\">create problems</h2>\n<p>more flavour text claiming that donating 1000 dollars to each codebook member will extend life expectancy..</p>\n<h3 id=\"writing-descriptions\">writing descriptions</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"starter-code\">starter Code</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"test-cases\">test Cases</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"title\">title</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h2 id=\"profiles\">profiles</h2>\n<p>flavour text about codebook's awesome members!</p>\n<h3 id=\"displayed-information\">displayed information</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"problems-solved\">problems Solved</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>\n<h3 id=\"published-problems\">published Problems</h3>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sapien lorem. Proin in eleifend neque. Ut porttitor risus sed posuere commodo.</p>",
+    "toc": [
+      {
+        "title": "introduction",
+        "url": "#introduction",
+        "items": [
+          {
+            "title": "accounts",
+            "url": "#accounts",
+            "items": [
+              {
+                "title": "register",
+                "url": "#register",
+                "items": []
+              },
+              {
+                "title": "log In",
+                "url": "#log-in",
+                "items": []
+              }
+            ]
+          },
+          {
+            "title": "solve problems",
+            "url": "#solve-problems",
+            "items": [
+              {
+                "title": "description",
+                "url": "#description",
+                "items": []
+              },
+              {
+                "title": "code editor",
+                "url": "#code-editor",
+                "items": []
+              },
+              {
+                "title": "submitting solutions",
+                "url": "#submitting-solutions",
+                "items": []
+              },
+              {
+                "title": "view accuracy",
+                "url": "#view-accuracy",
+                "items": []
+              }
+            ]
+          },
+          {
+            "title": "create problems",
+            "url": "#create-problems",
+            "items": [
+              {
+                "title": "writing descriptions",
+                "url": "#writing-descriptions",
+                "items": []
+              },
+              {
+                "title": "starter Code",
+                "url": "#starter-code",
+                "items": []
+              },
+              {
+                "title": "test Cases",
+                "url": "#test-cases",
+                "items": []
+              },
+              {
+                "title": "title",
+                "url": "#title",
+                "items": []
+              }
+            ]
+          },
+          {
+            "title": "profiles",
+            "url": "#profiles",
+            "items": [
+              {
+                "title": "displayed information",
+                "url": "#displayed-information",
+                "items": []
+              },
+              {
+                "title": "problems Solved",
+                "url": "#problems-solved",
+                "items": []
+              },
+              {
+                "title": "published Problems",
+                "url": "#published-problems",
+                "items": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

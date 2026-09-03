@@ -1,4 +1,4 @@
-import { build } from 'velite';
+import { build } from "velite";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,13 +21,12 @@ const nextConfig = {
   },
 };
 
-
 let isBuilding = false;
 
 export default async () => {
   if (!isBuilding) {
     isBuilding = true;
-    await build({ watch: process.env.NODE_ENV === 'development' });
+    await build({ watch: process.env.NODE_ENV === "development" });
   }
   return nextConfig;
 };
