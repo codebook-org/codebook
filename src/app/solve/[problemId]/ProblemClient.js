@@ -22,7 +22,7 @@ import {
   TextAlignStart,
   Code,
   ListChecks,
-  Grip,
+  GamepadDirectional,
   Star,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -213,9 +213,12 @@ export default function ProblemClient({
                       >
                         {solveCount}
                         <CircleCheck
-                          className={`size-4.5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
+                          className={`size-4.5 ${hasSolved ? "text-green-500" : "text-monaco-muted"}`}
                           aria-hidden="true"
                         />
+                        {hasSolved && (
+                          <div className="text-green-500 -ml-1">Solved!</div>
+                        )}
                       </div>
                     </Tooltip>
                   </div>
@@ -304,8 +307,18 @@ export default function ProblemClient({
                           {language}
                         </button>
                       </Tooltip>
+
+                        <AnimatePresence>
                       {dropdownOpen === "language" && (
-                        <div className="absolute top-full left-0 w-32 bg-monaco-mid border border-monaco-muted rounded-xl z-50 shadow-xl shadow-black/25 overflow-hidden">
+                            <motion.div
+                              key="keybind-dropdown"
+                              initial={{ opacity: 0, y: -15 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: 0 }}
+                              transition={{ duration: 0.15, ease: "easeInOut" }}
+                              className="absolute top-full mt-2 left-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-xl shadow-xl shadow-black/30 overflow-hidden"
+                            >
+                              <div className="flex flex-col gap-1">
                           {LANGUAGES.map((lang) => (
                             <button
                               key={lang}
@@ -313,18 +326,24 @@ export default function ProblemClient({
                                 setLanguage(lang);
                                 setDropdownOpen(null);
                               }}
-                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize cursor-pointer ${
-                                language === lang
-                                  ? "bg-monaco-mid text-white font-medium"
-                                  : "text-monaco-muted hover:bg-monaco-light hover:text-white"
-                              }`}
-                            >
-                              {lang}
-                            </button>
-                          ))}
-                        </div>
-                      )}
+                              className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
+                              language === lang
+                                        ? "bg-monaco-mid text-monaco-txt"
+                                        : "hover:bg-monaco-mid text-monaco-txt"
+                                    }`}
+                                  >
+                                    {lang}
+                                  </button>
+                                ))}
+                              </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
+                  </div>
+                }
+                optionsRight={
+                  <div className="flex items-center h-full">
                     <div className="relative" ref={keybindDropdownRef}>
                       <Tooltip content="Keybindings">
                         <button
@@ -333,38 +352,45 @@ export default function ProblemClient({
                               dropdownOpen === "keybinds" ? null : "keybinds",
                             )
                           }
-                          className={`group hover:bg-monaco-light p-1.5 ml-0.5 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "text-monaco-muted"} cursor-pointer`}
+                          className={`group hover:bg-monaco-light p-1.5 mr-1 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "text-monaco-muted"} cursor-pointer`}
                         >
-                          <Grip
+                          <GamepadDirectional
                             className="size-4.5"
                           />
                         </button>
                       </Tooltip>
-                      {dropdownOpen === "keybinds" && (
-                        <div className="absolute top-full left-0 w-32 bg-monaco-mid border border-monaco-muted rounded-xl z-50 shadow-xl shadow-black/25 overflow-hidden">
-                          {KEYBINDS.map((bind) => (
-                            <button
-                              key={bind}
-                              onClick={() => {
-                                setKeybind(bind);
-                                setDropdownOpen(null);
-                              }}
-                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize cursor-pointer ${
-                                keybind === bind
-                                  ? "bg-monaco-mid text-white font-medium"
-                                  : "text-monaco-muted hover:bg-monaco-light hover:text-white"
-                              }`}
+                        <AnimatePresence>
+                          {dropdownOpen === "keybinds" && (
+                            <motion.div
+                              key="keybind-dropdown"
+                              initial={{ opacity: 0, y: -15 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: 0 }}
+                              transition={{ duration: 0.15, ease: "easeInOut" }}
+                              className="absolute top-full mt-2 right-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-xl shadow-xl shadow-black/30 overflow-hidden"
                             >
-                              {bind}
-                            </button>
-                          ))}
-                        </div>
-                      )}
+                                <div className="flex flex-col gap-1">
+                              {KEYBINDS.map((bind) => (
+                                  <button
+                                    key={bind}
+                                    onClick={() => {
+                                      setKeybind(bind);
+                                      setDropdownOpen(null);
+                                    }}
+                                    className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
+                                      keybind === bind
+                                        ? "bg-monaco-mid text-monaco-txt"
+                                        : "hover:bg-monaco-mid text-monaco-txt"
+                                    }`}
+                                  >
+                                    {bind}
+                                  </button>
+                              ))}
+                                </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                  </div>
-                }
-                optionsRight={
-                  <div className="flex items-center h-full">
                     <Tooltip content="Reset">
                       <Confirmation
                         title="Are you sure?"
@@ -378,7 +404,7 @@ export default function ProblemClient({
                           if (resetSuccessful) toast.success("Code reset!");
                         }}
                       >
-                        <button className="ml-4 flex items-center transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer">
+                        <button className="group hover:bg-monaco-light p-1.5 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 $ cursor-pointer">
                           <RotateCcw className="size-4.5" />
                         </button>
                       </Confirmation>
@@ -392,61 +418,59 @@ export default function ProblemClient({
                     <div className="px-4" id="vim-status-bar" />
                   </div>
                 }
+                optionsBottom={
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={status !== "" && status !== "done"}
+                    className="px-16 py-2 w-full rounded-lg text-sm font-semibold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
+                  >
+                    {status !== "" && status !== "done" ? (
+                      ""
+                    ) : (
+                      <CloudUpload className="size-4.5" strokeWidth={2.5} />
+                    )}
+                    <span className="ml-2">
+                      {status !== "" && status !== "done"
+                        ? "Running code..."
+                        : "Submit"}
+                    </span>
+                  </button>
+                }
               >
-                <div className="h-full">
-                  <Editor
-                    onMount={(editor) => {
-                      editorRef.current = editor;
-                      editorRef.current.focus();
-                    }}
-                    height="100%"
-                    language={language === "c++" ? "cpp" : language}
-                    theme="vs-dark"
-                    value={code[language === "c++" ? "cpp" : language]}
-                    onChange={(newValue) => {
-                      setCode((prev) => ({
-                        ...prev,
-                        [language === "c++" ? "cpp" : language]: newValue ?? "",
-                      }));
-                    }}
-                    options={{
-                      minimap: { enabled: false },
-                      stickyScroll: { enabled: false },
-                      scrollbar: {
-                        vertical: "hidden",
-                        horizontal: "hidden",
-                        handleMouseWheel: true,
-                        castShadows: false,
-                      },
-                      overviewRulerLanes: 0,
-                      hideCursorInOverviewRuler: true,
-                      overviewRulerBorder: false,
-                      renderLineHighlight: "none",
-                      glyphMargin: false,
-                      fontFamily: "JetBrains Mono",
-                      lineNumbers: keybind === "vim" ? "relative" : "on",
-                    }}
-                  />
-                  <div className="w-full">
-                    <button
-                      type="submit"
-                      onClick={handleSubmit}
-                      disabled={status !== "" && status !== "done"}
-                      className="px-16 py-1.5 mt-2 w-full rounded-lg text-sm font-semibold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
-                    >
-                      {status !== "" && status !== "done" ? (
-                        ""
-                      ) : (
-                        <CloudUpload className="size-4.5" strokeWidth={2.5} />
-                      )}
-                      <span className="ml-1">
-                        {status !== "" && status !== "done"
-                          ? "Running code..."
-                          : "Submit"}
-                      </span>
-                    </button>
-                  </div>
-                </div>
+                <Editor
+                  onMount={(editor) => {
+                    editorRef.current = editor;
+                    editorRef.current.focus();
+                  }}
+                  height="100%"
+                  language={language === "c++" ? "cpp" : language}
+                  theme="vs-dark"
+                  value={code[language === "c++" ? "cpp" : language]}
+                  onChange={(newValue) => {
+                    setCode((prev) => ({
+                      ...prev,
+                      [language === "c++" ? "cpp" : language]: newValue ?? "",
+                    }));
+                  }}
+                  options={{
+                    minimap: { enabled: false },
+                    stickyScroll: { enabled: false },
+                    scrollbar: {
+                      vertical: "hidden",
+                      horizontal: "hidden",
+                      handleMouseWheel: true,
+                      castShadows: false,
+                    },
+                    overviewRulerLanes: 0,
+                    hideCursorInOverviewRuler: true,
+                    overviewRulerBorder: false,
+                    renderLineHighlight: "none",
+                    glyphMargin: false,
+                    fontFamily: "JetBrains Mono",
+                    lineNumbers: keybind === "vim" ? "relative" : "on",
+                  }}
+                />
               </Card>
             </Panel>
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
@@ -466,13 +490,13 @@ export default function ProblemClient({
               >
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                    <div className="text-xs text-monaco-muted mb-8 font-regular">
+                    <div className="text-xs text-monaco-muted font-regular mb-8">
                       You must submit your code to view results.
                     </div>
                   </div>
                 )}
                 {!results && status && (
-                  <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                  <div className="flex flex-col items-center justify-center h-full pb-8 text-center">
                     <Loader />
                   </div>
                 )}

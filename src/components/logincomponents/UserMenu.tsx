@@ -84,7 +84,7 @@ export default function UserMenu() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col gap-1">
                 {MENU_LINKS.map(({ href, label, icon: Icon }) => (
                   <li key={href}>
                     <Link
