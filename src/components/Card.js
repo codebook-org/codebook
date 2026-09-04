@@ -62,7 +62,7 @@ export default function Card({
         </div>
       )}
       {(optionsLeft || optionsRight) && (
-        <div className="h-8 px-4 py-1.5 flex items-center justify-between gap-4 shrink-0">
+        <div className="px-2 flex items-center justify-between gap-4 shrink-0">
           <div className="flex items-center gap-2">{optionsLeft}</div>
           <div className="flex items-center gap-2 ml-auto">{optionsRight}</div>
         </div>

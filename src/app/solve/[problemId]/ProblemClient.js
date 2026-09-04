@@ -22,6 +22,8 @@ import {
   TextAlignStart,
   Code,
   ListChecks,
+  Keyboard,
+  Languages,
 } from "lucide-react";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
@@ -260,14 +262,14 @@ export default function ProblemClient({
                 </div>
               }
             >
-              <h1 className="text-2xl font-bold text-monaco-txt pt-2">
+              <h1 className="text-2xl font-bold font-mono text-monaco-txt pt-2">
                 {problem.title}
               </h1>
-              <hr className="border-t border-monaco-muted mt-2 mb-2"></hr>
+              <hr className="border-t border-monaco-light mt-2 mb-2"></hr>
               <div className="flex text-xs text-monaco-muted pb-4">
                 <h1 className="pr-1">By</h1>
                 <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
-                  <h1 className="hover:underline hover:text-blue-500">
+                  <h1 className="hover:underline hover:text-blue-500 transition-colors">
                     {problemCreator?.displayName ??
                       problemCreator?.username ??
                       "Unknown Author"}
@@ -306,8 +308,7 @@ export default function ProblemClient({
                         >
                           {language}
                           <ChevronDown
-                            className="size-4.5 -mr-1"
-                            strokeWidth={3}
+                            className="size-4.5"
                           />
                         </button>
                       </Tooltip>
@@ -473,7 +474,7 @@ export default function ProblemClient({
               >
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                    <div className="text-sm text-monaco-muted font-regular">
+                    <div className="text-xs text-monaco-muted mb-8 font-regular">
                       You must submit your code to view results.
                     </div>
                   </div>
