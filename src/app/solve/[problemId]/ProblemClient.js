@@ -16,7 +16,6 @@ import {
   ThumbsDown,
   CircleCheck,
   SquareArrowOutUpRight,
-  ChevronDown,
   RotateCcw,
   CloudUpload,
   TextAlignStart,
@@ -34,6 +33,7 @@ import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
 import Confirmation from "@/components/Confirmation";
 import Loader from "@/components/Loader";
+import SolveCelebration from "@/components/SolveCelebration";
 
 const LANGUAGES = ["c++", "python", "java"];
 const KEYBINDS = ["standard", "vim"];
@@ -132,13 +132,14 @@ export default function ProblemClient({
 
     setResults(data);
     setStatus("done");
-
     if (!hasSolved && data.verdict === "Accepted") {
       const result = await recordSolve(problem.problemId);
-      if (!result.success) toast.error(result.message);
-      else {
+      if (!result.success) {
+        toast.error(result.message);
+      } else {
         setHasSolved(true);
         setSolveCount((prev) => prev + 1);
+        SolveCelebration();
       }
     }
   };
@@ -316,7 +317,7 @@ export default function ProblemClient({
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: 0 }}
                               transition={{ duration: 0.15, ease: "easeInOut" }}
-                              className="absolute top-full mt-2 left-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-xl shadow-xl shadow-black/30 overflow-hidden"
+                              className="absolute top-full mt-2 left-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
                             >
                               <div className="flex flex-col gap-1">
                           {LANGUAGES.map((lang) => (
@@ -367,7 +368,7 @@ export default function ProblemClient({
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: 0 }}
                               transition={{ duration: 0.15, ease: "easeInOut" }}
-                              className="absolute top-full mt-2 right-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-xl shadow-xl shadow-black/30 overflow-hidden"
+                              className="absolute top-full mt-2 right-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
                             >
                                 <div className="flex flex-col gap-1">
                               {KEYBINDS.map((bind) => (
