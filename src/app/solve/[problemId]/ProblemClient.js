@@ -23,7 +23,7 @@ import {
   Code,
   ListChecks,
   Keyboard,
-  Languages,
+  Star,
 } from "lucide-react";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
@@ -186,33 +186,33 @@ export default function ProblemClient({
               title="Description"
               optionsLeft={
                 <div className="flex items-center h-full">
-                  <div className="flex items-center h-6 gap-3 rounded-lg bg-neutral-900 pr-3 text-xs text-neutral-300">
+                  <div className="flex items-center h-6 pr-3 text-xs">
                     <div className="flex items-center h-[24px]">
-                      <Tooltip content="Upvote">
+                      <Tooltip content="Like">
                         <button
-                          className={`flex items-center justify-center h-full px-2 rounded-l-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === true ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`flex items-center justify-center h-full px-2.5 py-3.5 rounded-l-lg hover:bg-monaco-light transition-colors font-medium hover:text-monaco-txt gap-2 ${currentVote === true ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(true)}
                         >
-                          <ThumbsUp className="size-4.5" aria-hidden="true" />
+                          <ThumbsUp className="size-4" aria-hidden="true" />
                           {likeCount - dislikeCount}
                         </button>
                       </Tooltip>
-                      <Tooltip content="Downvote">
+                      <Tooltip content="Dislike">
                         <button
-                          className={`flex items-center justify-center h-full px-2 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === false ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`flex items-center justify-center h-full px-2.5 py-3.5 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-monaco-txt gap-2 ${currentVote === false ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
-                          <ThumbsDown className="size-4.5" aria-hidden="true" />
+                          <ThumbsDown className="size-4" aria-hidden="true" />
                         </button>
                       </Tooltip>
                     </div>
                     <Tooltip content="Total accepted submissions">
                       <div
-                        className={`flex items-center font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}
+                        className={`flex items-center ml-3 font-medium ${hasSolved ? "text-monaco-txt" : "text-monaco-muted"} select-none gap-2`}
                       >
                         {solveCount}
                         <CircleCheck
-                          className={`size-4.5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
+                          className={`size-4 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
                           aria-hidden="true"
                         />
                       </div>
@@ -236,33 +236,27 @@ export default function ProblemClient({
                           setLinkCopied(false);
                         }, 2000);
                       }}
-                      className="transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer"
+                      className="transition-colors duration-150 p-1.5 cursor-pointer rounded-lg text-monaco-muted hover:bg-monaco-light hover:text-monaco-txt mr-1"
                     >
-                      <SquareArrowOutUpRight className="size-4.5" />
+                      <SquareArrowOutUpRight className="size-4" />
                     </button>
                   </Tooltip>
-                  {/* Commenting out until save/favorite is implemented
-                  <Tooltip content="Save">
+                  <Tooltip content="Favorite">
                     <button
                       onClick={() => setFavorited(!favorited)}
-                      className={`w-4 h-4 transition-all duration-150 hover:text-white ${
-                        favorited ? "text-monaco-txt" : "text-monaco-muted"
+                      className={`transition-colors duration-150 p-1.5 cursor-pointer rounded-lg hover:bg-monaco-light hover:text-monaco-txt
+                      ${
+                        favorited ? "text-monaco-txt bg-monaco-light" : "text-monaco-muted hover:text-monaco-txt"
                       }`}
                     >
-                      <svg
-                        viewBox="0 0 64 64"
-                        fill="currentColor"
-                        className="w-full h-full"
-                      >
-                        <path d="M62.799,23.737c-0.47-1.399-1.681-2.419-3.139-2.642l-16.969-2.593L35.069,2.265 C34.419,0.881,33.03,0,31.504,0c-1.527,0-2.915,0.881-3.565,2.265l-7.623,16.238L3.347,21.096c-1.458,0.223-2.669,1.242-3.138,2.642 c-0.469,1.4-0.115,2.942,0.916,4l12.392,12.707l-2.935,17.977c-0.242,1.488,0.389,2.984,1.62,3.854 c1.23,0.87,2.854,0.958,4.177,0.228l15.126-8.365l15.126,8.365c0.597,0.33,1.254,0.492,1.908,0.492c0.796,0,1.592-0.242,2.269-0.72 c1.231-0.869,1.861-2.365,1.619-3.854l-2.935-17.977l12.393-12.707C62.914,26.68,63.268,25.138,62.799,23.737z" />
-                      </svg>
+                      <Star 
+                        className={`size-4 ${favorited && ""}`} />
                     </button>
                   </Tooltip>
-                  */}
                 </div>
               }
             >
-              <h1 className="text-2xl font-bold font-mono text-monaco-txt pt-2">
+              <h1 className="text-2xl font-bold text-monaco-txt pt-2">
                 {problem.title}
               </h1>
               <hr className="border-t border-monaco-light mt-2 mb-2"></hr>
@@ -457,7 +451,7 @@ export default function ProblemClient({
                 </span>
               </button>
             </div>
-            <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
+            <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
             <Panel
@@ -526,7 +520,7 @@ export default function ProblemClient({
                     <h2 className={`mb-4 text-xl font-bold flex text-red-400`}>
                       {results.verdict}
                     </h2>
-                    <pre className="p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-sm font-mono">
+                    <pre className="p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-xs font-mono">
                       {results.stderr}
                     </pre>
                   </>

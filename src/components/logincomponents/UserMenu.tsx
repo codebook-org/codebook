@@ -90,7 +90,7 @@ export default function UserMenu() {
                     <Link
                       href={href}
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center w-full px-3 py-2.5 text-xs text-monaco-txt rounded-lg hover:bg-monaco-mid transition-colors"
+                      className="flex items-center font-medium w-full px-3 py-2.5 text-xs text-monaco-txt rounded-lg hover:bg-monaco-mid transition-colors"
                     >
                       <Icon className="size-4 text-monaco-muted mr-2 shrink-0" />
                       {label}
@@ -104,7 +104,7 @@ export default function UserMenu() {
                     setIsOpen(false);
                     signOut({ callbackUrl: "/" });
                   }}
-                  className="flex items-center w-full text-left px-3 py-2.5 text-xs cursor-pointer text-red-400 rounded-lg hover:bg-red-950/30 transition-colors font-medium"
+                  className="flex items-center w-full text-left px-3 py-2.5 text-xs cursor-pointer text-red-400 rounded-lg hover:bg-red-400/10 transition-colors font-medium"
                 >
                   <LogOut className="size-4 text-red-400/70 mr-2" />
                   Sign Out
