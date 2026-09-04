@@ -36,7 +36,7 @@ export default function HomeClient(): JSX.Element {
         for comprehensive documentation of her features.
       </div>
       <div className="text-sm font-mono text-monaco-txt mt-4 w-180">
-        {`> `}Found a bug? Drop us a line on
+        {`> `}Found a bug? Drop us a line over on
         {
           <Link
             href="https://github.com/codebook-org/codebook"

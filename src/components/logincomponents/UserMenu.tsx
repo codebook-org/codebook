@@ -1,16 +1,26 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { UserRound, Settings, LogOut, Notebook, Heart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
 
-import Image from "next/image"; // Required for Next.js image.
-
 export default function UserMenu() {
   const { data: session, status } = useSession();
-
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const MENU_LINKS = [
+    {
+      href: `/profile/${session?.user?.id}`,
+      label: "Profile",
+      icon: UserRound,
+    },
+    { href: "/myproblems", label: "My problems", icon: Notebook },
+    { href: "/favorites", label: "Favorites", icon: Heart },
+    { href: "/settings", label: "User settings", icon: Settings },
+  ];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -29,16 +39,11 @@ export default function UserMenu() {
   if (status !== "authenticated" || !session?.user) return null;
 
   return (
-    <div
-      className="relative"
-      ref={dropdownRef}
-      style={{ display: "inline-block" }}
-    >
+    <div className="relative inline-block" ref={dropdownRef}>
       <Tooltip content="Open user navigation menu">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="group flex cursor-pointer focus:outline-none items-center gap-3"
-          style={{ background: "none", border: "none", padding: 0 }}
+          className="group flex cursor-pointer items-center gap-3 bg-transparent p-0 border-0 focus:outline-none"
         >
           <div className="h-8 w-8 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">
             {session.user.displayName?.charAt(0).toUpperCase() ||
@@ -50,63 +55,65 @@ export default function UserMenu() {
           </div>
         </button>
       </Tooltip>
-      {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-64 z-[9999] bg-[#111] border border-zinc-800 shadow-2xl rounded-lg overflow-hidden">
-          <div className="flex flex-col items-center p-4 border-b border-zinc-800">
-            <div className="h-14 w-14 rounded-full mb-2 border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
-              {session.user.displayName?.charAt(0).toUpperCase() ||
-                session.user.username?.charAt(0).toUpperCase() ||
-                "?"}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="user-dropdown"
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.15, ease: "easeInOut" }}
+            className="w-full"
+          >
+            <div className="absolute right-0 top-full mt-2 p-2 w-56 z-[9999] bg-monaco-dark border border-monaco-light shadow-xl shadow-black/40 rounded-2xl overflow-hidden">
+              <div className="flex items-center pb-2">
+                <div className="h-12 w-12 shrink-0 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
+                  {session.user.displayName?.charAt(0).toUpperCase() ||
+                    session.user.username?.charAt(0).toUpperCase() ||
+                    "?"}
+                </div>
+                <div className="flex flex-col ml-3 min-w-0">
+                  <span className="font-bold text-monaco-txt text-xs truncate">
+                    {session.user.displayName ||
+                      session.user.username ||
+                      session.user.name ||
+                      ""}
+                  </span>
+                  <span className="text-xs text-monaco-muted truncate">
+                    {session.user.email}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                {MENU_LINKS.map(({ href, label, icon: Icon }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center w-full px-3 py-2.5 text-xs text-monaco-txt rounded-lg hover:bg-monaco-mid transition-colors"
+                    >
+                      <Icon className="size-4 text-monaco-muted mr-2 shrink-0" />
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </div>
+              <div className="pt-1 mt-1 border-t border-monaco-light">
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    signOut({ callbackUrl: "/" });
+                  }}
+                  className="flex items-center w-full text-left px-3 py-2.5 text-xs cursor-pointer text-red-400 rounded-lg hover:bg-red-950/30 transition-colors font-medium"
+                >
+                  <LogOut className="size-4 text-red-400/70 mr-2" />
+                  Sign Out
+                </button>
+              </div>
             </div>
-            <span className="text-xs text-zinc-500">Signed in as</span>
-            <span className="font-bold text-white text-sm">
-              {session.user.displayName ||
-                session.user.username ||
-                session.user.name ||
-                ""}
-            </span>
-            <span className="text-xs text-zinc-400 truncate w-full text-center">
-              {session.user.email}
-            </span>
-
-            {/* Uncomment the ID section if you want to debug with ID. */}
-
-            {/* <span className="text-xs text-zinc-400 truncate w-full text-center">
-              {session.user.id}
-            </span> */}
-          </div>
-
-          <div className="p-1">
-            <Link
-              href={`/settings`}
-              onClick={() => setIsOpen(false)}
-              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
-            >
-              Settings
-            </Link>
-
-            <Link
-              href={`/profile/${session?.user?.id}`}
-              onClick={() => setIsOpen(false)}
-              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
-            >
-              Profile
-            </Link>
-          </div>
-
-          <div className="p-1 border-t border-zinc-800">
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                signOut({ callbackUrl: "/" });
-              }}
-              className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-950/30 transition font-medium"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
