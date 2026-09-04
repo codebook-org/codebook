@@ -22,9 +22,10 @@ import {
   TextAlignStart,
   Code,
   ListChecks,
-  Keyboard,
+  Grip,
   Star,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
@@ -193,16 +194,16 @@ export default function ProblemClient({
                           className={`flex items-center justify-center h-full px-2.5 py-3.5 rounded-l-lg hover:bg-monaco-light transition-colors font-medium hover:text-monaco-txt gap-2 ${currentVote === true ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(true)}
                         >
-                          <ThumbsUp className="size-4" aria-hidden="true" />
+                          <ThumbsUp className="size-4.5" aria-hidden="true" />
                           {likeCount - dislikeCount}
                         </button>
                       </Tooltip>
                       <Tooltip content="Dislike">
                         <button
-                          className={`flex items-center justify-center h-full px-2.5 py-3.5 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-monaco-txt gap-2 ${currentVote === false ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`flex items-center justify-center h-full px-2.5 py-3.5 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-monaco-txt ${currentVote === false ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
-                          <ThumbsDown className="size-4" aria-hidden="true" />
+                          <ThumbsDown className="size-4.5" aria-hidden="true" />
                         </button>
                       </Tooltip>
                     </div>
@@ -212,7 +213,7 @@ export default function ProblemClient({
                       >
                         {solveCount}
                         <CircleCheck
-                          className={`size-4 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
+                          className={`size-4.5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
                           aria-hidden="true"
                         />
                       </div>
@@ -238,7 +239,7 @@ export default function ProblemClient({
                       }}
                       className="transition-colors duration-150 p-1.5 cursor-pointer rounded-lg text-monaco-muted hover:bg-monaco-light hover:text-monaco-txt mr-1"
                     >
-                      <SquareArrowOutUpRight className="size-4" />
+                      <SquareArrowOutUpRight className="size-4.5" />
                     </button>
                   </Tooltip>
                   <Tooltip content="Favorite">
@@ -250,13 +251,13 @@ export default function ProblemClient({
                       }`}
                     >
                       <Star 
-                        className={`size-4 ${favorited && ""}`} />
+                        className={`size-4.5 ${favorited && ""}`} />
                     </button>
                   </Tooltip>
                 </div>
               }
             >
-              <h1 className="text-2xl font-bold text-monaco-txt pt-2">
+              <h1 className="text-2xl font-bold text-monaco-txt">
                 {problem.title}
               </h1>
               <hr className="border-t border-monaco-light mt-2 mb-2"></hr>
@@ -298,12 +299,9 @@ export default function ProblemClient({
                               dropdownOpen === "language" ? null : "language",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`group text-xs hover:bg-monaco-light py-1.5 px-8 rounded-lg font-medium text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {language}
-                          <ChevronDown
-                            className="size-4.5"
-                          />
                         </button>
                       </Tooltip>
                       {dropdownOpen === "language" && (
@@ -335,12 +333,10 @@ export default function ProblemClient({
                               dropdownOpen === "keybinds" ? null : "keybinds",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`group hover:bg-monaco-light p-1.5 ml-0.5 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "text-monaco-muted"} cursor-pointer`}
                         >
-                          {keybind}
-                          <ChevronDown
-                            className="size-4.5 -mr-1"
-                            strokeWidth={3}
+                          <Grip
+                            className="size-4.5"
                           />
                         </button>
                       </Tooltip>
@@ -391,66 +387,68 @@ export default function ProblemClient({
                 }
                 statusBar={
                   <div
-                    className={`text-monaco-txt text-xs h-6 px-2 flex items-center font-mono -mx-4 ${keybind === "vim" ? "bg-monaco-mid" : "bg-monaco-dark"}`}
+                    className={`text-monaco-txt text-xs h-6 px-2 flex items-center -mx-4 ${keybind === "vim" ? "bg-monaco-mid" : "bg-monaco-dark"}`}
                   >
                     <div className="px-4" id="vim-status-bar" />
                   </div>
                 }
               >
-                <Editor
-                  onMount={(editor) => {
-                    editorRef.current = editor;
-                    editorRef.current.focus();
-                  }}
-                  height="100%"
-                  language={language === "c++" ? "cpp" : language}
-                  theme="vs-dark"
-                  value={code[language === "c++" ? "cpp" : language]}
-                  onChange={(newValue) => {
-                    setCode((prev) => ({
-                      ...prev,
-                      [language === "c++" ? "cpp" : language]: newValue ?? "",
-                    }));
-                  }}
-                  options={{
-                    minimap: { enabled: false },
-                    stickyScroll: { enabled: false },
-                    scrollbar: {
-                      vertical: "hidden",
-                      horizontal: "hidden",
-                      handleMouseWheel: true,
-                      castShadows: false,
-                    },
-                    overviewRulerLanes: 0,
-                    hideCursorInOverviewRuler: true,
-                    overviewRulerBorder: false,
-                    renderLineHighlight: "none",
-                    glyphMargin: false,
-                    fontFamily: "JetBrains Mono",
-                    lineNumbers: keybind === "vim" ? "relative" : "on",
-                  }}
-                />
+                <div className="h-full">
+                  <Editor
+                    onMount={(editor) => {
+                      editorRef.current = editor;
+                      editorRef.current.focus();
+                    }}
+                    height="100%"
+                    language={language === "c++" ? "cpp" : language}
+                    theme="vs-dark"
+                    value={code[language === "c++" ? "cpp" : language]}
+                    onChange={(newValue) => {
+                      setCode((prev) => ({
+                        ...prev,
+                        [language === "c++" ? "cpp" : language]: newValue ?? "",
+                      }));
+                    }}
+                    options={{
+                      minimap: { enabled: false },
+                      stickyScroll: { enabled: false },
+                      scrollbar: {
+                        vertical: "hidden",
+                        horizontal: "hidden",
+                        handleMouseWheel: true,
+                        castShadows: false,
+                      },
+                      overviewRulerLanes: 0,
+                      hideCursorInOverviewRuler: true,
+                      overviewRulerBorder: false,
+                      renderLineHighlight: "none",
+                      glyphMargin: false,
+                      fontFamily: "JetBrains Mono",
+                      lineNumbers: keybind === "vim" ? "relative" : "on",
+                    }}
+                  />
+                  <div className="w-full">
+                    <button
+                      type="submit"
+                      onClick={handleSubmit}
+                      disabled={status !== "" && status !== "done"}
+                      className="px-16 py-1.5 mt-2 w-full rounded-lg text-sm font-semibold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
+                    >
+                      {status !== "" && status !== "done" ? (
+                        ""
+                      ) : (
+                        <CloudUpload className="size-4.5" strokeWidth={2.5} />
+                      )}
+                      <span className="ml-1">
+                        {status !== "" && status !== "done"
+                          ? "Running code..."
+                          : "Submit"}
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </Card>
             </Panel>
-            <div className="w-full flex">
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                disabled={status !== "" && status !== "done"}
-                className="px-16 py-1.5 mt-2 w-full rounded-lg text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
-              >
-                {status !== "" && status !== "done" ? (
-                  ""
-                ) : (
-                  <CloudUpload className="size-4.5" strokeWidth={2.5} />
-                )}
-                <span className="ml-1">
-                  {status !== "" && status !== "done"
-                    ? "Running code..."
-                    : "Submit"}
-                </span>
-              </button>
-            </div>
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
