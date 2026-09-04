@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect } from "react";
 
 export default function Card({
   id,
+  icon: Icon,
   title,
   getMinHeight,
   tabs,
@@ -28,13 +29,14 @@ export default function Card({
   return (
     <div
       id={id}
-      className={`bg-monaco-dark rounded-lg h-full overflow-hidden flex flex-col outline-1 outline-transparent focus-within:outline-monaco-light focus-within:outline-offset-[-1px] ${className}`}
+      className={`bg-monaco-dark rounded-xl h-full overflow-hidden flex flex-col outline-1 outline-monaco-light outline-offset-[-1px] ${className}`}
       tabIndex="0"
     >
       <div
         ref={headerRef}
-        className="bg-monaco-mid text-sm font-semibold px-4 py-1.5 shrink-0"
+        className="flex items-center bg-monaco-dark text-sm font-semibold px-3 py-3 shrink-0"
       >
+        {Icon && <Icon className="size-4.5 text-monaco-txt mr-2" />}
         <h1 className="text-monaco-txt">{title || "Card Header"}</h1>
       </div>
       {tabs && tabs.length > 0 && (
@@ -60,7 +62,7 @@ export default function Card({
         </div>
       )}
       {(optionsLeft || optionsRight) && (
-        <div className="h-8 border-b border-monaco-mid px-4 py-1.5 flex items-center justify-between gap-4 shrink-0">
+        <div className="h-8 px-4 py-1.5 flex items-center justify-between gap-4 shrink-0">
           <div className="flex items-center gap-2">{optionsLeft}</div>
           <div className="flex items-center gap-2 ml-auto">{optionsRight}</div>
         </div>

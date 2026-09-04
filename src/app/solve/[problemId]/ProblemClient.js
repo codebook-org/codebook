@@ -19,6 +19,9 @@ import {
   ChevronDown,
   RotateCcw,
   CloudUpload,
+  TextAlignStart,
+  Code,
+  ListChecks,
 } from "lucide-react";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
@@ -177,6 +180,7 @@ export default function ProblemClient({
         left={
           <div className="h-full overflow-y-auto">
             <Card
+              icon={TextAlignStart}
               title="Description"
               optionsLeft={
                 <div className="flex items-center h-full">
@@ -285,6 +289,7 @@ export default function ProblemClient({
               maxSize="100%"
             >
               <Card
+                icon={Code}
                 title="Code"
                 getMinHeight={setMinPanelHeight}
                 optionsLeft={
@@ -461,6 +466,7 @@ export default function ProblemClient({
             >
               <Card
                 id="test-results"
+                icon={ListChecks}
                 title="Test Result"
                 getMinHeight={setMinPanelHeight}
                 className={status === "done" ? "animate-flash-blue" : ""}
