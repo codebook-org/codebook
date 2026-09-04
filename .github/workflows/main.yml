@@ -45,7 +45,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci --no-audit 
+      - run: npm ci --no-audit
       - run: npm audit --audit-level=high
 
   build-and-push:
