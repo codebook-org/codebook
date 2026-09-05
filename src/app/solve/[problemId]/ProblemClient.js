@@ -23,6 +23,7 @@ import {
   ListChecks,
   GamepadDirectional,
   Star,
+  Copy,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Card from "../../../components/Card";
@@ -564,8 +565,23 @@ export default function ProblemClient({
                     <h2 className={`mb-4 text-xl font-bold flex text-red-400`}>
                       {results.verdict}
                     </h2>
-                    <pre className="p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-xs font-mono">
+                    <pre className="flex p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-xs font-mono">
                       {results.stderr}
+                      <Tooltip content="Copy to clipboard">
+                        <button 
+                          className="p-1.5 border-1 border-red-400/25 rounded-lg ml-auto mb-auto hover:bg-red-400/25 cursor-pointer"
+                          onClick={async () => {
+                            const copySuccessful = await toClipboard(
+                              results.stderr
+                            );
+                            if (copySuccessful) {
+                              toast.success("Copied to clipboard!");
+                            }
+                          }}
+                          >
+                          <Copy className="size-4.5" />
+                        </button>
+                      </Tooltip>
                     </pre>
                   </>
                 )}
