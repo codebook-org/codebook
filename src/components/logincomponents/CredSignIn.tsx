@@ -49,7 +49,7 @@ export default function CredSignIn() {
         />
         <button
           type="submit"
-          className="bg-monaco-mid mt-1 rounded-lg py-3 flex justify-center items-center text-sm w-full cursor-pointer hover:bg-yellow-600 transition-colors shadow-lg shadow-black/20"
+          className="bg-monaco-mid mt-1 rounded-lg py-3 flex justify-center items-center text-sm w-full cursor-pointer hover:bg-blue-500 transition-colors"
         >
           Sign in
         </button>

@@ -16,10 +16,16 @@ import {
   ThumbsDown,
   CircleCheck,
   SquareArrowOutUpRight,
-  ChevronDown,
   RotateCcw,
   CloudUpload,
+  TextAlignStart,
+  Code,
+  ListChecks,
+  Grip,
+  Star,
+  Copy,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Card from "../../../components/Card";
 import Editor from "@monaco-editor/react";
 import SplitPane from "../../../components/SplitPane";
@@ -28,6 +34,7 @@ import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
 import Confirmation from "@/components/Confirmation";
 import Loader from "@/components/Loader";
+import SolveCelebration from "@/components/SolveCelebration";
 
 const LANGUAGES = ["c++", "python", "java"];
 const KEYBINDS = ["standard", "vim"];
@@ -126,13 +133,14 @@ export default function ProblemClient({
 
     setResults(data);
     setStatus("done");
-
     if (!hasSolved && data.verdict === "Accepted") {
       const result = await recordSolve(problem.problemId);
-      if (!result.success) toast.error(result.message);
-      else {
+      if (!result.success) {
+        toast.error(result.message);
+      } else {
         setHasSolved(true);
         setSolveCount((prev) => prev + 1);
+        SolveCelebration();
       }
     }
   };
@@ -177,38 +185,45 @@ export default function ProblemClient({
         left={
           <div className="h-full overflow-y-auto">
             <Card
+              icon={TextAlignStart}
               title="Description"
               optionsLeft={
                 <div className="flex items-center h-full">
-                  <div className="flex items-center h-6 gap-3 rounded-lg bg-neutral-900 pr-3 text-xs text-neutral-300">
+                  <div className="flex items-center h-6 pr-3 text-xs">
                     <div className="flex items-center h-[24px]">
-                      <Tooltip content="Upvote">
+                      <Tooltip content="Like">
                         <button
-                          className={`flex items-center justify-center h-full px-2 rounded-l-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === true ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`flex items-center justify-center h-full px-2.5 py-3.5 rounded-l-lg hover:bg-monaco-light transition-colors font-medium hover:text-monaco-txt gap-2 ${currentVote === true ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(true)}
                         >
                           <ThumbsUp className="size-4.5" aria-hidden="true" />
                           {likeCount - dislikeCount}
                         </button>
                       </Tooltip>
-                      <Tooltip content="Downvote">
+                      <Tooltip content="Dislike">
                         <button
-                          className={`flex items-center justify-center h-full px-2 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-white gap-2 ${currentVote === false ? "bg-monaco-light text-white" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`flex items-center justify-center h-full px-2.5 py-3.5 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-monaco-txt ${currentVote === false ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
-                          <ThumbsDown className="size-4.5" aria-hidden="true" />
+                          <ThumbsDown
+                            className="size-4.5 -ml-0.5"
+                            aria-hidden="true"
+                          />
                         </button>
                       </Tooltip>
                     </div>
                     <Tooltip content="Total accepted submissions">
                       <div
-                        className={`flex items-center font-semibold ${hasSolved ? "text-white" : "text-monaco-muted"} select-none gap-2`}
+                        className={`flex items-center ml-3 font-medium ${hasSolved ? "text-monaco-txt" : "text-monaco-muted"} select-none gap-2`}
                       >
                         {solveCount}
                         <CircleCheck
-                          className={`size-4.5 ${hasSolved ? "text-green-400" : "text-monaco-muted"}`}
+                          className={`size-4.5 ${hasSolved ? "text-green-500" : "text-monaco-muted"}`}
                           aria-hidden="true"
                         />
+                        {hasSolved && (
+                          <div className="text-green-500 -ml-1">Solved!</div>
+                        )}
                       </div>
                     </Tooltip>
                   </div>
@@ -230,40 +245,35 @@ export default function ProblemClient({
                           setLinkCopied(false);
                         }, 2000);
                       }}
-                      className="transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer"
+                      className="transition-colors duration-150 p-1.5 cursor-pointer rounded-lg text-monaco-muted hover:bg-monaco-light hover:text-monaco-txt mr-1"
                     >
                       <SquareArrowOutUpRight className="size-4.5" />
                     </button>
                   </Tooltip>
-                  {/* Commenting out until save/favorite is implemented
-                  <Tooltip content="Save">
+                  <Tooltip content="Favorite">
                     <button
                       onClick={() => setFavorited(!favorited)}
-                      className={`w-4 h-4 transition-all duration-150 hover:text-white ${
-                        favorited ? "text-monaco-txt" : "text-monaco-muted"
+                      className={`transition-colors duration-150 p-1.5 cursor-pointer rounded-lg hover:bg-monaco-light hover:text-monaco-txt
+                      ${
+                        favorited
+                          ? "text-monaco-txt bg-monaco-light"
+                          : "text-monaco-muted hover:text-monaco-txt"
                       }`}
                     >
-                      <svg
-                        viewBox="0 0 64 64"
-                        fill="currentColor"
-                        className="w-full h-full"
-                      >
-                        <path d="M62.799,23.737c-0.47-1.399-1.681-2.419-3.139-2.642l-16.969-2.593L35.069,2.265 C34.419,0.881,33.03,0,31.504,0c-1.527,0-2.915,0.881-3.565,2.265l-7.623,16.238L3.347,21.096c-1.458,0.223-2.669,1.242-3.138,2.642 c-0.469,1.4-0.115,2.942,0.916,4l12.392,12.707l-2.935,17.977c-0.242,1.488,0.389,2.984,1.62,3.854 c1.23,0.87,2.854,0.958,4.177,0.228l15.126-8.365l15.126,8.365c0.597,0.33,1.254,0.492,1.908,0.492c0.796,0,1.592-0.242,2.269-0.72 c1.231-0.869,1.861-2.365,1.619-3.854l-2.935-17.977l12.393-12.707C62.914,26.68,63.268,25.138,62.799,23.737z" />
-                      </svg>
+                      <Star className={`size-4.5 ${favorited && ""}`} />
                     </button>
                   </Tooltip>
-                  */}
                 </div>
               }
             >
-              <h1 className="text-2xl font-bold text-monaco-txt pt-2">
+              <h1 className="text-2xl font-bold text-monaco-txt">
                 {problem.title}
               </h1>
-              <hr className="border-t border-monaco-muted mt-2 mb-2"></hr>
+              <hr className="border-t border-monaco-light mt-2 mb-2"></hr>
               <div className="flex text-xs text-monaco-muted pb-4">
                 <h1 className="pr-1">By</h1>
                 <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
-                  <h1 className="hover:underline hover:text-blue-500">
+                  <h1 className="hover:underline hover:text-blue-500 transition-colors">
                     {problemCreator?.displayName ??
                       problemCreator?.username ??
                       "Unknown Author"}
@@ -285,6 +295,7 @@ export default function ProblemClient({
               maxSize="100%"
             >
               <Card
+                icon={Code}
                 title="Code"
                 getMinHeight={setMinPanelHeight}
                 optionsLeft={
@@ -297,36 +308,48 @@ export default function ProblemClient({
                               dropdownOpen === "language" ? null : "language",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-l-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`group text-xs hover:bg-monaco-light py-1.5 px-8 rounded-lg font-medium text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "language" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                         >
                           {language}
-                          <ChevronDown
-                            className="size-4.5 -mr-1"
-                            strokeWidth={3}
-                          />
                         </button>
                       </Tooltip>
-                      {dropdownOpen === "language" && (
-                        <div className="absolute top-full left-0 w-32 bg-monaco-mid border border-monaco-muted rounded-xl z-50 shadow-xl shadow-black/25 overflow-hidden">
-                          {LANGUAGES.map((lang) => (
-                            <button
-                              key={lang}
-                              onClick={() => {
-                                setLanguage(lang);
-                                setDropdownOpen(null);
-                              }}
-                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize cursor-pointer ${
-                                language === lang
-                                  ? "bg-monaco-mid text-white font-medium"
-                                  : "text-monaco-muted hover:bg-monaco-light hover:text-white"
-                              }`}
-                            >
-                              {lang}
-                            </button>
-                          ))}
-                        </div>
-                      )}
+
+                      <AnimatePresence>
+                        {dropdownOpen === "language" && (
+                          <motion.div
+                            key="keybind-dropdown"
+                            initial={{ opacity: 0, y: -15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 0 }}
+                            transition={{ duration: 0.15, ease: "easeInOut" }}
+                            className="absolute top-full mt-2 left-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
+                          >
+                            <div className="flex flex-col gap-1">
+                              {LANGUAGES.map((lang) => (
+                                <button
+                                  key={lang}
+                                  onClick={() => {
+                                    setLanguage(lang);
+                                    setDropdownOpen(null);
+                                  }}
+                                  className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
+                                    language === lang
+                                      ? "bg-monaco-mid text-monaco-txt"
+                                      : "hover:bg-monaco-mid text-monaco-txt"
+                                  }`}
+                                >
+                                  {lang}
+                                </button>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
+                  </div>
+                }
+                optionsRight={
+                  <div className="flex items-center h-full">
                     <div className="relative" ref={keybindDropdownRef}>
                       <Tooltip content="Keybindings">
                         <button
@@ -335,40 +358,43 @@ export default function ProblemClient({
                               dropdownOpen === "keybinds" ? null : "keybinds",
                             )
                           }
-                          className={`group text-xs hover:bg-monaco-light py-1 px-3 rounded-r-lg font-semibold text-monaco-muted hover:text-white transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
+                          className={`group hover:bg-monaco-light p-1.5 mr-1 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "text-monaco-muted"} cursor-pointer`}
                         >
-                          {keybind}
-                          <ChevronDown
-                            className="size-4.5 -mr-1"
-                            strokeWidth={3}
-                          />
+                          <Grip className="size-4.5" />
                         </button>
                       </Tooltip>
-                      {dropdownOpen === "keybinds" && (
-                        <div className="absolute top-full left-0 w-32 bg-monaco-mid border border-monaco-muted rounded-xl z-50 shadow-xl shadow-black/25 overflow-hidden">
-                          {KEYBINDS.map((bind) => (
-                            <button
-                              key={bind}
-                              onClick={() => {
-                                setKeybind(bind);
-                                setDropdownOpen(null);
-                              }}
-                              className={`w-full text-left px-3 py-2.5 text-xs transition-colors duration-150 capitalize cursor-pointer ${
-                                keybind === bind
-                                  ? "bg-monaco-mid text-white font-medium"
-                                  : "text-monaco-muted hover:bg-monaco-light hover:text-white"
-                              }`}
-                            >
-                              {bind}
-                            </button>
-                          ))}
-                        </div>
-                      )}
+                      <AnimatePresence>
+                        {dropdownOpen === "keybinds" && (
+                          <motion.div
+                            key="keybind-dropdown"
+                            initial={{ opacity: 0, y: -15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 0 }}
+                            transition={{ duration: 0.15, ease: "easeInOut" }}
+                            className="absolute top-full mt-2 right-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
+                          >
+                            <div className="flex flex-col gap-1">
+                              {KEYBINDS.map((bind) => (
+                                <button
+                                  key={bind}
+                                  onClick={() => {
+                                    setKeybind(bind);
+                                    setDropdownOpen(null);
+                                  }}
+                                  className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
+                                    keybind === bind
+                                      ? "bg-monaco-mid text-monaco-txt"
+                                      : "hover:bg-monaco-mid text-monaco-txt"
+                                  }`}
+                                >
+                                  {bind}
+                                </button>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                  </div>
-                }
-                optionsRight={
-                  <div className="flex items-center h-full">
                     <Tooltip content="Reset">
                       <Confirmation
                         title="Are you sure?"
@@ -382,7 +408,7 @@ export default function ProblemClient({
                           if (resetSuccessful) toast.success("Code reset!");
                         }}
                       >
-                        <button className="ml-4 flex items-center transition-all duration-150 text-monaco-muted hover:text-white cursor-pointer">
+                        <button className="group hover:bg-monaco-light p-1.5 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 $ cursor-pointer">
                           <RotateCcw className="size-4.5" />
                         </button>
                       </Confirmation>
@@ -390,11 +416,32 @@ export default function ProblemClient({
                   </div>
                 }
                 statusBar={
-                  <div
-                    className={`text-monaco-txt text-xs h-6 px-2 flex items-center font-mono -mx-4 ${keybind === "vim" ? "bg-monaco-mid" : "bg-monaco-dark"}`}
+                  keybind === "vim" && (
+                    <div
+                      className={`text-monaco-txt font-mono text-xs h-6 px-2 flex items-center bg-monaco-mid`}
+                    >
+                      <div className="" id="vim-status-bar" />
+                    </div>
+                  )
+                }
+                optionsBottom={
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={status !== "" && status !== "done"}
+                    className="px-16 py-2 w-full rounded-lg text-sm font-semibold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
                   >
-                    <div className="px-4" id="vim-status-bar" />
-                  </div>
+                    {status !== "" && status !== "done" ? (
+                      ""
+                    ) : (
+                      <CloudUpload className="size-4.5" strokeWidth={2.5} />
+                    )}
+                    <span className="ml-2">
+                      {status !== "" && status !== "done"
+                        ? "Running code..."
+                        : "Submit"}
+                    </span>
+                  </button>
                 }
               >
                 <Editor
@@ -428,30 +475,30 @@ export default function ProblemClient({
                     glyphMargin: false,
                     fontFamily: "JetBrains Mono",
                     lineNumbers: keybind === "vim" ? "relative" : "on",
+                    quickSuggestions: {
+                      other: false,
+                      comments: false,
+                      strings: false,
+                    },
+                    suggestOnTriggerCharacters: false,
+                    wordBasedSuggestions: "off",
+                    parameterHints: {
+                      enabled: false,
+                    },
+                    suggest: {
+                      showSnippets: false,
+                      showWords: false,
+                      showKeywords: false,
+                      showFunctions: false,
+                      showClasses: false,
+                    },
+                    acceptSuggestionOnEnter: "off",
+                    tabCompletion: "off",
                   }}
                 />
               </Card>
             </Panel>
-            <div className="w-full flex">
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                disabled={status !== "" && status !== "done"}
-                className="px-16 py-1.5 mt-2 w-full rounded-lg text-sm font-bold bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors cursor-pointer flex items-center justify-center disabled:cursor-not-allowed disabled:bg-yellow-600 disabled:text-monaco-txt"
-              >
-                {status !== "" && status !== "done" ? (
-                  ""
-                ) : (
-                  <CloudUpload className="size-4.5" strokeWidth={2.5} />
-                )}
-                <span className="ml-1">
-                  {status !== "" && status !== "done"
-                    ? "Running code..."
-                    : "Submit"}
-                </span>
-              </button>
-            </div>
-            <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
+            <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
             <Panel
@@ -461,33 +508,36 @@ export default function ProblemClient({
             >
               <Card
                 id="test-results"
+                icon={ListChecks}
                 title="Test Result"
                 getMinHeight={setMinPanelHeight}
                 className={status === "done" ? "animate-flash-blue" : ""}
               >
                 {!results && !status && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                    <div className="text-sm text-monaco-muted font-regular">
+                    <div className="text-xs text-monaco-muted font-regular mb-8">
                       You must submit your code to view results.
                     </div>
                   </div>
                 )}
                 {!results && status && (
-                  <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                  <div className="flex flex-col items-center justify-center h-full pb-8 text-center">
                     <Loader />
                   </div>
                 )}
                 {results && results.code === 0 && (
                   <>
                     <h2
-                      className={`mb-4 text-xl font-bold flex ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
+                      className={`mb-4 flex ${results.verdict === "Accepted" ? "text-green-500" : "text-red-400"}`}
                     >
-                      <div className="mr-auto">{results.verdict}</div>
+                      <div className="text-xl font-semibold mr-auto">
+                        {results.verdict}
+                      </div>
                       <div className="flex ml-auto">
-                        <div>{results.passedCount}</div>
-                        <div className="px-4 text-monaco-txt">/</div>
+                        <div className="font-medium">{results.passedCount}</div>
+                        <div className="px-2 text-monaco-txt">/</div>
                         <div className="text-monaco-txt">
-                          {results.totalTests}{" "}
+                          {results.totalTests}
                         </div>
                       </div>
                     </h2>
@@ -496,8 +546,8 @@ export default function ProblemClient({
                     ))}
                     {results.totalHiddenTests > 0 && (
                       <div className="flex rounded-lg bg-monaco-mid/50 mb-2 items-center px-4 py-3">
-                        <div className="mr-auto font-bold text-monaco-muted">
-                          Additional Testcases
+                        <div className="mr-auto font-medium text-sm text-monaco-muted">
+                          Hidden test cases
                         </div>
                         <div className="flex ml-auto font-semibold">
                           <div
@@ -519,8 +569,23 @@ export default function ProblemClient({
                     <h2 className={`mb-4 text-xl font-bold flex text-red-400`}>
                       {results.verdict}
                     </h2>
-                    <pre className="p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-sm font-mono">
+                    <pre className="flex p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-xs font-mono">
                       {results.stderr}
+                      <Tooltip content="Copy to clipboard">
+                        <button
+                          className="p-1.5 border-1 border-red-400/25 rounded-lg ml-auto mb-auto hover:bg-red-400/25 cursor-pointer"
+                          onClick={async () => {
+                            const copySuccessful = await toClipboard(
+                              results.stderr,
+                            );
+                            if (copySuccessful) {
+                              toast.success("Copied to clipboard!");
+                            }
+                          }}
+                        >
+                          <Copy className="size-4.5" />
+                        </button>
+                      </Tooltip>
                     </pre>
                   </>
                 )}

@@ -109,15 +109,16 @@ body {
   font-size: 1.062rem;
   font-weight: 600;
   margin-top: 1.75rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   color: var(--color-monaco-txt);
 }
 
 .problem-markdown p {
-  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
   margin-bottom: 1.25rem;
-  color: var(--color-neutral-300);
-  line-height: 1.65;
+  color: var(--color-monaco-txt);
+  line-height: 1.5;
   white-space: pre-line;
 }
 
@@ -191,10 +192,10 @@ body {
 }
 
 .katex {
-  line-height: 1.2 !important;
+  line-height: 1 !important;
   display: inline-block !important;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 
 .katex .base {
