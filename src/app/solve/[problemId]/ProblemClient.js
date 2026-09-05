@@ -525,14 +525,14 @@ export default function ProblemClient({
                 {results && results.code === 0 && (
                   <>
                     <h2
-                      className={`mb-4 text-xl font-bold flex ${results.verdict === "Accepted" ? "text-green-400" : "text-red-400"}`}
+                      className={`mb-4 flex ${results.verdict === "Accepted" ? "text-green-500" : "text-red-400"}`}
                     >
-                      <div className="mr-auto">{results.verdict}</div>
+                      <div className="text-xl font-semibold mr-auto">{results.verdict}</div>
                       <div className="flex ml-auto">
-                        <div>{results.passedCount}</div>
-                        <div className="px-4 text-monaco-txt">/</div>
+                        <div className="font-medium">{results.passedCount}</div>
+                        <div className="px-2 text-monaco-txt">/</div>
                         <div className="text-monaco-txt">
-                          {results.totalTests}{" "}
+                          {results.totalTests}
                         </div>
                       </div>
                     </h2>
@@ -541,8 +541,8 @@ export default function ProblemClient({
                     ))}
                     {results.totalHiddenTests > 0 && (
                       <div className="flex rounded-lg bg-monaco-mid/50 mb-2 items-center px-4 py-3">
-                        <div className="mr-auto font-bold text-monaco-muted">
-                          Additional Testcases
+                        <div className="mr-auto font-medium text-sm text-monaco-muted">
+                          Hidden test cases
                         </div>
                         <div className="flex ml-auto font-semibold">
                           <div
