@@ -69,7 +69,7 @@ export default function Card({
         </div>
       )}
       <div className="pt-4 px-4 flex-1 min-h-0 overflow-y-auto">{children}</div>
-      {statusBar && <div className="pb-6">{statusBar}</div>}
+      {statusBar && <div className="">{statusBar}</div>}
       {optionsBottom && (
         <div className="p-2 flex items-center shrink-0">
           <div className="flex items-center w-full gap-2">{optionsBottom}</div>

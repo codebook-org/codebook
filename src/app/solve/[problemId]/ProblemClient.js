@@ -413,11 +413,13 @@ export default function ProblemClient({
                   </div>
                 }
                 statusBar={
+                  keybind === "vim" && (
                   <div
-                    className={`text-monaco-txt text-xs h-6 px-2 flex items-center -mx-4 ${keybind === "vim" ? "bg-monaco-mid" : "bg-monaco-dark"}`}
+                    className={`text-monaco-txt font-mono text-xs h-6 px-2 flex items-center bg-monaco-mid`}
                   >
-                    <div className="px-4" id="vim-status-bar" />
+                    <div className="" id="vim-status-bar" />
                   </div>
+                  )
                 }
                 optionsBottom={
                   <button
@@ -470,6 +472,25 @@ export default function ProblemClient({
                     glyphMargin: false,
                     fontFamily: "JetBrains Mono",
                     lineNumbers: keybind === "vim" ? "relative" : "on",
+                    quickSuggestions: {
+                      other: false,
+                      comments: false,
+                      strings: false,
+                    },
+                    suggestOnTriggerCharacters: false,
+                    wordBasedSuggestions: "off",
+                    parameterHints: {
+                      enabled: false,
+                    },
+                    suggest: {
+                      showSnippets: false,
+                      showWords: false,
+                      showKeywords: false,
+                      showFunctions: false,
+                      showClasses: false,
+                    },
+                    acceptSuggestionOnEnter: "off",
+                    tabCompletion: "off",
                   }}
                 />
               </Card>
