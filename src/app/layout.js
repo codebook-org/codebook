@@ -2,8 +2,23 @@ import "./global.css";
 import Navbar from "@/components/Navbar";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 export const dynamic = "force-dynamic";
+
+// font configuration
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
+
+// font configuration
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+});
 
 export const metadata = {
   title: "CodeBook",
@@ -12,8 +27,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="bg-monaco-dark text-monaco-txt">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="bg-monaco-dark text-monaco-txt antialiased">
         <SessionProvider refetchOnWindowFocus={true} refetchWhenOffline={false}>
           <Navbar />
           <main>{children}</main>

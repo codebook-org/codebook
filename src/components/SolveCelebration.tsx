@@ -7,7 +7,7 @@ export default function SolveCelebration() {
     spread: 100,
     angle: 65,
     startVelocity: 60,
-    origin: { y: 1, x: 0 }
+    origin: { y: 1, x: 0 },
   });
 
   // right
@@ -16,6 +16,6 @@ export default function SolveCelebration() {
     spread: 100,
     angle: 115,
     startVelocity: 60,
-    origin: { y: 1, x: 1 }
+    origin: { y: 1, x: 1 },
   });
 }

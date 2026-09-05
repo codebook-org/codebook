@@ -34,7 +34,12 @@ const NAV_LINKS_LEFT = [
 
 // additional links that require a user to be logged in
 const NAV_LINKS_RIGHT = [
-  { href: "/publish", label: "Publish", icon: PencilSparkles, isExternal: false },
+  {
+    href: "/publish",
+    label: "Publish",
+    icon: PencilSparkles,
+    isExternal: false,
+  },
   { href: "/settings", label: "Settings", icon: Settings, isExternal: false },
 ];
 

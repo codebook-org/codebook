@@ -205,7 +205,10 @@ export default function ProblemClient({
                           className={`flex items-center justify-center h-full px-2.5 py-3.5 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-monaco-txt ${currentVote === false ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
-                          <ThumbsDown className="size-4.5 -ml-0.5" aria-hidden="true" />
+                          <ThumbsDown
+                            className="size-4.5 -ml-0.5"
+                            aria-hidden="true"
+                          />
                         </button>
                       </Tooltip>
                     </div>
@@ -252,11 +255,12 @@ export default function ProblemClient({
                       onClick={() => setFavorited(!favorited)}
                       className={`transition-colors duration-150 p-1.5 cursor-pointer rounded-lg hover:bg-monaco-light hover:text-monaco-txt
                       ${
-                        favorited ? "text-monaco-txt bg-monaco-light" : "text-monaco-muted hover:text-monaco-txt"
+                        favorited
+                          ? "text-monaco-txt bg-monaco-light"
+                          : "text-monaco-muted hover:text-monaco-txt"
                       }`}
                     >
-                      <Star 
-                        className={`size-4.5 ${favorited && ""}`} />
+                      <Star className={`size-4.5 ${favorited && ""}`} />
                     </button>
                   </Tooltip>
                 </div>
@@ -310,34 +314,34 @@ export default function ProblemClient({
                         </button>
                       </Tooltip>
 
-                        <AnimatePresence>
-                      {dropdownOpen === "language" && (
-                            <motion.div
-                              key="keybind-dropdown"
-                              initial={{ opacity: 0, y: -15 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: 0 }}
-                              transition={{ duration: 0.15, ease: "easeInOut" }}
-                              className="absolute top-full mt-2 left-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
-                            >
-                              <div className="flex flex-col gap-1">
-                          {LANGUAGES.map((lang) => (
-                            <button
-                              key={lang}
-                              onClick={() => {
-                                setLanguage(lang);
-                                setDropdownOpen(null);
-                              }}
-                              className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
-                              language === lang
-                                        ? "bg-monaco-mid text-monaco-txt"
-                                        : "hover:bg-monaco-mid text-monaco-txt"
-                                    }`}
-                                  >
-                                    {lang}
-                                  </button>
-                                ))}
-                              </div>
+                      <AnimatePresence>
+                        {dropdownOpen === "language" && (
+                          <motion.div
+                            key="keybind-dropdown"
+                            initial={{ opacity: 0, y: -15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 0 }}
+                            transition={{ duration: 0.15, ease: "easeInOut" }}
+                            className="absolute top-full mt-2 left-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
+                          >
+                            <div className="flex flex-col gap-1">
+                              {LANGUAGES.map((lang) => (
+                                <button
+                                  key={lang}
+                                  onClick={() => {
+                                    setLanguage(lang);
+                                    setDropdownOpen(null);
+                                  }}
+                                  className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
+                                    language === lang
+                                      ? "bg-monaco-mid text-monaco-txt"
+                                      : "hover:bg-monaco-mid text-monaco-txt"
+                                  }`}
+                                >
+                                  {lang}
+                                </button>
+                              ))}
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -356,39 +360,37 @@ export default function ProblemClient({
                           }
                           className={`group hover:bg-monaco-light p-1.5 mr-1 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "text-monaco-muted"} cursor-pointer`}
                         >
-                          <Grip
-                            className="size-4.5"
-                          />
+                          <Grip className="size-4.5" />
                         </button>
                       </Tooltip>
-                        <AnimatePresence>
-                          {dropdownOpen === "keybinds" && (
-                            <motion.div
-                              key="keybind-dropdown"
-                              initial={{ opacity: 0, y: -15 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: 0 }}
-                              transition={{ duration: 0.15, ease: "easeInOut" }}
-                              className="absolute top-full mt-2 right-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
-                            >
-                                <div className="flex flex-col gap-1">
+                      <AnimatePresence>
+                        {dropdownOpen === "keybinds" && (
+                          <motion.div
+                            key="keybind-dropdown"
+                            initial={{ opacity: 0, y: -15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 0 }}
+                            transition={{ duration: 0.15, ease: "easeInOut" }}
+                            className="absolute top-full mt-2 right-0 z-[9999] w-48 bg-monaco-dark border p-2 border-monaco-light rounded-2xl shadow-xl shadow-black/30 overflow-hidden"
+                          >
+                            <div className="flex flex-col gap-1">
                               {KEYBINDS.map((bind) => (
-                                  <button
-                                    key={bind}
-                                    onClick={() => {
-                                      setKeybind(bind);
-                                      setDropdownOpen(null);
-                                    }}
-                                    className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
-                                      keybind === bind
-                                        ? "bg-monaco-mid text-monaco-txt"
-                                        : "hover:bg-monaco-mid text-monaco-txt"
-                                    }`}
-                                  >
-                                    {bind}
-                                  </button>
+                                <button
+                                  key={bind}
+                                  onClick={() => {
+                                    setKeybind(bind);
+                                    setDropdownOpen(null);
+                                  }}
+                                  className={`w-full text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer ${
+                                    keybind === bind
+                                      ? "bg-monaco-mid text-monaco-txt"
+                                      : "hover:bg-monaco-mid text-monaco-txt"
+                                  }`}
+                                >
+                                  {bind}
+                                </button>
                               ))}
-                                </div>
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -415,11 +417,11 @@ export default function ProblemClient({
                 }
                 statusBar={
                   keybind === "vim" && (
-                  <div
-                    className={`text-monaco-txt font-mono text-xs h-6 px-2 flex items-center bg-monaco-mid`}
-                  >
-                    <div className="" id="vim-status-bar" />
-                  </div>
+                    <div
+                      className={`text-monaco-txt font-mono text-xs h-6 px-2 flex items-center bg-monaco-mid`}
+                    >
+                      <div className="" id="vim-status-bar" />
+                    </div>
                   )
                 }
                 optionsBottom={
@@ -528,7 +530,9 @@ export default function ProblemClient({
                     <h2
                       className={`mb-4 flex ${results.verdict === "Accepted" ? "text-green-500" : "text-red-400"}`}
                     >
-                      <div className="text-xl font-semibold mr-auto">{results.verdict}</div>
+                      <div className="text-xl font-semibold mr-auto">
+                        {results.verdict}
+                      </div>
                       <div className="flex ml-auto">
                         <div className="font-medium">{results.passedCount}</div>
                         <div className="px-2 text-monaco-txt">/</div>
@@ -568,17 +572,17 @@ export default function ProblemClient({
                     <pre className="flex p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-xs font-mono">
                       {results.stderr}
                       <Tooltip content="Copy to clipboard">
-                        <button 
+                        <button
                           className="p-1.5 border-1 border-red-400/25 rounded-lg ml-auto mb-auto hover:bg-red-400/25 cursor-pointer"
                           onClick={async () => {
                             const copySuccessful = await toClipboard(
-                              results.stderr
+                              results.stderr,
                             );
                             if (copySuccessful) {
                               toast.success("Copied to clipboard!");
                             }
                           }}
-                          >
+                        >
                           <Copy className="size-4.5" />
                         </button>
                       </Tooltip>
