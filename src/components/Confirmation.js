@@ -1,5 +1,6 @@
 "use client";
 import React, { forwardRef, useState } from "react";
+import { MessageCircleWarning } from "lucide-react";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
 const Confirmation = forwardRef(
@@ -31,7 +32,7 @@ const Confirmation = forwardRef(
           <AlertDialogPrimitive.Content
             forceMount
             className="fixed left-1/2 top-1/2 z-[10000] w-full max-w-md -translate-x-1/2 -translate-y-1/2 
-             bg-monaco-dark border border-monaco-light p-6 rounded-3xl shadow-2xl focus:outline-none
+             bg-monaco-dark border border-monaco-light p-6 rounded-2xl shadow-2xl focus:outline-none
              overflow-hidden
              transition-all duration-200
              data-[state=open]:animate-in 
@@ -43,22 +44,19 @@ const Confirmation = forwardRef(
              data-[state=closed]:zoom-out-95 
              data-[state=closed]:slide-out-to-bottom-2"
           >
-            {/* Big ass graphical question mark... might remove later? */}
-            <div className="absolute -right-10 -bottom-12 select-none font-bold text-monaco-light text-[240px] leading-none opacity-20 pointer-events-none">
-              ?
-            </div>
             <div className="relative z-10">
-              <AlertDialogPrimitive.Title className="text-sm font-semibold text-monaco-txt mb-2">
+              <AlertDialogPrimitive.Title className="flex items-center text-sm font-semibold text-monaco-txt mb-2">
+                <MessageCircleWarning className="size-5 text-monaco-txt mr-3" />
                 {title}
               </AlertDialogPrimitive.Title>
               <AlertDialogPrimitive.Description className="text-xs text-monaco-muted mb-6 leading-relaxed">
                 {description}
               </AlertDialogPrimitive.Description>
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end gap-2">
                 <AlertDialogPrimitive.Cancel asChild>
                   <button
                     onClick={() => setOpen(false)}
-                    className="px-4 py-2 rounded-lg bg-monaco-mid text-xs font-medium text-monaco-txt hover:bg-monaco-light transition-colors cursor-pointer"
+                    className="px-5.5 py-2.5 rounded-lg bg-monaco-mid text-xs font-medium text-monaco-txt hover:bg-monaco-light transition-colors cursor-pointer"
                   >
                     {cancelText}
                   </button>
@@ -69,7 +67,7 @@ const Confirmation = forwardRef(
                       onConfirm?.();
                       setOpen(false);
                     }}
-                    className="px-4 py-2 rounded-lg bg-green-700 hover:bg-green-600 text-xs font-medium text-monaco-txt transition-colors cursor-pointer"
+                    className="px-5 py-2.5 rounded-lg bg-monaco-mid hover:bg-green-700 text-xs font-medium text-monaco-txt transition-colors cursor-pointer"
                   >
                     {confirmText}
                   </button>
