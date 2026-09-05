@@ -15,19 +15,19 @@ export default function TestcaseBlock({ test, index }) {
           )}
         </span>
       </summary>
-      <div className="p-4 pt-4 bg-neutral-950 font-mono text-sm space-y-3">
+      <div className="p-4 pt-4 bg-background font-mono text-sm space-y-3">
         <div>
-          <p className="text-neutral-500 text-xs mb-1">Input</p>
-          <pre className="bg-neutral-900 p-2 rounded-lg">{test.input}</pre>
+          <p className="text-monaco-muted text-xs mb-1">Input</p>
+          <pre className="bg-monaco-dark/75 text-monaco-txt p-2 rounded-lg">{test.input}</pre>
         </div>
         <div>
-          <p className="text-neutral-500 text-xs mb-1">Expected Output</p>
-          <pre className="bg-neutral-900 p-2 rounded-lg">{test.expectedOut}</pre>
+          <p className="text-monaco-muted text-xs mb-1">Expected Output</p>
+          <pre className="bg-monaco-dark/75 text-monaco-txt p-2 rounded-lg">{test.expectedOut}</pre>
         </div>
         <div>
-          <p className="text-neutral-500 text-xs mb-1">Actual Output</p>
+          <p className="text-monaco-muted text-xs mb-1">Actual Output</p>
           <pre
-            className={`bg-neutral-900 p-2 rounded-lg ${test.passed ? "text-green-500" : "text-red-400"}`}
+            className={`bg-monaco-dark/75 p-2 rounded-lg ${test.passed ? "text-green-500" : "text-red-400"}`}
           >
             {test.actualOut || "\u00A0"}
           </pre>

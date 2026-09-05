@@ -25,7 +25,7 @@ export default function LoginPage() {
             initial={{ opacity: 0, x: mode == "login" ? -15 : 15 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: mode == "login" ? -15 : 15 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
             className="w-full"
           >
             <div className="tracking-wide text-monaco-txt font-semibold mb-2">

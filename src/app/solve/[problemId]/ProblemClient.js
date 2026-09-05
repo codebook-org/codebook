@@ -21,7 +21,7 @@ import {
   TextAlignStart,
   Code,
   ListChecks,
-  GamepadDirectional,
+  Grip,
   Star,
   Copy,
 } from "lucide-react";
@@ -205,7 +205,7 @@ export default function ProblemClient({
                           className={`flex items-center justify-center h-full px-2.5 py-3.5 ml-0.5 rounded-r-lg hover:bg-monaco-light transition-colors font-semibold hover:text-monaco-txt ${currentVote === false ? "bg-monaco-light text-monaco-txt" : "bg-monaco-mid text-monaco-muted"} cursor-pointer`}
                           onClick={() => handleVote(false)}
                         >
-                          <ThumbsDown className="size-4.5" aria-hidden="true" />
+                          <ThumbsDown className="size-4.5 -ml-0.5" aria-hidden="true" />
                         </button>
                       </Tooltip>
                     </div>
@@ -356,7 +356,7 @@ export default function ProblemClient({
                           }
                           className={`group hover:bg-monaco-light p-1.5 mr-1 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 ${dropdownOpen === "keybinds" ? "bg-monaco-light text-monaco-txt" : "text-monaco-muted"} cursor-pointer`}
                         >
-                          <GamepadDirectional
+                          <Grip
                             className="size-4.5"
                           />
                         </button>
