@@ -87,16 +87,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account?.provider === "google" || account?.provider === "github") {
         const email = user.email as string;
         const oauthId = account.providerAccountId; // The unique OAuth ID
+        const fallbackName = user.name ?? email.split("@")[0];
 
-        // We got a user ID from our oAuth id
-        const pulledUser = await syncOAuth(oauthId, email, user.name as string);
+        try {
+          // We got a user ID from our oAuth id
+          const pulledUser = await syncOAuth(oauthId, email, fallbackName);
 
-        // This is all the information we pull from the DB, and we'll be using it to push to the session.
-        (user as any).postgresId = pulledUser.userId;
-        (user as any).displayName = pulledUser.displayName;
-        (user as any).username = pulledUser.username;
+          if (!pulledUser) {
+            console.error("oAuth undefined", email);
+            return false;
+          }
+          // This is all the information we pull from the DB, and we'll be using it to push to the session.
+          (user as any).postgresId = pulledUser.userId;
+          (user as any).displayName = pulledUser.displayName;
+          (user as any).username = pulledUser.username;
 
-        return true; // Allow sign in
+          return true; // Allow sign in
+        } catch (error) {
+          console.error("Error during OAuth", error);
+          return false;
+        }
       }
 
       return true;
