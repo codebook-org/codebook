@@ -42,6 +42,19 @@ CREATE TABLE IF NOT EXISTS problem_votes (
 CREATE INDEX idx_problem_votes_user_id ON problem_votes(user_id);
 CREATE INDEX idx_problem_votes_problem_id ON problem_votes(problem_id);
 
+CREATE TABLE IF NOT EXISTS problem_favorites (
+    user_id    INT NOT NULL REFERENCES users(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    problem_id INT NOT NULL REFERENCES problems(problem_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    favorited_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    
+    PRIMARY KEY (user_id, problem_id)
+);
+-- Fast lookup times, write operations are a bit heavier, but that's fine.
+CREATE INDEX idx_problem_favorites_user_id ON problem_favorites(user_id);
+CREATE INDEX idx_problem_favorites_problem_id ON problem_favorites(problem_id);
+
 CREATE TABLE IF NOT EXISTS user_solved_problems (
     user_id    INT NOT NULL REFERENCES users(user_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
@@ -159,6 +172,7 @@ CREATE TRIGGER problem_votes_count_trigger
 AFTER INSERT OR UPDATE OR DELETE ON problem_votes
 FOR EACH ROW EXECUTE FUNCTION update_problem_vote_counts();
 
+-- Testing Stuff
 /*
 --------------------
 -- Default Values --
@@ -171,11 +185,11 @@ INSERT INTO users (username, google_oauth_id)
 VALUES('googleOauthAdmin', 'iamtheadmin') ON CONFLICT DO NOTHING;
 
 -- Default Problems, add if "missing"/not enough problems in table
-INSERT INTO problems (title, description)
-SELECT 'Double Number', 'Input: a single integer -- n\nOutput: twice the value of n'
+INSERT INTO problems (title, description, starter_code)
+SELECT 'Double Number', 'Input: a single integer -- n\nOutput: twice the value of n', '{}'
 WHERE (SELECT COUNT(*) FROM problems) < 1;
-INSERT INTO problems (title, description)
-SELECT 'Triple Number', 'Input: a single integer -- n\nOutput: three times the value of n'
+INSERT INTO problems (title, description, starter_code)
+SELECT 'Triple Number', 'Input: a single integer -- n\nOutput: three times the value of n', '{}'
 WHERE (SELECT COUNT(*) FROM problems) < 2;
 
 -- Default Test Cases (for testing)

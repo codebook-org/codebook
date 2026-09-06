@@ -66,7 +66,7 @@ export namespace CodebookDatabaseAPI {
 
   /**
    * All Problem APIs
-   * Includes Votes, User Solves, and TestCase APIs as child namespaces
+   * Includes Votes, Favorites, User Solves, and TestCase APIs as child namespaces
    */
   export namespace Problems {
     /**
@@ -277,6 +277,115 @@ export namespace CodebookDatabaseAPI {
     }
 
     /**
+     * All User Favorite APIs
+     */
+    export namespace Favorites {
+      /**
+       * Returns if the given user has favorited the given problem
+       *
+       * @param userId - The ID of the user to check
+       * @param problemId - The ID of the problem to check
+       *
+       * @returns A JavaScript Object with the timestamp of when the user favorited the problem, null if they haven't.
+       */
+      export async function getUserFavoritedProblem(
+        userId: number,
+        problemId: number,
+      ): Promise<Date | null> {
+        const result = await sql`
+          SELECT favorited_at
+          FROM problem_favorites
+          WHERE user_id = ${userId} AND problem_id = ${problemId};
+        `;
+
+        return result.length > 0 ? result[0].favoritedAt : null;
+      }
+
+      /**
+       * Updates the user's favorited problems with the given problem
+       *
+       * @param userId - The ID of the user
+       * @param problemId - The ID of the problem
+       * @param favorite - True/False representing if the user is favoriting the problem
+       *
+       * @returns True/False if the given problem was added/removed from the user's favorited problems.
+       */
+      export async function updateUserFavoritedProblem(
+        userId: number,
+        problemId: number,
+        favorite: boolean,
+      ): Promise<boolean> {
+        if (favorite) {
+          const result = await sql`
+            INSERT INTO problem_favorites (user_id, problem_id)
+            SELECT ${userId}, ${problemId}
+            WHERE NOT EXISTS (
+              SELECT 1
+              FROM problem_favorites
+              WHERE user_id = ${userId}
+                AND problem_id = ${problemId}
+            )
+            RETURNING 1;
+          `;
+
+          return result.length > 0;
+        } else {
+          const result = await sql`
+            DELETE FROM problem_favorites
+            WHERE user_id = ${userId} AND problem_id = ${problemId}
+            RETURNING 1;
+          `;
+
+          return result.length > 0;
+        }
+      }
+
+      /**
+       * Gets all problems a user has favorited
+       *
+       * @param userId - The ID of the user to get the favorited problems from
+       *
+       * @returns An array of problem IDs the user has favorited, and a JavaScript Date Object with the timestamp of when.
+       */
+      export async function getProblemsFavoritedByUser(
+        userId: number,
+      ): Promise<{ problemId: number; favoritedAt: Date }[]> {
+        const result = await sql`
+          SELECT problem_id, favorited_at
+          FROM problem_favorites
+          WHERE user_id = ${userId};
+        `;
+
+        return Array.from(result.values()) as {
+          problemId: number;
+          favoritedAt: Date;
+        }[];
+      }
+
+      /**
+       * Gets all users who've favorited a problem
+       *
+       * @param problemId - The ID of the problem to get the users from
+       *
+       * @returns An array of user IDs who favorited the problem, and a JavaScript Date Object with the timestamp of when.
+       */
+      export async function getUsersFavoritedProblem(
+        problemId: number,
+      ): Promise<{ userId: number; favoritedAt: Date }[]> {
+        const result = await sql`
+          SELECT user_id, favorited_at
+          FROM problem_favorites
+          WHERE problem_id = ${problemId};
+        `;
+
+        return Array.from(result.values()) as {
+          userId: number;
+          favoritedAt: Date;
+        }[];
+      }
+    }
+
+    /**
      * All User Solve APIs
      */
     export namespace UserSolves {
@@ -308,7 +417,7 @@ export namespace CodebookDatabaseAPI {
        * @param problemId - The ID of the problem
        * @param solved - True/False representing if the user has solved the problem
        *
-       * @returns True/False if the given user was added/removed from the user's solved problems.
+       * @returns True/False if the given problem was added/removed from the user's solved problems.
        */
       export async function updateUserSolvedProblem(
         userId: number,
@@ -949,6 +1058,57 @@ if (false) {
           problem2Id,
         )),
     );
+  }
+
+  if (false) {
+    const debugUpdate = async function (
+      userId: number,
+      problemId: number,
+      favorite: boolean,
+    ) {
+      console.log(
+        `\nUpdating (${userId}, ${problemId}) with value (${favorite}):`,
+      );
+      console.log(
+        `Favorite status changed? ${await CodebookDatabaseAPI.Problems.Favorites.updateUserFavoritedProblem(userId, problemId, favorite)}`,
+      );
+      console.log(
+        `Favorite status: ${await CodebookDatabaseAPI.Problems.Favorites.getUserFavoritedProblem(userId, problemId)}`,
+      );
+
+      const userFavorites =
+        await CodebookDatabaseAPI.Problems.Favorites.getProblemsFavoritedByUser(
+          userId,
+        );
+      console.log("User Favorites:");
+      console.log(userFavorites);
+
+      const problemFavorites =
+        await CodebookDatabaseAPI.Problems.Favorites.getUsersFavoritedProblem(
+          problemId,
+        );
+      console.log("Problem Favorites:");
+      console.log(problemFavorites);
+    };
+
+    // Test single favorite, single problem
+    await debugUpdate(1, 1, true);
+    await debugUpdate(1, 1, true);
+    await debugUpdate(1, 1, false);
+    await debugUpdate(1, 1, null);
+
+    // Test multiple users, multiple problems
+    await debugUpdate(1, 1, true);
+    await debugUpdate(1, 2, true);
+    await debugUpdate(2, 1, true);
+    await debugUpdate(1, 1, true);
+
+    // Erase debug solves
+    await debugUpdate(1, 1, false);
+    await debugUpdate(1, 2, false);
+    await debugUpdate(2, 1, false);
+
+    console.log("");
   }
 }
 
