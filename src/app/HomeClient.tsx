@@ -35,8 +35,8 @@ export default function HomeClient(): JSX.Element {
           Features
         </h1>
         <p className="text-sm text-monaco-txt leading-relaxed mt-4">
-          Create custom problems using codebook&apos;s feature-rich problem editor
-          and publish them directly to your profile to grow your very own
+          Create custom problems using codebook&apos;s feature-rich problem
+          editor and publish them directly to your profile to grow your very own
           repository of programming challenges.
         </p>
         <p className="text-sm text-monaco-txt leading-relaxed mt-4">
@@ -45,8 +45,8 @@ export default function HomeClient(): JSX.Element {
           execution and test case evaluation for you.
         </p>
         <p className="text-sm text-monaco-txt leading-relaxed mt-4">
-          For a more in-depth look into codebook&apos;s features and a walkthrough on
-          getting started, check out our{" "}
+          For a more in-depth look into codebook&apos;s features and a
+          walkthrough on getting started, check out our{" "}
           <Link
             href="/guide"
             className="bg-yellow-700/25 hover:bg-yellow-700/35 text-yellow-600 transition-colors px-1.5 py-0.5 inline-block rounded-md font-medium alignment-baseline"
