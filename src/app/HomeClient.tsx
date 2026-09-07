@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { JSX } from "react";
-import { Info, ToolCase, Bug } from "lucide-react";
+import { Info, ToolCase, Bug, GitPullRequest } from "lucide-react";
 
 export default function HomeClient(): JSX.Element {
   return (
     <main className="min-h-[calc(100vh-4rem)] flex flex-col justify-center max-w-3xl mx-auto py-6 text-left">
       <header className="font-mono px-6 py-2 mb-5">
-        <h1 className="text-xl font-bold text-monaco-txt">
+        <h1 className="text-2xl font-bold text-monaco-txt">
           codebook<span className="animate-blink">_</span>
         </h1>
-        <p className="text-xs text-monaco-muted mt-1">v0.1.0-beta</p>
+        <p className="flex items-center text-xs text-monaco-muted mt-1">
+          <GitPullRequest className="size-4 mr-2" />
+          v0.1.0-beta
+        </p>
       </header>
       <section className="font-mono px-6 py-2 mb-5 backdrop-blur-sm">
         <h1 className="text-monaco-txt flex items-center font-semibold mb-2">
