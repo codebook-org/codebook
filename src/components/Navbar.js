@@ -6,22 +6,20 @@ import Tooltip from "@/components/Tooltip";
 import UserMenu from "@/components/logincomponents/UserMenu";
 import {
   Home,
-  Info,
-  CircleQuestionMark,
+  BookOpenText,
   CodeXml,
   PencilSparkles,
-  Settings,
+  Settings2,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 // general links for navigating codebook
 const NAV_LINKS_LEFT = [
   { href: "/", label: "Home", icon: Home, isExternal: false },
-  { href: "/about", label: "About", icon: Info, isExternal: false },
   {
     href: "/guide",
     label: "Guide",
-    icon: CircleQuestionMark,
+    icon: BookOpenText,
     isExternal: false,
   },
   {
@@ -40,7 +38,7 @@ const NAV_LINKS_RIGHT = [
     icon: PencilSparkles,
     isExternal: false,
   },
-  { href: "/settings", label: "Settings", icon: Settings, isExternal: false },
+  { href: "/settings", label: "Settings", icon: Settings2, isExternal: false },
 ];
 
 export default function Navbar() {
@@ -51,7 +49,7 @@ export default function Navbar() {
       <div className="flex items-center gap-4">
         <Link href="/" className="logo flex items-center">
           <Logo className="mx-2" color="text-monaco-txt" />
-          <div className="text-monaco-txt font-mono">codebook</div>
+          <div className="text-monaco-txt font-mono">codebook_</div>
         </Link>
         <div className="w-[1px] h-4 bg-monaco-light mx-2" />
         <ul className="flex items-center gap-2 -ml-2">
