@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "CodeBook",
+  title: "codebook",
   description: "Practice coding problems with your team.",
 };
 

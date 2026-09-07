@@ -18,7 +18,7 @@ export default function HomeClient(): JSX.Element {
         </h1>
         <p className="text-sm text-monaco-txt leading-relaxed">
           codebook is a platform for hosting custom LeetCode-style programming problems. It is designed
-          to make sharing coding challenges convenient and fun. If you love competitive programming, algorithmic
+          to make sharing coding challenges convenient and fun. If you love competitive programming, solving algorithmic
           puzzles, or building clever challenges, you'll feel right at home here.
         </p>
       </section>
@@ -33,7 +33,7 @@ export default function HomeClient(): JSX.Element {
         </p>
         <p className="text-sm text-monaco-txt leading-relaxed mt-4">
           Challenging your friends is as easy as sending a link. codebook provides a sleek in-browser code editing experience
-          and handles code execution and test case evaluation for you.
+          that handles code execution and test case evaluation for you.
         </p>
         <p className="text-sm text-monaco-txt leading-relaxed mt-4">
           For a more in-depth look into codebook's features and a walkthrough on getting started, check out our{" "}
