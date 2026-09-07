@@ -25,7 +25,7 @@ export default function HomeClient(): JSX.Element {
           codebook is a platform for hosting custom LeetCode-style programming
           problems. It is designed to make sharing coding challenges convenient
           and fun. If you love competitive programming, solving algorithmic
-          puzzles, or building clever challenges, you'll feel right at home
+          puzzles, or building clever challenges, you&apos;ll feel right at home
           here.
         </p>
       </section>
@@ -35,7 +35,7 @@ export default function HomeClient(): JSX.Element {
           Features
         </h1>
         <p className="text-sm text-monaco-txt leading-relaxed mt-4">
-          Create custom problems using codebook's feature-rich problem editor
+          Create custom problems using codebook&apos;s feature-rich problem editor
           and publish them directly to your profile to grow your very own
           repository of programming challenges.
         </p>
@@ -45,7 +45,7 @@ export default function HomeClient(): JSX.Element {
           execution and test case evaluation for you.
         </p>
         <p className="text-sm text-monaco-txt leading-relaxed mt-4">
-          For a more in-depth look into codebook's features and a walkthrough on
+          For a more in-depth look into codebook&apos;s features and a walkthrough on
           getting started, check out our{" "}
           <Link
             href="/guide"
