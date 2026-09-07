@@ -75,7 +75,7 @@ export default function Navbar() {
       <div className="flex items-center gap-4 mr-2">
         {status === "unauthenticated" ? (
           <Link href="/login">
-            <div className="border-1 border-monaco-mid p-2 px-6 text-sm text-monaco-muted transition-colors rounded-lg hover:text-monaco-txt hover:bg-monaco-mid">
+            <div className="border-1 border-monaco-light p-2 px-6 text-sm font-semibold text-monaco-muted transition-colors rounded-lg hover:text-monaco-txt hover:bg-monaco-mid">
               Sign in
             </div>
           </Link>

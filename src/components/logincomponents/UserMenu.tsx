@@ -98,7 +98,7 @@ export default function UserMenu() {
                   </li>
                 ))}
               </div>
-              <div className="pt-1 mt-1 border-t border-monaco-light">
+              <div className="pt-1 mt-1 border-t border-monaco-mid">
                 <button
                   onClick={() => {
                     setIsOpen(false);

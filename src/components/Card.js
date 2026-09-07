@@ -37,7 +37,7 @@ export default function Card({
         ref={headerRef}
         className="flex items-center bg-monaco-dark text-sm font-semibold px-3 py-3 shrink-0"
       >
-        {Icon && <Icon className="size-4.5 text-monaco-txt mr-2" />}
+        {Icon && <Icon className="size-4.5 text-monaco-muted mr-2" />}
         <h1 className="text-monaco-txt">{title || "Card Header"}</h1>
       </div>
       {tabs && tabs.length > 0 && (
