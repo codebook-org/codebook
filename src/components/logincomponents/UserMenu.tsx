@@ -86,10 +86,7 @@ export default function UserMenu() {
               </div>
               <div className="flex flex-col gap-1">
                 {MENU_LINKS.map(({ href, label, icon: Icon }) => (
-                  <li
-                    key={href}
-                    className="list-none"
-                  >
+                  <li key={href} className="list-none">
                     <Link
                       href={href}
                       onClick={() => setIsOpen(false)}
