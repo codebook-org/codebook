@@ -49,7 +49,7 @@ export default function Navbar() {
       <div className="flex items-center gap-4">
         <Link href="/" className="logo flex items-center">
           <Logo className="mx-2" color="text-monaco-txt" />
-          <div className="text-monaco-txt font-mono">codebook_</div>
+          <div className="text-monaco-txt font-mono">codebook</div>
         </Link>
         <div className="w-[1px] h-4 bg-monaco-light mx-2" />
         <ul className="flex items-center gap-2 -ml-2">

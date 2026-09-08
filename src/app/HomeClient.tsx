@@ -8,7 +8,7 @@ export default function HomeClient(): JSX.Element {
   return (
     <main className="min-h-[calc(100vh-4rem)] flex flex-col justify-center max-w-3xl mx-auto py-6 text-left">
       <header className="font-mono px-6 py-2 mb-5">
-        <h1 className="text-2xl font-bold text-monaco-txt">
+        <h1 className="text-xl font-bold text-monaco-txt">
           codebook<span className="animate-blink">_</span>
         </h1>
         <p className="flex items-center text-xs text-monaco-muted mt-1">
