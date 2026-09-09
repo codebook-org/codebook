@@ -63,9 +63,9 @@ export default function UserMenu() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 0 }}
             transition={{ duration: 0.15, ease: "easeInOut" }}
-            className="w-full"
+            className="absolute right-0 top-full z-[9999]"
           >
-            <div className="absolute right-0 top-full mt-2 p-2 w-56 z-[9999] bg-monaco-dark border border-monaco-light shadow-xl shadow-black/40 rounded-2xl overflow-hidden">
+            <div className="mt-2 p-2 w-56 min-w-[14rem] bg-monaco-dark border border-monaco-light shadow-xl shadow-black/40 rounded-2xl overflow-hidden">
               <div className="flex items-center pb-2">
                 <div className="h-12 w-12 shrink-0 rounded-full border border-zinc-700 bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold">
                   {session.user.displayName?.charAt(0).toUpperCase() ||
@@ -86,7 +86,7 @@ export default function UserMenu() {
               </div>
               <div className="flex flex-col gap-1">
                 {MENU_LINKS.map(({ href, label, icon: Icon }) => (
-                  <li key={href}>
+                  <li key={href} className="list-none">
                     <Link
                       href={href}
                       onClick={() => setIsOpen(false)}
@@ -98,7 +98,7 @@ export default function UserMenu() {
                   </li>
                 ))}
               </div>
-              <div className="pt-1 mt-1 border-t border-monaco-light">
+              <div className="pt-1 mt-1 border-t border-monaco-mid">
                 <button
                   onClick={() => {
                     setIsOpen(false);

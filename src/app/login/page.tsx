@@ -31,12 +31,12 @@ export default function LoginPage() {
             <div className="tracking-wide text-monaco-txt font-semibold mb-2">
               {mode == "login" ? (
                 <div className="flex items-center">
-                  <KeySquare className="size-5 mr-3" />
+                  <KeySquare className="size-5 mr-3 text-monaco-muted" />
                   Sign in
                 </div>
               ) : (
                 <div className="flex items-center">
-                  <User className="size-5 mr-3" />
+                  <User className="size-5 mr-3 text-monaco-muted" />
                   Create an account
                 </div>
               )}
@@ -55,7 +55,7 @@ export default function LoginPage() {
             </div>
             {mode == "login" && (
               <div>
-                <div className="h-[1px] w-full mt-6 mb-9 bg-monaco-light" />
+                <div className="h-[1px] w-full mt-6 mb-9 bg-monaco-mid" />
                 <GoogleSignIn />
               </div>
             )}

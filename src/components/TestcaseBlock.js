@@ -4,7 +4,7 @@ export default function TestcaseBlock({ test, index }) {
   return (
     <details className="group rounded-lg overflow-hidden mb-2">
       <summary
-        className={`flex items-center justify-between px-4 py-3 cursor-pointer list-none ${test.passed ? "bg-green-500/10 hover:bg-green-500/20" : "bg-red-400/10 hover:bg-red-400/20 transition-colors"}`}
+        className={`flex items-center justify-between px-4 py-3 cursor-pointer list-none ${test.passed ? "bg-green-500/10 hover:bg-green-500/13" : "bg-red-400/10 hover:bg-red-400/13"} transition-colors`}
       >
         <span
           className={`font-semibold text-sm ${test.passed ? "text-green-500" : "text-red-400"}`}
