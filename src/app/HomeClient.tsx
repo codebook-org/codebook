@@ -16,7 +16,7 @@ export default function HomeClient(): JSX.Element {
           v0.1.0-beta
         </p>
       </header>
-      <section className="font-mono px-6 py-2 mb-5 backdrop-blur-sm">
+      <section className="font-mono px-6 py-3 mb-5 backdrop-blur-sm">
         <h1 className="text-monaco-txt flex items-center font-semibold mb-2">
           <Info className="size-5 mr-2 text-monaco-muted" />
           About
@@ -29,12 +29,12 @@ export default function HomeClient(): JSX.Element {
           here.
         </p>
       </section>
-      <section className="font-mono px-6 py-2 mb-5 backdrop-blur-sm">
+      <section className="font-mono px-6 py-3 mb-5 backdrop-blur-sm">
         <h1 className="text-monaco-txt flex items-center font-semibold mb-2">
           <ToolCase className="size-5 mr-2 text-monaco-muted" />
           Features
         </h1>
-        <p className="text-sm text-monaco-txt leading-relaxed mt-4">
+        <p className="text-sm text-monaco-txt leading-relaxed">
           Create custom problems using codebook&apos;s feature-rich problem
           editor and publish them directly to your profile to grow your very own
           repository of programming challenges.
@@ -56,12 +56,12 @@ export default function HomeClient(): JSX.Element {
           .
         </p>
       </section>
-      <section className="font-mono px-6 py-2 mb-5 backdrop-blur-sm">
+      <section className="font-mono px-6 py-3 mb-5 backdrop-blur-sm">
         <h1 className="text-monaco-txt flex items-center font-semibold mb-2">
           <Bug className="size-5 mr-2 text-monaco-muted" />
           Bug report
         </h1>
-        <p className="text-sm text-monaco-txt leading-relaxed mt-4">
+        <p className="text-sm text-monaco-txt leading-relaxed">
           Found a bug? Drop us a line over on{" "}
           <Link
             href="https://github.com/codebook-org/codebook"
