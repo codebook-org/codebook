@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata = {
   title: "codebook",
-  description: "Practice coding problems with your team.",
+  description: "Build your own programming challenges!",
 };
 
 export default function RootLayout({ children }) {
