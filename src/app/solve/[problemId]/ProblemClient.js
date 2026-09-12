@@ -569,7 +569,7 @@ export default function ProblemClient({
                     <h2 className={`mb-4 text-xl font-bold flex text-red-400`}>
                       {results.verdict}
                     </h2>
-                    <pre className="flex p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-xs font-mono">
+                    <pre className="flex p-3 mb-4 rounded-lg bg-red-400/10 text-red-400 text-xs font-mono whitespace-pre-wrap break-all min-w-0">
                       {results.stderr}
                       <Tooltip content="Copy to clipboard">
                         <button

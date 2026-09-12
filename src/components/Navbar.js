@@ -22,12 +22,6 @@ const NAV_LINKS_LEFT = [
     icon: BookOpenText,
     isExternal: false,
   },
-  {
-    href: "https://github.com/codebook-org/codebook",
-    label: "GitHub",
-    icon: CodeXml,
-    isExternal: true,
-  },
 ];
 
 // additional links that require a user to be logged in
