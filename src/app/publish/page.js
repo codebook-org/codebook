@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
-import { MoveRight, Lock, LockOpen, X, Plus, Upload } from "lucide-react";
+import { MoveRight, Lock, LockOpen, X, Plus, Upload, Blocks, PencilLine, ListPlus, } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -225,6 +225,7 @@ export default function Publish() {
         left={
           <div className="h-full overflow-y-auto">
             <Card
+              icon={PencilLine}
               title="Description"
               tabs={descriptionTabs}
               activeTab={currentDescriptionTab}
@@ -298,7 +299,8 @@ export default function Publish() {
           >
             <Panel defaultSize="70%" minSize="4.65%" maxSize="95.35%">
               <Card
-                title="Starter Code"
+                icon={Blocks}
+                title="Starter code"
                 tabs={codeTabs}
                 activeTab={currentCodeTab}
                 onTabChange={setCurrentCodeTab}
@@ -342,14 +344,14 @@ export default function Publish() {
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
             <Panel>
-              <Card title="Test Cases">
+              <Card icon={ListPlus} title="Test Cases">
                 <div className="flex flex-col p-1 pb-6 gap-2">
                   {Object.entries(testCases).map(([id, data]) => {
                     const isHidden = hiddenCase.includes(Number(id));
                     return (
                       <div
                         key={id}
-                        className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-lg shadow-black/20 bg-monaco-mid"
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg bg-monaco-mid"
                       >
                         <span className="text-sm font-bold text-monaco-txt whitespace-nowrap min-w-[60px]">
                           Test Case {id}
@@ -366,7 +368,7 @@ export default function Publish() {
                           <MoveRight className="size-4.5 text-monaco-muted" />
                           <input
                             className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            placeholder="Output"
+                            placeholder="Expected Output"
                             value={data.output}
                             onChange={(e) =>
                               updateCase(id, "output", e.target.value)
@@ -405,7 +407,7 @@ export default function Publish() {
                       <button
                         type="button"
                         onClick={addCase}
-                        className="group flex size-12 cursor-pointer items-center justify-center rounded-xl bg-monaco-mid text-monaco-muted shadow-xl shadow-black/20 transition-colors duration-200 hover:bg-monaco-light hover:text-monaco-txt"
+                        className="group flex size-12 cursor-pointer items-center justify-center rounded-xl bg-monaco-mid text-monaco-muted transition-colors duration-200 hover:bg-monaco-light hover:text-monaco-txt"
                       >
                         <Plus className="size-6" />
                       </button>
