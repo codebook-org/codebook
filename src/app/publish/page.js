@@ -38,6 +38,7 @@ export default function Publish() {
     `Use __Markdown__ to describe your coding problem.\n\n*Tip: View rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\nUse $\\LaTeX$ notation to render math formulas:\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide expected output specifications and show examples.\n\n### Examples\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\`\n**Example 2**\n\`\`\`\nInput:3\nOutput:6\nExplanation: 3 * 2 = 6\n\`\`\``,
   );
   const [hiddenCase, setHidden] = useState([]);
+  const [minPanelHeight, setMinPanelHeight] = useState(10);
 
   // stores test cases
   const [testCases, setTestCase] = useState({
@@ -297,13 +298,18 @@ export default function Publish() {
             orientation="vertical"
             className="flex flex-col flex-1 min-h-0 overflow-y-auto"
           >
-            <Panel defaultSize="70%" minSize="4.65%" maxSize="95.35%">
+            <Panel
+              defaultSize="70%"
+              minSize={`${minPanelHeight}px`}
+              maxSize="95.35%"
+            >
               <Card
                 icon={Blocks}
                 title="Starter code"
                 tabs={codeTabs}
                 activeTab={currentCodeTab}
                 onTabChange={setCurrentCodeTab}
+                getMinHeight={setMinPanelHeight}
               >
                 <Editor
                   className="pb-1"
@@ -340,11 +346,17 @@ export default function Publish() {
                 />
               </Card>
             </Panel>
-            <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-monaco-muted active:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
+            <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
-            <Panel>
-              <Card icon={ListPlus} title="Test Cases">
+            <Panel
+              minSize={`${minPanelHeight}px`}
+            >
+              <Card
+                icon={ListPlus}
+                title="Test Cases"
+                getMinHeight={setMinPanelHeight}
+              >
                 <div className="flex flex-col p-1 pb-6 gap-2">
                   {Object.entries(testCases).map(([id, data]) => {
                     const isHidden = hiddenCase.includes(Number(id));
