@@ -24,6 +24,7 @@ import {
   Grip,
   Star,
   Copy,
+  Lock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Card from "../../../components/Card";
@@ -546,6 +547,7 @@ export default function ProblemClient({
                     ))}
                     {results.totalHiddenTests > 0 && (
                       <div className="flex rounded-lg bg-monaco-mid/50 mb-2 items-center px-4 py-3">
+                        <Lock className="size-4.5 text-monaco-muted mr-2" />
                         <div className="mr-auto font-medium text-sm text-monaco-muted">
                           Hidden test cases
                         </div>

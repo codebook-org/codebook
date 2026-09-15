@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
-import { MoveRight, Lock, LockOpen, X, Plus, Upload, Blocks, PencilLine, ListPlus, } from "lucide-react";
+import { MoveRight, Lock, LockOpen, Trash, Plus, Upload, Blocks, PencilLine, ListPlus, } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -34,9 +34,7 @@ export default function Publish() {
   const [currentCodeTab, setCurrentCodeTab] = useState("cpp");
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState(
-    `Use __Markdown__ to describe your coding problem.\n\n*Tip: View rendered Markdown in preview tab.*\n\n### Input\n\nProvide input specifications and constraints.\n\nUse $\\LaTeX$ notation to render math formulas:\n\n$-10^5\\le n\\le 10^5$\n\n### Output\n\nProvide expected output specifications and show examples.\n\n### Examples\n**Example 1**\n\`\`\`\nInput:2\nOutput:4\nExplanation: 2 * 2 = 4\n\`\`\`\n**Example 2**\n\`\`\`\nInput:3\nOutput:6\nExplanation: 3 * 2 = 6\n\`\`\``,
-  );
+  const [description, setDescription] = useState("");
   const [hiddenCase, setHidden] = useState([]);
   const [minPanelHeight, setMinPanelHeight] = useState(10);
 
@@ -47,7 +45,7 @@ export default function Publish() {
 
   // stores starter code for respective languages
   const [starterCode, setStarterCode] = useState({
-    cpp: `/*\nYou can provide users with starter code for each of the supported languages.\n\nNote: Codebook uses standard I/O for test case validation.\nIf you want to abstract that from the user, you can use the following pattern:\n*/\n\n#include <iostream>\n\n// User-facing function where they write their logic:\nint solve(int n) {\n\t// Leave a comment for the user, instructing them to write their code here.\n\treturn 0;\n}\n\n// Main manages standard I/O:\nint main() {\n\tint n;\n\tstd::cin >> n;\n\tstd::cout << solve(n);\n\treturn 0;\n}`,
+    cpp: "",
     python: "",
     java: "",
   });
@@ -305,7 +303,7 @@ export default function Publish() {
             >
               <Card
                 icon={Blocks}
-                title="Starter code"
+                title="Starter Code"
                 tabs={codeTabs}
                 activeTab={currentCodeTab}
                 onTabChange={setCurrentCodeTab}
@@ -365,12 +363,12 @@ export default function Publish() {
                         key={id}
                         className="flex items-center gap-3 px-4 py-2 rounded-lg bg-monaco-mid"
                       >
-                        <span className="text-sm font-bold text-monaco-txt whitespace-nowrap min-w-[60px]">
-                          Test Case {id}
+                        <span className="text-sm font-medium text-monaco-txt whitespace-nowrap min-w-[60px]">
+                          Test case {id}
                         </span>
                         <div className="flex flex-1 items-center gap-3">
                           <input
-                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-xs text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Input"
                             value={data.input}
                             onChange={(e) =>
@@ -379,7 +377,7 @@ export default function Publish() {
                           />
                           <MoveRight className="size-4.5 text-monaco-muted" />
                           <input
-                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-xs text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Expected Output"
                             value={data.output}
                             onChange={(e) =>
@@ -407,7 +405,7 @@ export default function Publish() {
                               onClick={() => removeCase(id)}
                               className="text-monaco-muted hover:text-monaco-txt transition-colors cursor-pointer"
                             >
-                              <X className="size-6" />
+                              <Trash className="size-4.5" />
                             </button>
                           </Tooltip>
                         </div>

@@ -52,8 +52,8 @@ export default function Card({
                 className={`px-5 py-3 mt-1 text-xs font-semibold  transition-colors cursor-pointer select-none
                   ${
                     isActive
-                      ? "text-monaco-txt border-t border-l border-r rounded-t-lg border-monaco-light bg-monaco-dark font-semibold -mb-px"
-                      : "text-monaco-muted border-t border-l border-r rounded-t-lg border-transparent hover:text-monaco-txt -mb-px"
+                      ? "text-monaco-txt border-t border-l border-r rounded-t-xl border-monaco-light bg-monaco-dark font-semibold -mb-px"
+                      : "text-monaco-muted border-t border-l border-r rounded-t-xl border-transparent hover:text-monaco-txt -mb-px"
                   }`}
               >
                 {tab.label}
