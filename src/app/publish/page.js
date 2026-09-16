@@ -361,7 +361,7 @@ export default function Publish() {
                     return (
                       <div
                         key={id}
-                        className="flex items-center gap-3 px-4 py-2 rounded-lg bg-monaco-mid"
+                        className="flex items-center gap-3 pl-4 pr-3 py-2 rounded-lg bg-monaco-mid"
                       >
                         <span className="text-sm font-medium text-monaco-txt whitespace-nowrap min-w-[60px]">
                           Test case {id}
@@ -390,7 +390,7 @@ export default function Publish() {
                             <button
                               type="button"
                               onClick={() => updateHidden(id)}
-                              className="transition-colors ml-1 text-monaco-muted hover:text-monaco-txt cursor-pointer"
+                              className="transition-colors text-monaco-muted hover:text-monaco-txt hover:bg-monaco-light rounded-lg p-1.5 cursor-pointer"
                             >
                               {isHidden ? (
                                 <Lock className="size-4.5" />
@@ -403,7 +403,7 @@ export default function Publish() {
                             <button
                               type="button"
                               onClick={() => removeCase(id)}
-                              className="text-monaco-muted hover:text-monaco-txt transition-colors cursor-pointer"
+                              className="text-monaco-muted hover:text-monaco-txt transition-colors cursor-pointer hover:bg-monaco-light rounded-lg p-1.5 cursor-pointer"
                             >
                               <Trash className="size-4.5" />
                             </button>

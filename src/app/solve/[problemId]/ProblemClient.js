@@ -409,7 +409,7 @@ export default function ProblemClient({
                           if (resetSuccessful) toast.success("Code reset!");
                         }}
                       >
-                        <button className="group hover:bg-monaco-light p-1.5 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 $ cursor-pointer">
+                        <button className="group hover:bg-monaco-light p-1.5 rounded-lg font-semibold text-monaco-muted hover:text-monaco-txt transition-all duration-150 capitalize flex items-center gap-1 cursor-pointer">
                           <RotateCcw className="size-4.5" />
                         </button>
                       </Confirmation>
@@ -548,7 +548,7 @@ export default function ProblemClient({
                     {results.totalHiddenTests > 0 && (
                       <div className="flex rounded-lg bg-monaco-mid/50 mb-2 items-center px-4 py-3">
                         <Lock className="size-4.5 text-monaco-muted mr-2" />
-                        <div className="mr-auto font-medium text-sm text-monaco-muted">
+                        <div className="mr-auto font-medium text-sm medium-monaco-muted">
                           Hidden test cases
                         </div>
                         <div className="flex ml-auto font-semibold">
