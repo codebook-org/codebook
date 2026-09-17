@@ -66,12 +66,7 @@ export default function Settings() {
       const actDisplay = displayName.trim() === "" ? username : displayName;
 
       console.log("Submitting");
-      const updatedUser = await changeSettings(
-        session.user.id,
-        username,
-        actDisplay,
-        bio,
-      );
+      const updatedUser = await changeSettings(username, actDisplay, bio);
 
       if (updatedUser) {
         await update({
