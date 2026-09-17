@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/auth";
 import { CodebookDatabaseAPI } from "@/lib/db";
 
 export async function getUserProfile(userId) {
@@ -7,13 +8,23 @@ export async function getUserProfile(userId) {
   return data;
 }
 
-export async function changeSettings(userId, username, displayName, bio) {
-  let data = await CodebookDatabaseAPI.changeInfo(
-    userId,
-    username,
-    displayName,
-    bio,
-  );
+export async function changeSettings(username, displayName, bio) {
+  const session = await auth(); // Resolve session on our server side.
 
-  return data;
+  if (!session?.user?.id) {
+    // If our user doesnt exist, return null.
+    return null;
+  } else {
+    try {
+      return await CodebookDatabaseAPI.changeInfo(
+        session.user.id,
+        username,
+        displayName,
+        bio,
+      );
+    } catch (err) {
+      console.log("Failed to change settings.");
+      return null;
+    }
+  }
 }

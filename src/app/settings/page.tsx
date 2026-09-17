@@ -10,6 +10,7 @@ import ProfileClient from "@/app/profile/[userId]/ProfileClient";
 
 export default function Settings() {
   const { data: session, status, update } = useSession();
+  const [warning, setWarning] = useState({ message: "", type: "" }); // Lets us warn the user if their password is incorrect.
 
   // Variables
   const [displayName, setDisplayName] = useState(
@@ -65,17 +66,22 @@ export default function Settings() {
       const actDisplay = displayName.trim() === "" ? username : displayName;
 
       console.log("Submitting");
-      await changeSettings(session.user.id, username, actDisplay, bio);
+      const updatedUser = await changeSettings(username, actDisplay, bio);
 
-      // Tell the session to update itself, now that we have new data.
-      // I've verified this works, so once changeSettings is implemented, we should be good to go.
-      await update({
-        username: username,
-        displayName: actDisplay,
-        // We do not need to update bio since it's not attributed to the session :)
-      });
+      if (updatedUser) {
+        await update({
+          username: username,
+          displayName: actDisplay,
+          // We do not need to update bio since it's not attributed to the session :)
+        });
 
-      redirect("/profile/" + session.user.id);
+        redirect("/profile/" + session.user.id);
+      } else {
+        setWarning({
+          message: "That username is already taken. Try another one!",
+          type: "warning",
+        });
+      }
     }
   };
 
@@ -109,9 +115,21 @@ export default function Settings() {
             onChange={(e) => {
               const noSpaces = e.target.value.replace(/\s/g, "");
               setUsername(noSpaces);
+              setWarning({ message: "", type: "" });
             }}
           />
         </div>
+
+        {warning.message && (
+          <div
+            className={`text-xs warning ${warning.type}`}
+            style={{
+              color: "#ef4444",
+            }}
+          >
+            {warning.message}
+          </div>
+        )}
 
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-400 font-medium">Bio</label>
