@@ -703,7 +703,7 @@ export namespace CodebookDatabaseAPI {
     displayName: string,
     bio: string,
   ) {
-    Users.changeUserInformation(Number.parseInt(userId), {
+    return await Users.changeUserInformation(Number.parseInt(userId), {
       username: username,
       displayName: displayName,
       bio: bio,

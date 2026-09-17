@@ -8,12 +8,14 @@ export async function getUserProfile(userId) {
 }
 
 export async function changeSettings(userId, username, displayName, bio) {
-  let data = await CodebookDatabaseAPI.changeInfo(
-    userId,
-    username,
-    displayName,
-    bio,
-  );
-
-  return data;
+  try {
+    return await CodebookDatabaseAPI.changeInfo(
+      userId,
+      username,
+      displayName,
+      bio
+    );
+  } catch (err) {
+    return null;
+  }
 }
