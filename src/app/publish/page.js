@@ -216,9 +216,9 @@ export default function Publish() {
               >
                 <button
                   type="submit"
-                  className="h-9 px-5 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt font-semibold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer whitespace-nowrap"
+                  className="h-9 px-10 py-2 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt font-semibold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  <Upload className="size-4" />
+                  <Upload className="size-4.5" strokeWidth={2.5} />
                   Publish
                 </button>
               </Confirmation>
