@@ -13,7 +13,7 @@ export async function changeSettings(userId, username, displayName, bio) {
       userId,
       username,
       displayName,
-      bio
+      bio,
     );
   } catch (err) {
     return null;

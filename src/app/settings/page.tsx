@@ -66,7 +66,12 @@ export default function Settings() {
       const actDisplay = displayName.trim() === "" ? username : displayName;
 
       console.log("Submitting");
-      const updatedUser = await changeSettings(session.user.id, username, actDisplay, bio);
+      const updatedUser = await changeSettings(
+        session.user.id,
+        username,
+        actDisplay,
+        bio,
+      );
 
       if (updatedUser) {
         await update({
@@ -74,7 +79,7 @@ export default function Settings() {
           displayName: actDisplay,
           // We do not need to update bio since it's not attributed to the session :)
         });
-  
+
         redirect("/profile/" + session.user.id);
       } else {
         setWarning({
@@ -82,7 +87,6 @@ export default function Settings() {
           type: "warning",
         });
       }
-      
     }
   };
 
@@ -125,7 +129,7 @@ export default function Settings() {
           <div
             className={`text-xs warning ${warning.type}`}
             style={{
-              color: "#ef4444",         
+              color: "#ef4444",
             }}
           >
             {warning.message}
