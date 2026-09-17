@@ -6,7 +6,7 @@ import { getUserProfile, changeSettings } from "./actions";
 import { useEffect, useState } from "react";
 
 // We'll be using the Profile page as a preview.
-import ProfileClient from "@/app/profile/[userId]/ProfileClient";
+import ProfileClient from "@/app/profile/[username]/ProfileClient";
 
 export default function Settings() {
   const { data: session, status, update } = useSession();

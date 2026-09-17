@@ -1,17 +1,11 @@
 "use client";
 
+import { CodebookDatabaseAPI } from "@/lib/db";
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
-import { CodebookDatabaseAPI } from "@/lib/db";
-
-//We can change whatever user information we want to include
-//I just did this for now
-
-type Problem = CodebookDatabaseAPI.Problem;
-
-type User = CodebookDatabaseAPI.User;
+type Problem = CodebookDatabaseAPI.DataTypes.Problem;
+type User = CodebookDatabaseAPI.DataTypes.User;
 
 type Props = {
   user: User;
@@ -27,12 +21,10 @@ export default function ProfileClient({
   publishedProblems,
 }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("solved");
-
-  const problems = activeTab === "solved" ? solvedProblems : publishedProblems;
-  const count =
+  const problems =
     activeTab === "solved"
-      ? `${solvedProblems.length} solved`
-      : `${publishedProblems.length} published`;
+      ? solvedProblems 
+      : publishedProblems;
 
   const initials =
     user?.displayName
@@ -43,7 +35,6 @@ export default function ProfileClient({
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-10">
-      {/* ── HEADER ── */}
       <div className="flex items-center gap-5 pb-6 border-b border-white/10">
         <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-white text-xl font-medium flex-shrink-0">
           {initials}
@@ -59,8 +50,6 @@ export default function ProfileClient({
           )}
         </div>
       </div>
-
-      {/* Temp Bio display, REALLY UGLY AHHHH*/}
       <div className="mt-4 max-w-prose">
         <p
           className={`text-sm leading-relaxed ${user.bio ? "text-zinc-300" : "text-zinc-500 italic"}`}
@@ -68,8 +57,6 @@ export default function ProfileClient({
           {user.bio || ""}
         </p>
       </div>
-
-      {/* ── TABS ── */}
       <div className="flex border-b border-white/10 mt-6">
         {(["solved", "published"] as Tab[]).map((tab) => (
           <button
@@ -85,8 +72,6 @@ export default function ProfileClient({
           </button>
         ))}
       </div>
-
-      {/* ── PROBLEM LIST ── */}
       <div className="mt-5 flex flex-col gap-2">
         {problems.length === 0 ? (
           <p className="text-gray-500 text-sm py-6">
@@ -107,10 +92,6 @@ export default function ProfileClient({
               </span>
             </Link>
           ))
-        )}
-
-        {problems.length > 0 && (
-          <p className="text-xs text-gray-600 mt-1">{count}</p>
         )}
       </div>
     </div>

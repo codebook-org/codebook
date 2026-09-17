@@ -273,7 +273,7 @@ export default function ProblemClient({
               <hr className="border-t border-monaco-mid mt-2 mb-2"></hr>
               <div className="flex text-xs text-monaco-muted pb-4">
                 <h1 className="pr-1">By</h1>
-                <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
+                <Link href={`/profile/${problemCreator.username}`}>
                   <h1 className="hover:underline hover:text-blue-500 transition-colors">
                     {problemCreator?.displayName ??
                       problemCreator?.username ??

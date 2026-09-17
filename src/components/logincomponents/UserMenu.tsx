@@ -13,7 +13,7 @@ export default function UserMenu() {
 
   const MENU_LINKS = [
     {
-      href: `/profile/${session?.user?.id}`,
+      href: `/profile/${session?.user?.name}`,
       label: "Profile",
       icon: UserRound,
     },
