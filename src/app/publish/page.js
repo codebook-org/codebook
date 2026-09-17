@@ -6,7 +6,17 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
-import { MoveRight, Lock, LockOpen, Eraser, Plus, Upload, Blocks, PencilLine, ListPlus, } from "lucide-react";
+import {
+  MoveRight,
+  Lock,
+  LockOpen,
+  Eraser,
+  Plus,
+  Upload,
+  Blocks,
+  PencilLine,
+  ListPlus,
+} from "lucide-react";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -349,9 +359,7 @@ export default function Publish() {
             <Separator className="group h-0.5 my-0.75 self-stretch bg-transparent rounded-full hover:bg-blue-500 transition-colors duration-150 cursor-col-resize flex items-center justify-center">
               <div className="h-0.5 w-8 bg-monaco-mid rounded-full group-hover:bg-transparent group-active:bg-transparent transition-colors duration-150" />
             </Separator>
-            <Panel
-              minSize={`${minPanelHeight}px`}
-            >
+            <Panel minSize={`${minPanelHeight}px`}>
               <Card
                 icon={ListPlus}
                 title="Test Cases"
