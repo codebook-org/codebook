@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { toast } from "sonner";
-import { MoveRight, Lock, LockOpen, Trash, Plus, Upload, Blocks, PencilLine, ListPlus, } from "lucide-react";
+import { MoveRight, Lock, LockOpen, Eraser, Plus, Upload, Blocks, PencilLine, ListPlus, } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -197,98 +197,100 @@ export default function Publish() {
 
   return (
     <div className="w-full h-full min-h-0 flex-1 flex flex-col h-full overflow-hidden">
-      <div className="flex items-center rounded-lg bg-monaco-dark p-1 mb-2 h-12">
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter a title for your problem."
-          className="w-full h-full rounded-lg bg-black/20 text-monaco-txt font-semibold text-xl border-none focus:ring-2 focus:ring-blue-500 focus:outline-none px-3 py-4"
-        />
-        <Confirmation
-          title="Are you sure?"
-          description="You won't be able to edit this problem once it has been published."
-          onConfirm={handleSubmit}
-        >
-          <button
-            type="submit"
-            className="cursor-pointer flex items-center text-sm font-bold h-8 px-32 m-3 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt transition-colors shadow-lg shadow-black/20"
-          >
-            <Upload className="size-4 mr-2" />
-            Publish
-          </button>
-        </Confirmation>
-      </div>
       <SplitPane
         left={
-          <div className="h-full overflow-y-auto">
-            <Card
-              icon={PencilLine}
-              title="Description"
-              tabs={descriptionTabs}
-              activeTab={currentDescriptionTab}
-              onTabChange={setCurrentDescriptionTab}
-            >
-              <div
-                className={
-                  currentDescriptionTab === "editor"
-                    ? "h-full w-full pb-1"
-                    : "hidden"
-                }
+          <div className="h-full flex flex-col overflow-hidden">
+            <div className="flex items-center gap-3 rounded-xl border border-monaco-light bg-monaco-dark p-2 mb-2">
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Title"
+                className="flex-1 h-9 rounded-lg bg-black/30 text-monaco-txt font-medium text-lg border-none focus:ring-2 focus:ring-blue-500 focus:outline-none px-2"
+              />
+              <Confirmation
+                title="Are you sure?"
+                description="You won't be able to edit this problem once it has been published."
+                onConfirm={handleSubmit}
               >
-                <Editor
-                  onMount={(editor) => {
-                    descriptionEditorRef.current = editor;
-                    descriptionEditorRef.current.focus();
-                  }}
-                  height="100%"
-                  language="markdown"
-                  theme="vs-dark"
-                  value={description}
-                  onChange={(newValue) => setDescription(newValue || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    stickyScroll: { enabled: false },
-                    scrollbar: {
-                      vertical: "hidden",
-                      horizontal: "hidden",
-                      handleMouseWheel: true,
-                      castShadows: false,
-                    },
-                    overviewRulerLanes: 0,
-                    hideCursorInOverviewRuler: true,
-                    overviewRulerBorder: false,
-                    renderLineHighlight: "none",
-                    glyphMargin: false,
-                    lineNumbers: "off",
-                    folding: false,
-                    lineDecorationsWidth: 0,
-                    lineNumbersMinChars: 0,
-                    fontFamily: "JetBrains Mono",
-                  }}
-                />
-              </div>
-              <div
-                className={
-                  currentDescriptionTab === "preview"
-                    ? "h-full w-full"
-                    : "hidden"
-                }
+                <button
+                  type="submit"
+                  className="h-9 px-5 rounded-lg bg-monaco-mid text-green-500 hover:bg-green-700 hover:text-monaco-txt font-semibold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer whitespace-nowrap"
+                >
+                  <Upload className="size-4" />
+                  Publish
+                </button>
+              </Confirmation>
+            </div>
+            <div className="flex-1 min-h-0">
+              <Card
+                icon={PencilLine}
+                title="Description"
+                tabs={descriptionTabs}
+                activeTab={currentDescriptionTab}
+                onTabChange={setCurrentDescriptionTab}
               >
-                <div className="problem-markdown text-sm pb-64">
-                  <Markdown
-                    remarkPlugins={[remarkMath]}
-                    rehypePlugins={[
-                      [rehypeSanitize, sanitizeSchema],
-                      rehypeKatex,
-                    ]}
-                  >
-                    {description}
-                  </Markdown>
+                <div
+                  className={
+                    currentDescriptionTab === "editor"
+                      ? "h-full w-full pb-1"
+                      : "hidden"
+                  }
+                >
+                  <Editor
+                    onMount={(editor) => {
+                      descriptionEditorRef.current = editor;
+                      descriptionEditorRef.current.focus();
+                    }}
+                    height="100%"
+                    language="markdown"
+                    theme="vs-dark"
+                    value={description}
+                    onChange={(newValue) => setDescription(newValue || "")}
+                    options={{
+                      minimap: { enabled: false },
+                      stickyScroll: { enabled: false },
+                      scrollbar: {
+                        vertical: "hidden",
+                        horizontal: "hidden",
+                        handleMouseWheel: true,
+                        castShadows: false,
+                      },
+                      overviewRulerLanes: 0,
+                      hideCursorInOverviewRuler: true,
+                      overviewRulerBorder: false,
+                      renderLineHighlight: "none",
+                      glyphMargin: false,
+                      lineNumbers: "off",
+                      folding: false,
+                      lineDecorationsWidth: 0,
+                      lineNumbersMinChars: 0,
+                      fontFamily: "JetBrains Mono",
+                    }}
+                  />
                 </div>
-              </div>
-            </Card>
+                <div
+                  className={
+                    currentDescriptionTab === "preview"
+                      ? "h-full w-full"
+                      : "hidden"
+                  }
+                >
+                  <div className="problem-markdown text-sm pb-64">
+                    <Markdown
+                      remarkPlugins={[remarkMath]}
+                      rehypePlugins={[
+                        [rehypeSanitize, sanitizeSchema],
+                        rehypeKatex,
+                      ]}
+                    >
+                      {description}
+                    </Markdown>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
         }
         right={
@@ -361,12 +363,28 @@ export default function Publish() {
                     return (
                       <div
                         key={id}
-                        className="flex items-center gap-3 pl-4 pr-3 py-2 rounded-lg bg-monaco-mid"
+                        className={`flex items-center gap-3 px-3 py-2 border rounded-xl transition-colors transition-150 overflow-hidden
+                                    ${isHidden ? "bg-transparent border-monaco-light" : "bg-monaco-mid border-transparent"}`}
                       >
-                        <span className="text-sm font-medium text-monaco-txt whitespace-nowrap min-w-[60px]">
+                        <Tooltip
+                          content={`${isHidden ? "Show test case" : "Hide test case"}`}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => updateHidden(id)}
+                            className="transition-colors text-monaco-muted hover:text-monaco-txt hover:bg-monaco-light rounded-lg p-1.5 cursor-pointer"
+                          >
+                            {isHidden ? (
+                              <Lock className="size-4.5" />
+                            ) : (
+                              <LockOpen className="size-4.5" />
+                            )}
+                          </button>
+                        </Tooltip>
+                        <span className="text-sm font-medium text-monaco-txt whitespace-nowrap mr-1 shrink-0">
                           Test case {id}
                         </span>
-                        <div className="flex flex-1 items-center gap-3">
+                        <div className="flex flex-1 items-center min-w-0 gap-3">
                           <input
                             className="flex-1 min-w-0 bg-neutral-900/80 px-3 py-2 font-mono rounded-lg text-xs text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Input"
@@ -384,28 +402,13 @@ export default function Publish() {
                               updateCase(id, "output", e.target.value)
                             }
                           />
-                          <Tooltip
-                            content={`${isHidden ? "Show test case" : "Hide test case"}`}
-                          >
-                            <button
-                              type="button"
-                              onClick={() => updateHidden(id)}
-                              className="transition-colors text-monaco-muted hover:text-monaco-txt hover:bg-monaco-light rounded-lg p-1.5 cursor-pointer"
-                            >
-                              {isHidden ? (
-                                <Lock className="size-4.5" />
-                              ) : (
-                                <LockOpen className="size-4.5" />
-                              )}
-                            </button>
-                          </Tooltip>
                           <Tooltip content="Remove test case">
                             <button
                               type="button"
                               onClick={() => removeCase(id)}
                               className="text-monaco-muted hover:text-monaco-txt transition-colors cursor-pointer hover:bg-monaco-light rounded-lg p-1.5 cursor-pointer"
                             >
-                              <Trash className="size-4.5" />
+                              <Eraser className="size-4.5" />
                             </button>
                           </Tooltip>
                         </div>
