@@ -2,8 +2,9 @@
 
 import { CodebookDatabaseAPI } from "@/lib/db";
 import { useState } from "react";
-import Link from "next/link";
 import { BookCopy, BookOpenCheck } from "lucide-react"; 
+import { useSession } from "next-auth/react";
+import ProblemListItem from "@/components/ProblemListItem";
 
 type Problem = CodebookDatabaseAPI.DataTypes.Problem;
 type User = CodebookDatabaseAPI.DataTypes.User;
@@ -21,6 +22,7 @@ export default function ProfileClient({
   solvedProblems,
   publishedProblems,
 }: Props) {
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<Tab>("published");
   const problems =
     activeTab === "solved"
@@ -94,18 +96,7 @@ export default function ProfileClient({
             </p>
           ) : (
             problems.map((p) => (
-              <Link
-                key={p.problemId}
-                href={`/solve/${p.problemId}`}
-                className="grid grid-cols-1 md:grid-cols-4 items-center gap-4 px-4 py-3 bg-white/[0.02] rounded-xl border border-white/5 hover:bg-white/10 transition-colors group"
-              >
-                <span className="text-sm font-medium text-gray-100 group-hover:text-white transition-colors truncate">
-                  {p.title}
-                </span>
-                <span className="text-xs font-mono text-gray-400 md:col-span-3 truncate text-left">
-                  {p.description.slice(0, 80)}...
-                </span>
-              </Link>
+              <ProblemListItem key={p.problemId} problem={p} isSolved={session?.user?.solvedProblemIds?.includes(p.problemId) ?? false} />
             ))
           )}
         </div>

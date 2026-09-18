@@ -48,7 +48,7 @@ export default function ProblemClient({
   initialSolveCount,
   userHasSolved,
 }) {
-  const { session } = useSession();
+  const { session, update } = useSession();
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const languageDropdownRef = useRef(null);
@@ -142,6 +142,7 @@ export default function ProblemClient({
         setHasSolved(true);
         setSolveCount((prev) => prev + 1);
         SolveCelebration();
+        await update({ user: {} });
       }
     }
   };

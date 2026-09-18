@@ -126,6 +126,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         token.username = (user as any).username;
 
+        try {
+          const solves = await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(token.id);
+          token.solvedProblemIds = Array.isArray(solves)
+            ? solves.map((item: any) => item.problemId)
+            : [];
+        } catch (err) {
+          token.solvedProblemIds = [];
+        }
+
         console.log("SUCCESS: Token sub assigned:", token.id);
       }
 
@@ -134,7 +143,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (session.username) token.username = session.username;
         if (session.displayName)
           token.displayName = session.displayName ?? session.username;
+
+        if (token.id) {
+          try {
+            const solves = await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(token.id);
+            token.solvedProblemIds = Array.isArray(solves)
+              ? solves.map((item: any) => item.problemId)
+              : [];
+          } catch (err) {
+            // keep what we had
+          }
+        }
       }
+
       return token;
     },
 
@@ -147,6 +168,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.username = token.username as string;
 
         session.user.name = token.username as string; // ABSOLUTE FALLBACK!!!
+
+        session.user.solvedProblemIds = (token.solvedProblemIds as number[]) ?? [];
       }
       return session;
     },
