@@ -4,12 +4,14 @@ import { CircleCheck, Ellipsis } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { deleteProblemAction } from "@/lib/problem-actions";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Tooltip from "@/components/Tooltip";
 
-export default function ProblemListItem({ problem, isSolved, showMoreOptions }) {
-  const { update } = useSession();
+export default function ProblemListItem({
+  problem,
+  isSolved,
+  showMoreOptions,
+}) {
   const router = useRouter();
   const [moreOptionsIsOpen, setMoreOptionsIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -25,24 +27,22 @@ export default function ProblemListItem({ problem, isSolved, showMoreOptions }) 
   }, []);
 
   return (
-    <div 
+    <div
       onClick={() => router.push(`/solve/${problem.problemId}`)}
       className={`flex items-center h-12 p-3 bg-monaco-mid/40 border border-monaco-light rounded-xl text-sm transition-colors cursor-pointer ${
         moreOptionsIsOpen ? "" : "hover:bg-monaco-mid/70"
       }`}
     >
-      <span className="text text-monaco-txt py-1.5">
-        {problem.title}
-      </span>
-      
+      <span className="text text-monaco-txt py-1.5">{problem.title}</span>
+
       <div className="flex items-center ml-auto gap-3">
-        {isSolved &&
+        {isSolved && (
           <div className="flex items-center text-green-500">
             <CircleCheck className="size-4.5 mr-1" />
             <span className="text-xs">Solved!</span>
           </div>
-        }
-        {showMoreOptions &&
+        )}
+        {showMoreOptions && (
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <Tooltip content="More options">
               <button
@@ -67,8 +67,7 @@ export default function ProblemListItem({ problem, isSolved, showMoreOptions }) 
                     <div className="flex flex-col gap-1">
                       <button
                         onClick={async () => {
-                          const success = await deleteProblemAction(problem.problemId);
-                          if (success) await update({ user: {} });
+                          await deleteProblemAction(problem.problemId);
                         }}
                         className="w-full text-red-400 hover:bg-red-400/10 text-left px-3 rounded-lg py-2.5 text-xs font-medium transition-colors duration-150 capitalize cursor-pointer"
                       >
@@ -80,7 +79,7 @@ export default function ProblemListItem({ problem, isSolved, showMoreOptions }) 
               )}
             </AnimatePresence>
           </div>
-        }
+        )}
       </div>
     </div>
   );

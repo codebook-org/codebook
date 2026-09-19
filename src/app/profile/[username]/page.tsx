@@ -15,8 +15,7 @@ export default async function ProfilePage({ params }) {
     );
   }
 
-  const userinfo =
-    await CodebookDatabaseAPI.Users.getUserByUsername(username);
+  const userinfo = await CodebookDatabaseAPI.Users.getUserByUsername(username);
 
   if (!userinfo) {
     return (

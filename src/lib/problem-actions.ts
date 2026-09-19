@@ -11,10 +11,12 @@ export async function deleteProblemAction(problemId) {
   if (!currentUserId) return { success: false }; // unauthorized
 
   try {
-    const problem = await CodebookDatabaseAPI.Problems.getProblemByProblemId(problemId);
+    const problem =
+      await CodebookDatabaseAPI.Problems.getProblemByProblemId(problemId);
     if (!problem) return { success: false }; // problem not found
 
-    if (problem.userId !== currentUserId) { // unauthorized
+    if (problem.userId !== currentUserId) {
+      // unauthorized
       return { success: false };
     }
 
@@ -22,6 +24,6 @@ export async function deleteProblemAction(problemId) {
     revalidatePath("/problems");
     return { success: true };
   } catch (error) {
-    return { success: false};
+    return { success: false };
   }
 }

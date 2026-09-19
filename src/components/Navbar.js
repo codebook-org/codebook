@@ -4,11 +4,7 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import Tooltip from "@/components/Tooltip";
 import UserMenu from "@/components/logincomponents/UserMenu";
-import {
-  Home,
-  CircleQuestionMark,
-  Settings2,
-} from "lucide-react";
+import { Home, CircleQuestionMark, Settings2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 // general links for navigating codebook
@@ -63,8 +59,10 @@ export default function Navbar() {
               Sign in
             </div>
           </Link>
-        ) : ( <div /> )}
-          {/*
+        ) : (
+          <div />
+        )}
+        {/*
             <div className="flex items-center">
               <ul className="flex items-center gap-2 mr-2">
                 {NAV_LINKS_RIGHT.map(

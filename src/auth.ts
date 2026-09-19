@@ -127,7 +127,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.username = (user as any).username;
 
         try {
-          const solves = await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(token.id);
+          const solves =
+            await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(
+              token.id,
+            );
           token.solvedProblemIds = Array.isArray(solves)
             ? solves.map((item: any) => item.problemId)
             : [];
@@ -146,7 +149,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (token.id) {
           try {
-            const solves = await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(token.id);
+            const solves =
+              await CodebookDatabaseAPI.Problems.UserSolves.getProblemsSolvedByUser(
+                token.id,
+              );
             token.solvedProblemIds = Array.isArray(solves)
               ? solves.map((item: any) => item.problemId)
               : [];
@@ -169,7 +175,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         session.user.name = token.username as string; // ABSOLUTE FALLBACK!!!
 
-        session.user.solvedProblemIds = (token.solvedProblemIds as number[]) ?? [];
+        session.user.solvedProblemIds =
+          (token.solvedProblemIds as number[]) ?? [];
       }
       return session;
     },
