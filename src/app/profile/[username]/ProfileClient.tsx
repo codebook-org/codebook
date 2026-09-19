@@ -2,7 +2,7 @@
 
 import { CodebookDatabaseAPI } from "@/lib/db";
 import { useState } from "react";
-import { BookCopy, BookOpenCheck } from "lucide-react"; 
+import { Book, BookOpenCheck } from "lucide-react"; 
 import { useSession } from "next-auth/react";
 import ProblemListItem from "@/components/ProblemListItem";
 
@@ -15,7 +15,7 @@ type Props = {
   publishedProblems: Problem[];
 };
 
-type Tab = "solved" | "published";
+type Tab = "published" | "solved";
 
 export default function ProfileClient({
   user,
@@ -36,10 +36,12 @@ export default function ProfileClient({
       .join("")
       .toUpperCase() ?? "?";
 
+  const isProfileOwner = Number(session?.user?.id) === user.userId;
+
   return (
-    <div className="max-w-6xl mx-auto px-3 py-10 flex flex-col gap-2">
-      <div className="w-full bg-monaco-dark rounded-2xl border border-monaco-light p-4 flex flex-col sm:flex-row gap-6 items-center sm:items-start">
-        <div className="flex items-center gap-4 pb-4 sm:pb-0 border-b sm:border-b-0 sm:border-r border-monaco-mid pr-0 sm:pr-6 w-full md:w-56 flex-shrink-0">
+    <div className="max-w-6xl mx-auto px-3 py-10 grid grid-cols-1 lg:grid-cols-4 gap-2 items-stretch">
+      <div className="w-full bg-monaco-dark rounded-2xl border border-monaco-light p-5 flex flex-col gap-5 lg:col-span-1 h-full">
+        <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700 flex items-center justify-center text-xl font-bold flex-shrink-0">
             {initials}
           </div>
@@ -54,16 +56,17 @@ export default function ProfileClient({
             )}
           </div>
         </div>
-        <div className="w-full flex-1 min-w-0 pt-2 sm:pt-1">
-          <p className="text-sm text-monaco-muted">
+        
+        <div className="w-full pt-3 border-t border-monaco-mid">
+          <p className="text-xs text-monaco-muted tracking-wider font-semibold mb-1">
             Bio
           </p>
-          <p className={`text-sm leading-relaxed max-w-prose ${user.bio ? "text-monaco-txt" : "text-monaco-muted italic"}`}>
+          <p className={`text-sm leading-relaxed ${user.bio ? "text-monaco-txt" : "text-monaco-muted italic"}`}>
             {user.bio || "This user has not provided a bio."}
           </p>
         </div>
       </div>
-      <div className="w-full bg-monaco-dark rounded-2xl border border-monaco-light p-4 flex flex-col md:flex-row gap-6 items-stretch h-[calc(100vh-320px)] min-h-[400px]">
+      <div className="w-full bg-monaco-dark rounded-2xl border border-monaco-light p-4 flex flex-col md:flex-row gap-6 items-stretch h-[calc(100vh-240px)] min-h-[500px] lg:col-span-3">
         <div className="w-full md:w-56 flex flex-row md:flex-col border-b md:border-b-0 md:border-r border-monaco-mid pb-4 md:pb-0 md:pr-4 gap-1 flex-shrink-0">
           {(["published", "solved"] as Tab[]).map((tab) => {
             const isSelected = activeTab === tab;
@@ -78,7 +81,7 @@ export default function ProfileClient({
                 }`}
               >
                 {tab === "published" ? (
-                  <BookCopy className="size-4.5 text-monaco-muted" />
+                  <Book className="size-4.5 text-monaco-muted" />
                 ) : (
                   <BookOpenCheck className="size-4.5 text-monaco-muted" />
                 )}
@@ -96,7 +99,12 @@ export default function ProfileClient({
             </p>
           ) : (
             problems.map((p) => (
-              <ProblemListItem key={p.problemId} problem={p} isSolved={session?.user?.solvedProblemIds?.includes(p.problemId) ?? false} />
+              <ProblemListItem
+                  key={p.problemId}
+                  problem={p}
+                  isSolved={session?.user?.solvedProblemIds?.includes(p.problemId) ?? false}
+                  showMoreOptions={isProfileOwner && activeTab === "published"}
+              />
             ))
           )}
         </div>
