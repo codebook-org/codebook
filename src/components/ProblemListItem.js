@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, CircleCheck } from "lucide-react";
+import { Bookmark, CircleCheck } from "lucide-react";
 import Link from "next/link";
 
 export default function ProblemListItem({problem, isSolved}) {
@@ -9,7 +9,7 @@ export default function ProblemListItem({problem, isSolved}) {
       href={`/solve/${problem.problemId}`}
       className="flex items-center h-12 p-3 bg-monaco-mid/40 hover:bg-monaco-mid/70 border border-monaco-light rounded-xl text-sm transition-colors"
     >
-      <Book className="size-4.5 text-monaco-muted mr-2" />
+      <Bookmark className="size-4.5 text-monaco-muted mr-2" />
       <span className="text text-monaco-txt">
         {problem.title}
       </span>

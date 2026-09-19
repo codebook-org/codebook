@@ -55,7 +55,7 @@ export default function ProblemClient({
   const keybindDropdownRef = useRef(null);
   const [results, setResults] = useState(null);
   const [status, setStatus] = useState("");
-  const [favorited, setFavorited] = useState(false); // TODO: check if already favorited
+  //const [favorited, setFavorited] = useState(false); // TODO: check if already favorited
   const [linkCopied, setLinkCopied] = useState(false);
   const [language, setLanguage] = useState("c++");
   const [keybind, setKeybind] = useState("standard");
@@ -252,7 +252,7 @@ export default function ProblemClient({
                       <SquareArrowOutUpRight className="size-4.5" />
                     </button>
                   </Tooltip>
-                  <Tooltip content="Favorite">
+                  {/*<Tooltip content="Favorite">
                     <button
                       onClick={() => setFavorited(!favorited)}
                       className={`transition-colors duration-150 p-1.5 cursor-pointer rounded-lg hover:bg-monaco-light hover:text-monaco-txt
@@ -264,7 +264,7 @@ export default function ProblemClient({
                     >
                       <Star className={`size-4.5 ${favorited && ""}`} />
                     </button>
-                  </Tooltip>
+                  </Tooltip>*/}
                 </div>
               }
             >

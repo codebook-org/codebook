@@ -68,7 +68,7 @@ export default function Card({
           <div className="flex items-center gap-2 ml-auto">{optionsRight}</div>
         </div>
       )}
-      <div className="pt-4 px-4 flex-1 min-h-0 overflow-y-auto">{children}</div>
+      <div className="pt-4 px-4 flex-1 min-h-0 overflow-y-auto scrollbar-none">{children}</div>
       {statusBar && <div className="">{statusBar}</div>}
       {optionsBottom && (
         <div className="p-2 flex items-center shrink-0">

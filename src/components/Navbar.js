@@ -6,9 +6,7 @@ import Tooltip from "@/components/Tooltip";
 import UserMenu from "@/components/logincomponents/UserMenu";
 import {
   Home,
-  BookOpenText,
-  CodeXml,
-  PencilSparkles,
+  CircleQuestionMark,
   Settings2,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -19,21 +17,15 @@ const NAV_LINKS_LEFT = [
   {
     href: "/guide",
     label: "Guide",
-    icon: BookOpenText,
+    icon: CircleQuestionMark,
     isExternal: false,
   },
 ];
 
 // additional links that require a user to be logged in
-const NAV_LINKS_RIGHT = [
-  {
-    href: "/publish",
-    label: "Publish",
-    icon: PencilSparkles,
-    isExternal: false,
-  },
-  { href: "/settings", label: "Settings", icon: Settings2, isExternal: false },
-];
+//const NAV_LINKS_RIGHT = [
+//  { href: "/settings", label: "Settings", icon: Settings2, isExternal: false },
+//];
 
 export default function Navbar() {
   const { data: session, status, update } = useSession();
@@ -67,34 +59,35 @@ export default function Navbar() {
       <div className="flex items-center gap-4 mr-2">
         {status === "unauthenticated" ? (
           <Link href="/login">
-            <div className="border-1 border-monaco-light p-2 px-6 text-sm font-semibold text-monaco-muted transition-colors rounded-lg hover:text-monaco-txt hover:bg-monaco-mid">
+            <div className="p-2 px-6 text-sm font-semibold border border-yellow-900 text-yellow-600 bg-yellow-700/10 transition-colors rounded-lg hover:bg-yellow-700/20">
               Sign in
             </div>
           </Link>
-        ) : (
-          <div className="flex items-center">
-            <ul className="flex items-center gap-2 mr-2">
-              {NAV_LINKS_RIGHT.map(
-                ({ href, label, icon: Icon, isExternal }) => (
-                  <li key={href}>
-                    <Tooltip content={label}>
-                      <Link
-                        href={href}
-                        target={isExternal ? "_blank" : undefined}
-                        rel={isExternal ? "noopener noreferrer" : undefined}
-                      >
-                        <div className=" group border-monaco-light p-2 transition-colors rounded-lg hover:bg-monaco-mid">
-                          <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
-                        </div>
-                      </Link>
-                    </Tooltip>
-                  </li>
-                ),
-              )}
-            </ul>
-            <div className="w-[1px] h-4 bg-monaco-light mx-2" />
-          </div>
-        )}
+        ) : ( <div /> )}
+          {/*
+            <div className="flex items-center">
+              <ul className="flex items-center gap-2 mr-2">
+                {NAV_LINKS_RIGHT.map(
+                  ({ href, label, icon: Icon, isExternal }) => (
+                    <li key={href}>
+                      <Tooltip content={label}>
+                        <Link
+                          href={href}
+                          target={isExternal ? "_blank" : undefined}
+                          rel={isExternal ? "noopener noreferrer" : undefined}
+                        >
+                          <div className=" group border-monaco-light p-2 transition-colors rounded-lg hover:bg-monaco-mid">
+                            <Icon className="size-4.5 text-monaco-muted group-hover:text-monaco-txt" />
+                          </div>
+                        </Link>
+                      </Tooltip>
+                    </li>
+                  ),
+                )}
+              </ul>
+              <div className="w-[1px] h-4 bg-monaco-light mx-2" />
+            </div>
+          */}
         <UserMenu key={status} />
       </div>
     </nav>
