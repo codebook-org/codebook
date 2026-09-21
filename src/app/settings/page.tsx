@@ -4,22 +4,18 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { getUserProfile, changeSettings } from "./actions";
 import { useEffect, useState } from "react";
-
-// We'll be using the Profile page as a preview.
-import ProfileClient from "@/app/profile/[userId]/ProfileClient";
+import { Settings as SettingsIcon } from "lucide-react";
 
 export default function Settings() {
   const { data: session, status, update } = useSession();
   const [warning, setWarning] = useState({ message: "", type: "" }); // Lets us warn the user if their password is incorrect.
 
-  // Variables
   const [displayName, setDisplayName] = useState(
     session?.user?.displayName || "",
   );
   const [username, setUsername] = useState(
     session?.user?.username || session?.user?.name,
   );
-  // const [email, setEmail] = useState(""); <-- We can consider changing emails at a later date.
   const [bio, setBio] = useState("");
 
   useEffect(() => {
@@ -34,7 +30,7 @@ export default function Settings() {
     }
   }, [session, status]);
 
-  // If auth is currently loading, then you shouldn't be kicked out. Let it load first..
+  // wait for auth to load
   if (status === "loading") {
     return (
       <main className="p-8">
@@ -43,20 +39,10 @@ export default function Settings() {
     );
   }
 
-  // But if you aren't logged in, you can't access settings. Nothing to change if you don't have an account.
+  // must be logged in to access settings
   if (!session?.user) {
     redirect("/login");
   }
-
-  // Since we're technically passing through an entire user, we need to create a fake one for now.
-  const previewUser = {
-    userId: parseInt(session.user.id, 10), // Have to parse the int
-    email: session.user.email,
-    username: username,
-    displayName: displayName.trim() == "" ? username : displayName,
-    bio: bio,
-    passwordHash: "", // This is ignored, not important information.
-  };
 
   const grabinfo = async (e) => {
     e.preventDefault();
@@ -87,13 +73,14 @@ export default function Settings() {
 
   return (
     <main
-      key={status === "authenticated" ? session.user.id : "loading"} // Should refresh properly
+      key={status === "authenticated" ? session.user.id : "loading"}
       className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10"
     >
-      {/* Change settings here */}
-      <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-xl border border-white/10">
-        <h1 className="text-xl font-bold text-white mb-2">Account Settings</h1>
-
+      <div className="flex flex-col gap-4 bg-monaco-dark p-8 rounded-3xl border border-monaco-light">
+        <div className="flex items-center">
+          <SettingsIcon className="size-5 mr-3 text-monaco-muted" />
+          <h1 className="font-semibold text-monaco-txt">Account Settings</h1>
+        </div>
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-400 font-medium">
             Display Name
@@ -105,7 +92,6 @@ export default function Settings() {
             onChange={(e) => setDisplayName(e.target.value)}
           />
         </div>
-
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-400 font-medium">Username</label>
           <input
@@ -119,7 +105,6 @@ export default function Settings() {
             }}
           />
         </div>
-
         {warning.message && (
           <div
             className={`text-xs warning ${warning.type}`}
@@ -130,7 +115,6 @@ export default function Settings() {
             {warning.message}
           </div>
         )}
-
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-400 font-medium">Bio</label>
           <textarea
@@ -140,26 +124,11 @@ export default function Settings() {
             onChange={(e) => setBio(e.target.value)}
           />
         </div>
-
         <form onSubmit={grabinfo}>
           <button className="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm py-2 rounded transition-colors">
             Save Changes
           </button>
         </form>
-      </div>
-
-      {/* PROFILE PREVIEW */}
-      <div className="relative border border-white/10 rounded-xl bg-zinc-950 overflow-hidden">
-        <div className="absolute top-3 left-4 text-[10px] uppercase tracking-wider font-bold text-zinc-500 pointer-events-none z-10">
-          Preview
-        </div>
-        <div className="pt-4 opacity-90">
-          <ProfileClient
-            user={previewUser}
-            solvedProblems={[]} // We can just push in nothing since we don't really want to display *everything*.
-            publishedProblems={[]}
-          />
-        </div>
       </div>
     </main>
   );
