@@ -83,7 +83,7 @@ export default function Settings() {
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-xs text-gray-400 font-medium">
-            Display Name
+            Display name
           </label>
           <input
             className="bg-zinc-800 text-white rounded p-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500"

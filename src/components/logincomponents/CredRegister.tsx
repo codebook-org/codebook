@@ -56,7 +56,7 @@ export default function CredRegister() {
           });
         }
       } else {
-        window.location.href = "/problems-library";
+        window.location.href = "/";
       }
     }
   };

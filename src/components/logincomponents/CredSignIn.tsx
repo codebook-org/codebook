@@ -23,7 +23,7 @@ export default function CredSignIn() {
         type: "warning",
       });
     } else {
-      window.location.href = "/problems-library";
+      window.location.href = "/";
     }
   };
 
