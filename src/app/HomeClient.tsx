@@ -16,7 +16,7 @@ export default function HomeClient(): JSX.Element {
             <GitPullRequest className="size-4 mr-1.5" aria-hidden="true" />
             v0.1.0-beta
           </span>
-          <span>//</span>
+          <span>{"//"}</span>
           <Link
             href={"https://github.com/codebook-org/codebook"}
             target="_blank"
