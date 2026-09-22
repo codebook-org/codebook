@@ -93,7 +93,9 @@ export default function Settings() {
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-xs ml-2 text-monaco-muted font-medium">Username</label>
+          <label className="text-xs ml-2 text-monaco-muted font-medium">
+            Username
+          </label>
           <input
             className="w-full flex-1 min-w-0 bg-neutral-900/80 px-3 py-3 mb-1 rounded-lg text-sm text-monaco-txt focus:ring-2 focus:ring-blue-500 focus:outline-none"
             value={username || ""}
@@ -116,7 +118,9 @@ export default function Settings() {
           </div>
         )}
         <div className="flex flex-col gap-1">
-          <label className="text-xs ml-2 text-monaco-muted font-medium">Bio</label>
+          <label className="text-xs ml-2 text-monaco-muted font-medium">
+            Bio
+          </label>
           <textarea
             className="w-full h-32 bg-neutral-900/80 px-3 py-3 mb-1 rounded-lg text-sm text-monaco-txt resize-none focus:ring-2 focus:ring-blue-500 focus:outline-none"
             value={bio}

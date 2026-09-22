@@ -17,16 +17,16 @@ export default function HomeClient(): JSX.Element {
             v0.1.0-beta
           </span>
           <span>//</span>
-          <Link 
+          <Link
             href={"https://github.com/codebook-org/codebook"}
             target="_blank"
             rel="noopener norefferer"
             className="flex items-center gap-1.5 hover:text-monaco-txt cursor-pointer"
           >
-            <svg 
-              className="size-4" 
-              viewBox="0 0 98 96" 
-              fill="currentColor" 
+            <svg
+              className="size-4"
+              viewBox="0 0 98 96"
+              fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
               aria-label="GitHub Logo"
@@ -44,7 +44,8 @@ export default function HomeClient(): JSX.Element {
           </Link>
         </div>
         <p className="font-mono text-sm text-monaco-txt mt-6">
-          codebook is a platform for hosting custom LeetCode-style programming problems.
+          codebook is a platform for hosting custom LeetCode-style programming
+          problems.
         </p>
       </div>
     </main>
