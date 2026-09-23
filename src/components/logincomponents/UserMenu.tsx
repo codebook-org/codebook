@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { UserRound, Settings, LogOut, Notebook, Star } from "lucide-react";
+import { UserRound, Settings, LogOut, PencilSparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Tooltip from "@/components/Tooltip";
@@ -13,13 +13,12 @@ export default function UserMenu() {
 
   const MENU_LINKS = [
     {
-      href: `/profile/${session?.user?.id}`,
+      href: `/profile/${session?.user?.name}`,
       label: "Profile",
       icon: UserRound,
     },
-    { href: "/myproblems", label: "My problems", icon: Notebook },
-    { href: "/favorites", label: "Favorites", icon: Star },
-    { href: "/settings", label: "User settings", icon: Settings },
+    { href: "/publish", label: "Create a problem", icon: PencilSparkles },
+    { href: "/settings", label: "Profile settings", icon: Settings },
   ];
 
   useEffect(() => {

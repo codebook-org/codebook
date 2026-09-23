@@ -61,7 +61,7 @@ export default function Settings() {
           // We do not need to update bio since it's not attributed to the session :)
         });
 
-        redirect("/profile/" + session.user.id);
+        redirect("/profile/" + username);
       } else {
         setWarning({
           message: "That username is already taken. Try another one!",

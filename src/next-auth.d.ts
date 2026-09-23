@@ -7,6 +7,8 @@ declare module "next-auth" {
       username?: string;
       displayName?: string;
     } & DefaultSession["user"];
+
+    solvedProblemIds: number[];
   }
 
   interface User extends DefaultUser {
@@ -20,5 +22,6 @@ declare module "next-auth/jwt" {
     id?: number;
     displayName?: string;
     username?: string;
+    solvedProblemIds?: number[];
   }
 }

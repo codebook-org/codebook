@@ -48,14 +48,14 @@ export default function ProblemClient({
   initialSolveCount,
   userHasSolved,
 }) {
-  const { session } = useSession();
+  const { session, update } = useSession();
   const editorRef = useRef(null);
   const vimInstanceRef = useRef(null);
   const languageDropdownRef = useRef(null);
   const keybindDropdownRef = useRef(null);
   const [results, setResults] = useState(null);
   const [status, setStatus] = useState("");
-  const [favorited, setFavorited] = useState(false); // TODO: check if already favorited
+  //const [favorited, setFavorited] = useState(false); // TODO: check if already favorited
   const [linkCopied, setLinkCopied] = useState(false);
   const [language, setLanguage] = useState("c++");
   const [keybind, setKeybind] = useState("standard");
@@ -142,6 +142,7 @@ export default function ProblemClient({
         setHasSolved(true);
         setSolveCount((prev) => prev + 1);
         SolveCelebration();
+        await update({ user: {} });
       }
     }
   };
@@ -251,7 +252,7 @@ export default function ProblemClient({
                       <SquareArrowOutUpRight className="size-4.5" />
                     </button>
                   </Tooltip>
-                  <Tooltip content="Favorite">
+                  {/*<Tooltip content="Favorite">
                     <button
                       onClick={() => setFavorited(!favorited)}
                       className={`transition-colors duration-150 p-1.5 cursor-pointer rounded-lg hover:bg-monaco-light hover:text-monaco-txt
@@ -263,7 +264,7 @@ export default function ProblemClient({
                     >
                       <Star className={`size-4.5 ${favorited && ""}`} />
                     </button>
-                  </Tooltip>
+                  </Tooltip>*/}
                 </div>
               }
             >
@@ -273,7 +274,7 @@ export default function ProblemClient({
               <hr className="border-t border-monaco-mid mt-2 mb-2"></hr>
               <div className="flex text-xs text-monaco-muted pb-4">
                 <h1 className="pr-1">By</h1>
-                <Link href={`/profile/${problemCreator?.userId ?? 1}`}>
+                <Link href={`/profile/${problemCreator.username}`}>
                   <h1 className="hover:underline hover:text-blue-500 transition-colors">
                     {problemCreator?.displayName ??
                       problemCreator?.username ??
