@@ -2,81 +2,52 @@
 
 import Link from "next/link";
 import { JSX } from "react";
-import { Info, ToolCase, Bug, GitPullRequest } from "lucide-react";
+import { GitPullRequest, CircleQuestionMark } from "lucide-react";
 
 export default function HomeClient(): JSX.Element {
   return (
-    <main className="min-h-[calc(100vh-4rem)] flex flex-col justify-center max-w-3xl mx-auto pt-6 pb-8 text-left">
-      <header className="font-mono px-6 py-2 mb-5">
+    <main className="min-h-[calc(100vh-4rem)] flex flex-col justify-center max-w-3xl mx-auto pt-6 pb-64 text-left">
+      <div className="font-mono px-6 py-2 mb-5">
         <h1 className="text-xl font-bold text-monaco-txt">
           codebook<span className="animate-blink">_</span>
         </h1>
-        <p className="flex items-center text-xs text-monaco-muted mt-1">
-          <GitPullRequest className="size-4 mr-2" />
-          v0.1.0-beta
-        </p>
-      </header>
-      <section className="font-mono px-6 py-3 mb-5 backdrop-blur-sm">
-        <h1 className="text-monaco-txt flex items-center font-semibold mb-2">
-          <Info className="size-5 mr-2 text-monaco-muted" />
-          About
-        </h1>
-        <p className="text-sm text-monaco-txt leading-relaxed">
-          codebook is a platform for hosting custom LeetCode-style programming
-          problems. It is designed to make sharing coding challenges convenient
-          and fun. If you love competitive programming, solving algorithmic
-          puzzles, or building clever challenges, you&apos;ll feel right at home
-          here.
-        </p>
-      </section>
-      <section className="font-mono px-6 py-3 mb-5 backdrop-blur-sm">
-        <h1 className="text-monaco-txt flex items-center font-semibold mb-2">
-          <ToolCase className="size-5 mr-2 text-monaco-muted" />
-          Features
-        </h1>
-        <p className="text-sm text-monaco-txt leading-relaxed">
-          Create custom problems using codebook&apos;s feature-rich problem
-          editor and publish them directly to your profile to grow your very own
-          repository of programming challenges.
-        </p>
-        <p className="text-sm text-monaco-txt leading-relaxed mt-4">
-          Challenging your friends is as easy as sending a link. codebook
-          provides a sleek in-browser code editing experience that handles code
-          execution and test case evaluation for you.
-        </p>
-        <p className="text-sm text-monaco-txt leading-relaxed mt-4">
-          For a more in-depth look into codebook&apos;s features and a
-          walkthrough on getting started, check out our{" "}
+        <div className="flex items-center gap-4 text-xs text-monaco-muted">
+          <span className="flex items-center">
+            <GitPullRequest className="size-4 mr-1.5" aria-hidden="true" />
+            v0.1.0-beta
+          </span>
+          <span>{"//"}</span>
           <Link
-            href="/guide"
-            className="bg-yellow-700/25 hover:bg-yellow-700/35 text-yellow-600 transition-colors px-1.5 py-0.5 inline-block rounded-md font-medium alignment-baseline"
-          >
-            guide
-          </Link>
-          .
-        </p>
-      </section>
-      <section className="font-mono px-6 py-3 mb-5 backdrop-blur-sm">
-        <h1 className="text-monaco-txt flex items-center font-semibold mb-2">
-          <Bug className="size-5 mr-2 text-monaco-muted" />
-          Bug report
-        </h1>
-        <p className="text-sm text-monaco-txt leading-relaxed">
-          Found a bug? Drop us a line over on{" "}
-          <Link
-            href="https://github.com/codebook-org/codebook"
+            href={"https://github.com/codebook-org/codebook"}
             target="_blank"
-            rel="noopener noreferrer"
-            className="bg-yellow-700/25 hover:bg-yellow-700/35 text-yellow-600 transition-colors px-1.5 py-0.5 inline-block rounded-md font-medium alignment-baseline"
+            rel="noopener norefferer"
+            className="flex items-center gap-1.5 hover:text-monaco-txt cursor-pointer"
           >
-            GitHub
+            <svg
+              className="size-4"
+              viewBox="0 0 98 96"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="GitHub Logo"
+            >
+              <g clipPath="url(#github-clip)">
+                <path d="M41.4395 69.3848C28.8066 67.8535 19.9062 58.7617 19.9062 46.9902C19.9062 42.2051 21.6289 37.0371 24.5 33.5918C23.2559 30.4336 23.4473 23.7344 24.8828 20.959C28.7109 20.4805 33.8789 22.4902 36.9414 25.2656C40.5781 24.1172 44.4062 23.543 49.0957 23.543C53.7852 23.543 57.6133 24.1172 61.0586 25.1699C64.0254 22.4902 69.2891 20.4805 73.1172 20.959C74.457 23.543 74.6484 30.2422 73.4043 33.4961C76.4668 37.1328 78.0937 42.0137 78.0937 46.9902C78.0937 58.7617 69.1934 67.6621 56.3691 69.2891C59.623 71.3945 61.8242 75.9883 61.8242 81.252L61.8242 91.2051C61.8242 94.0762 64.2168 95.7031 67.0879 94.5547C84.4102 87.9512 98 70.6289 98 49.1914C98 22.1074 75.9883 0 48.9043 0C21.8203 0 0 22.1074 0 49.1914C0 70.4375 13.4941 88.0469 31.6777 94.6504C34.2617 95.6074 36.75 93.8848 36.75 91.3008L36.75 83.6445C35.4102 84.2188 33.6875 84.6016 32.1562 84.6016C25.8398 84.6016 22.1074 81.1563 19.4277 74.7441C18.375 72.1602 17.2266 70.6289 15.0254 70.3418C13.877 70.2461 13.4941 69.7676 13.4941 69.1934C13.4941 68.0449 15.4082 67.1836 17.3223 67.1836C20.0977 67.1836 22.4902 68.9063 24.9785 72.4473C26.8926 75.2227 28.9023 76.4668 31.2949 76.4668C33.6875 76.4668 35.2187 75.6055 37.4199 73.4043C39.0469 71.7773 40.291 70.3418 41.4395 69.3848Z" />
+              </g>
+              <defs>
+                <clipPath id="github-clip">
+                  <rect width="98" height="96" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span>GitHub</span>
           </Link>
-          .
+        </div>
+        <p className="font-mono text-sm text-monaco-txt mt-6">
+          codebook is a platform for hosting custom LeetCode-style programming
+          problems.
         </p>
-      </section>
-      <footer className="font-mono text-center text-xs text-monaco-light mt-auto pt-8">
-        Made with love by a group of friends from the University of Washington.
-      </footer>
+      </div>
     </main>
   );
 }
