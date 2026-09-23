@@ -1,42 +1,27 @@
-# codebook
+<img width="85%" height="85%" alt="codebook-banner" src="https://github.com/user-attachments/assets/43c96c24-e786-463c-9950-533931d8c62f" />
 
-A social platform for publishing and solving coding problems.
+<br />
+
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+
+## About
+
+codebook is a platform for hosting custom LeetCode-style programming problems. It is designed to make sharing coding challenges convenient and fun.
 
 ## Features
 
-- **Publish problems**: Share coding challenges with the codebook community.
-- **Browse problems**: Explore problems posted by other users.
+- **Create**: Use the problem editor to craft custom coding challenges.
+- **Profiles**: Your profile acts as your very own repository of programming problems.
+- **Share**: Challenging your friends is as easy as sending a link.
 - **In-browser code editor**: Solve problems directly in your browser using C++, Python, or Java.
-- **Sandboxed execution**: Secure and efficient code compilation/execution powered by Piston.
+- **Sandboxed execution**: Secure and efficient code execution powered by [Piston](https://github.com/engineer-man/piston).
 
-## Tech stack
+## Bug reports
 
-- **Frontend/Backend**: Next.js 14+
-- **Database**: PostgreSQL
-- **Code execution engine**: Engineer-Man/Piston
-- **Authentication**: Auth.js with Google OAuth integration
-
-## Deployment
-
-### Prerequisites
-
-Create a `.env.local` file in the root directory of the project and provide the necessary environment variables.
-
-### Starting the application
-
-To download the latest images from Docker Hub and start the stack, run the following commands:
-
-```bash
-docker compose -f docker-compose.prod.yml pull
-docker compose -f docker-compose.prod.yml --env-file .env.local up -d
-```
-
-Access locally at: http://localhost:3000.
-
-### Stopping the application
-
-To shut down the containers:
-
-```bash
-docker compose -f docker-compose.prod.yml down
-```
+If you encounter a bug, please create an issue.

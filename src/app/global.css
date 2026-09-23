@@ -110,6 +110,20 @@ body {
   white-space: pre-line;
 }
 
+.problem-markdown a {
+  color: var(--color-blue-500);
+  text-decoration: none;
+  font-weight: 500;
+  transition:
+    color 0.15s ease-in-out,
+    text-decoration 0.15s ease-in-out;
+}
+
+.problem-markdown a:hover {
+  color: var(--color-blue-500);
+  text-decoration: underline;
+}
+
 .problem-markdown code:not(pre > code) {
   background-color: var(--color-neutral-900);
   color: var(--color-monaco-txt);
