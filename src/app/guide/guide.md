@@ -1,20 +1,26 @@
-# introduction
+## About
 
-welcome to codebook. whether you're here to prepare for upcoming technical interviews, test your problem solving limits, or design and share your own challenges, this guide will walk you through everything codebook has to offer. dive into the sections below to get started, or use the sidebar to jump to a section.
+codebook is a platform for hosting custom LeetCode-style programming problems
 
-## accounts
+### Features
+
+- Create problems:
+- In-browser code editor:
+- Profiles:
+
+## Getting started
 
 to access codebook’s features, you need an account.
 
-### register
+### Creating an account
 
 creating an account takes less than a minute, and its free! click the sign up in the top right corner and hit register now. you can use your email address or use your google account. once verified, your profile will track your solved problems, problem creation history, and community ratings and contributions automatically.
 
-### log In
+### Profile settings
 
 if you already have a codebook account, click the sign up in the top right corner. log in is automatically selected, so simply choose the option you originally registered with, and jump straight back into coding.
 
-## solve problems
+## Code editor
 
 sharpen your algorithmic thinking or practice language-specific syntax across a vast expanse of user curated challenges.
 
@@ -34,7 +40,7 @@ once you’re confident in your implementation, click the submit button below th
 
 after your submission is evaluated, the test result tab displays your verdict. you’ll see whether your code passed or ran into errors (such as a wrong answer or compilation error), as well as overall accuracy to help you in future attempts.
 
-## create problems
+## Problem editor
 
 more flavour text claiming that donating 1000 dollars to each codebook member will extend life expectancy..
 
@@ -86,7 +92,7 @@ build the test suite used by the judge to evaluate programmer submissions.
 - **visibility** — toggle test case privacy using the lock icon to designate cases as public samples or hidden cases.
 - **management** — click the + button to append additional cases or the x to remove a case from the suite.
 
-## profiles
+## Profiles
 
 your profile serves as your personal hub and public portfolio on codebook. customize your profile, monitor your progress, and showcase the challenges you’ve authored the community.
 
@@ -105,3 +111,5 @@ track your problems solved! this tab lists every challenge you have successfully
 ### published problems
 
 manage and show off the challenges you’ve created. this tab displays all the problems you’ve authored and published to codebook, allowing other users to explore, solve, and rate your contributions.
+
+## Reporting bugs
