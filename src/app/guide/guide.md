@@ -1,107 +1,156 @@
-# introduction
+## ✨ About
 
-welcome to codebook. whether you're here to prepare for upcoming technical interviews, test your problem solving limits, or design and share your own challenges, this guide will walk you through everything codebook has to offer. dive into the sections below to get started, or use the sidebar to jump to a section.
+codebook was created by a group of friends from the University of Washington.
 
-## accounts
+It's a platform for hosting custom LeetCode-style programming problems,
+and is designed to make sharing coding challenges convenient and fun.
+If you enjoy DSA, competitive programming, or just creating clever challenges, you'll feel right at home here!
 
-to access codebook’s features, you need an account.
+### Features
 
-### register
+- **Create problems**: Use the problem editor to craft custom coding problems.
+- **Grow your profile**: Your profile serves as your very own repository of custom programming challenges.
+- **Challenge your friends**: It's as easy as sending a link!
+- **In-browser code editing**: Users solve problems directly in the browser using C++, Python, and Java.
+- **Sandboxed execution**: Secure and efficient code execution powered by [Piston](https://github.com/engineer-man/Piston).
 
-creating an account takes less than a minute, and its free! click the sign up in the top right corner and hit register now. you can use your email address or use your google account. once verified, your profile will track your solved problems, problem creation history, and community ratings and contributions automatically.
+You can learn more about codebook's features below.
 
-### log In
+## 🚀 Getting started
 
-if you already have a codebook account, click the sign up in the top right corner. log in is automatically selected, so simply choose the option you originally registered with, and jump straight back into coding.
+An account is required to fully access codebook's features.
 
-## solve problems
+Once you are signed in, you will be able to create programming problems using the problem editor. These problems are saved to your profile, which serves
+as your very own repository of custom-made challenges.
 
-sharpen your algorithmic thinking or practice language-specific syntax across a vast expanse of user curated challenges.
+Solving problems on codebook does _not_ require you to be signed in; however, you will not be able to cast votes or record your solutions unless you are signed in.
 
-### description
+### Creating an account
 
-every challenge includes a problem statement outlining the objective, input/output formats, and strict constraints. walk through provided test cases to ensure your logic accounts for scale and complexity.
+codebook currently supports Google sign-in only.
+Click the **Sign in** button in the upper-right corner of this page to navigate to the authentication screen.
+Then, select **Sign in with Google** and enter your credentials when prompted to complete the process.
 
-### code editor
+### A quick tour
 
-write, test, and submit your solutions directly in browser, with multiple supported languages. start with provided starter code, or face it blank.
+Navigate codebook using the navbar at the top of the page. Below is a quick overview of all of codebook's pages:
 
-### submitting solutions
+- **Home**: codebook's landing page. Check back here for news and release notes.
+- **Guide**: A comprehensive guide of codebook's features. If you're unsure about something, check here first.
+- **Profile**: This is where your coding problems live. Access it via the user navigation menu located on the right end of the navbar.
+- **Solve**: When you open a problem, you will see the problem solving interface, which should look familiar. More on that in the next section.
+- **Publish**: codebook's problem editor. It can be accessed via the user navigation menu.
 
-once you’re confident in your implementation, click the submit button below the code editor. this triggers our automated judge thanks to the Piston API, which compiles and tests your solution against i/o inputs to evaluate correctness.
+### So, where are all the problems?
 
-### view accuracy
+A new user interested in _solving_ programming problems may be confused by codebook's lack of a searchable library of problems.
+This is intentional. codebook is built first and foremost as a tool for users who are interested in _creating_ programming problems.
 
-after your submission is evaluated, the test result tab displays your verdict. you’ll see whether your code passed or ran into errors (such as a wrong answer or compilation error), as well as overall accuracy to help you in future attempts.
+If you're here to grind DSA skills for an upcoming technical interview, then you're in the wrong place. [LeetCode](https://leetcode.com) is a much better-suited tool for that!
 
-## create problems
+## ✏️ Solving problems
 
-more flavour text claiming that donating 1000 dollars to each codebook member will extend life expectancy..
+This section outlines the features of codebook's problem solving interface.
+It should look very familiar if you've used platforms such as LeetCode, HackerRank, or CodeSignal.
 
-### title
+### Description
 
-give your problem a concise and descriptive title in the top input field. a clear name helps other coders quickly identify the problem’s theme or focus.
+Every problem includes a problem statement. Problem authors will generally provide details such as problem objectives, input/output specifications, and helpful examples.
+It is up to the problem author to provide users with a high quality problem description.
 
-### writing descriptions
+At the top of the description pane, you can view the problem's current like count and the total accepted submissions. If you are signed in, you may cast your own vote here and,
+upon solving the problem for the first time, your solution will be recorded.
 
-write your problem using markdown and LaTeX in the description panel.
+### Code editor
 
-- **preview** — toggle between the write and preview tabs to verify how your formatting, code blocks, and examples render before you submit.
-- **specifications** — clearly state your input types, output requirements, and edge case constraints.
-- **math and LaTeX** — format mathematical notation and variable constraints directly using inline or block LaTeX syntax.
-- **examples** — include walkthrough examples with labelled inputs, outputs, and brief explanations showing how the logic executes.
+The code editor is where users write their solutions. When you open a problem for the first time, the code editor pane may already be populated with some starter code.
+This starter code is provided by the problem author. If you get stuck on a problem, and have strayed too far from the starter code, you can click the **Reset** button
+in the top right corner of the code editor pane to reset the current language's code back to the default starter code provided by the problem author.
 
-### starter Code
+Currently, codebook supports three programming languages &mdash; C++, Python, and Java. The current language can be toggled using the dropdown menu in the upper left corner of the code editor pane.
 
-provide boilerplate implementations across our supported languages (C++, Python, Java).
+In the top right section of the code editor pane, you may also toggle between keybinding modes. Currently, codebook only supports Standard mode and Vim mode, but Emacs style keybindings are coming soon!
 
-- **standard i/o** — codebook uses standard input/output (stdin and stdout) to validate test runs
-- **boilerplate patterns** — consider managing i/o handling in the background (like reading `std::cin` inside main) while leaving an empty function with helpful comments directing users where to write their logics.
+### Test result
 
-here's an example of c++ boilerplate code, where the backend handles the inputs and outputs.
+To submit a solution to codebook's server for grading, click the **Submit** button at the bottom of the code editor pane.
+After your submission is evaluated, the test result pane displays your verdict.
+
+There are four possible test result verdicts:
+
+- **Accepted**: Your submission passed all of the provided test cases.
+- **Wrong answer**: Your submission failed on at least one of the provided test cases.
+- **Compile error**: The code execution engine was unable to compile your submission due to a compilation error.
+- **Runtime error**: The code execution engine encountered a runtime error when running your compiled submission.
+
+In the case of an error, `stderr` will be displayed. Otherwise, the pane will be populated by each of the test cases that the problem author has provided.
+You can click on an individual test case to view its details. Note that some test cases may be hidden by the problem
+author. The details of hidden test cases cannot be viewed.
+
+## 📚 Problem editor
+
+codebook's problem editor allows users to author their own programming problems. This section covers the problem editor's features as well as some best practices for creating programming problems.
+
+### Writing a description
+
+Every programming problem needs a description. A good description clearly outlines the problem's objectives to the solver.
+
+Generally, an effective description includes:
+
+- A clear task or objective.
+- An explanation of all problem assumptions.
+- Detailed input and output specifications.
+- Specific input constraints.
+- Concrete examples of inputs and expected outputs with accompanying explanations.
+
+You can use Markdown and LaTeX to format your problem's description. Before publishing, make sure to check the **Preview** tab to see how the rendered content looks and make adjustments as needed.
+
+### Starter code
+
+Providing starter code is not required. If you choose to omit starter code from your problem, make sure to instruct solvers (via the problem description) to read inputs from `stdin` and write outputs to `stdout`, as this is how codebook's code execution engine evaluates solutions.
+
+Leaving the starter code blank and tasking the user with writing the _entire program_ is a style most commonly used in competitive programming. If you want your programming problem to feel more like LeetCode &mdash; where solvers are asked only to implement a single _function_ &mdash; you can handle standard I/O for them in your starter code.
+
+Here is an example of some C++ starter code that demonstrates this pattern:
 
 ```
 #include <iostream>
 
-// User-facing function where they write their logic:
+// User-facing function:
 int solve(int n) {
-	// Write code here.
-	return 0;
+    // Solver writes their implementation here!
+    return 0;
 }
 
 // Main manages standard I/O:
 int main() {
-	int n;
-	std::cin >> n;
-	std::cout << solve(n);
-	return 0;
+    int n;
+    std::cin >> n;
+    std::cout << solve(n);
+    return 0;
 }
 ```
 
-### test Cases
+### Test cases
 
-build the test suite used by the judge to evaluate programmer submissions.
+Test cases are used by codebook's judge to evaluate the correctness of a code submission. A good set of test cases generally covers the full range of a problem's constraints
+as well as edge cases.
 
-- **input & output** — supply the input and output expected in the text boxes given.
-- **visibility** — toggle test case privacy using the lock icon to designate cases as public samples or hidden cases.
-- **management** — click the + button to append additional cases or the x to remove a case from the suite.
+To add a test case, use the square **Plus** button inside of the **Test Cases** pane. Once a test case is added, you can edit its **Input** and **Expected Output**, which are used to evaluate
+the correctness of a code submission. The **Input** is passed to the code submission via `stdin` and the output of the program is written to `stdout`.
+This output is then compared against the provided **Expected Output** to evaluate the correctness of the submission.
 
-## profiles
+You can toggle whether a test case is **Hidden** using the **Lock** button. A hidden test case's details cannot be viewed by the solver. It is generally a good idea to hide
+trickier test cases from the solver.
 
-your profile serves as your personal hub and public portfolio on codebook. customize your profile, monitor your progress, and showcase the challenges you’ve authored the community.
+### Publishing and sharing your problem
 
-### displayed information
+Once you're ready, choose a fitting title for your problem and click the **Publish** button. When a problem is published, it cannot be edited, only deleted, so make
+sure to triple-check for any typos or mistakes.
 
-not only can you curate and contribute to the community through problems, but curate a profile you want to show to the people.
+Once published, your newly minted problem will live on your profile under the **My problems** tab. Users viewing your profile will be able to see the new problem and attempt
+to solve it. You can also copy the link to the problem and send it directly to your friends!
 
-- **avatar & handle** — display your username and customized avatar across the platform. use a display name if you’d like an alternative name from your handle.
-- **about you** — share a brief bio introducing yourself, your tech stack, or your coding interests.
-- **editing your profile** — click the icon the navbar to find the settings. update your bio, display name, or handle. preview it in the settings page to make sure it looks right.
+## 🐞 Reporting bugs
 
-### problems solved
-
-track your problems solved! this tab lists every challenge you have successfully completed, giving you a quick record of your past solution and practice history.
-
-### published problems
-
-manage and show off the challenges you’ve created. this tab displays all the problems you’ve authored and published to codebook, allowing other users to explore, solve, and rate your contributions.
+If you encounter a bug, please open an issue over on [GitHub](https://github.com/codebook-org/codebook).
