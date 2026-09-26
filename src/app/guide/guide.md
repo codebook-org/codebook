@@ -43,8 +43,8 @@ Navigate codebook using the navbar at the top of the page. Below is a quick over
 
 ### So, where are all the problems?
 
-A new user interested in *solving* programming problems may be confused by codebook's lack of a searchable library of problems.
-This is intentional. codebook is built first and foremost as a tool for users who are interested in *creating* programming problems.
+A new user interested in _solving_ programming problems may be confused by codebook's lack of a searchable library of problems.
+This is intentional. codebook is built first and foremost as a tool for users who are interested in _creating_ programming problems.
 
 If you're here to grind DSA skills for an upcoming technical interview, then you're in the wrong place. [LeetCode](https://leetcode.com) is a much better-suited tool for that!
 
