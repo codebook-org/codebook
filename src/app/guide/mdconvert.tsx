@@ -31,7 +31,7 @@ export default function ConvertedGuide() {
             href={item.url}
             className="block text-sm text-monaco-txt hover:bg-monaco-mid rounded-lg transition-colors px-3 py-2.5"
           >
-            {item.title}
+            {item.title.slice(2)}
           </a>
         ))}
       </aside>
@@ -50,7 +50,7 @@ export default function ConvertedGuide() {
             h2: ({ id, children }) => (
               <h2
                 id={id}
-                className="text-zinc-200 text-xl font-bold border-b border-zinc-800 pb-1 scroll-mt-6 mb-4 mt-12"
+                className="text-zinc-200 text-xl font-bold border-b border-monaco-light pb-1 scroll-mt-6 mb-4 mt-12"
               >
                 {children}
               </h2>
@@ -65,6 +65,16 @@ export default function ConvertedGuide() {
                 {children}
               </p>
             ),
+            a: ({ href, children }) => (
+              <a 
+                href={href}
+                target="_blank"
+                rel="noopener norefferer"
+                className="text-sm text-blue-500 hover:underline"
+              >
+                {children}
+              </a>
+            ),
             ul: ({ children }) => (
               <ul className="list-disc list-inside pl-4 space-y-2 mb-6 text-zinc-400">
                 {children}
@@ -74,7 +84,7 @@ export default function ConvertedGuide() {
               <li className="text-sm leading-relaxed">{children}</li>
             ),
             pre: ({ children }) => (
-              <pre className="my-5 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-sm leading-relaxed text-zinc-200 scrollbar-none">
+              <pre className="my-5 overflow-x-auto rounded-xl border border-monaco-light bg-neutral-900 p-4 text-xs leading-relaxed text-zinc-200 scrollbar-none">
                 {children}
               </pre>
             ),
