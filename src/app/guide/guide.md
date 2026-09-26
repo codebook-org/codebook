@@ -136,9 +136,9 @@ int main() {
 Test cases are used by codebook's judge to evaluate the correctness of a code submission. A good set of test cases generally covers the full range of a problem's constraints
 as well as edge cases.
 
-To add a test case, use the square **Plus** button inside of the **Test Cases** pane. Once a test case is added, you can edit its **Input** and **Expected Output**, which are used to evaluate
-the correctness of a code submission. The **Input** is passed to the code submission via `stdin` and the output of the program is written to `stdout`.
-This output is then compared against the provided **Expected Output** to evaluate the correctness of the submission.
+To add a test case, use the square **Plus** button inside of the **Test Cases** pane. Once a test case is added, you can edit its **Input** and **Expected Output**.
+The **Input** is passed to the code submission via `stdin` and the output of the program is written to `stdout`.
+This output is then compared against the provided **Expected Output** to reach a verdict.
 
 You can toggle whether a test case is **Hidden** using the **Lock** button. A hidden test case's details cannot be viewed by the solver. It is generally a good idea to hide
 trickier test cases from the solver.
