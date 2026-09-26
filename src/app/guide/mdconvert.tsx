@@ -56,7 +56,10 @@ export default function ConvertedGuide() {
               </h2>
             ),
             h3: ({ id, children }) => (
-              <h3 id={id} className="text-zinc-300 font-semibold scroll-mt-6 mt-8 mb-2">
+              <h3
+                id={id}
+                className="text-zinc-300 font-semibold scroll-mt-6 mt-8 mb-2"
+              >
                 {children}
               </h3>
             ),
@@ -66,7 +69,7 @@ export default function ConvertedGuide() {
               </p>
             ),
             a: ({ href, children }) => (
-              <a 
+              <a
                 href={href}
                 target="_blank"
                 rel="noopener norefferer"

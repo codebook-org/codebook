@@ -23,7 +23,7 @@ An account is required to fully access codebook's features.
 Once you are signed in, you will be able to create programming problems using the problem editor. These problems are saved to your profile, which serves
 as your very own repository of custom-made challenges.
 
-Solving problems on codebook does *not* require you to be signed in; however, you will not be able to cast votes or record your solutions unless you are signed in.
+Solving problems on codebook does _not_ require you to be signed in; however, you will not be able to cast votes or record your solutions unless you are signed in.
 
 ### Creating an account
 
@@ -34,6 +34,7 @@ Then, select **Sign in with Google** and enter your credentials when prompted to
 ### A quick tour
 
 Navigate codebook using the navbar at the top of the page. Below is a quick overview of all of codebook's pages:
+
 - **Home**: codebook's landing page. Check back here for news and release notes.
 - **Guide**: A comprehensive guide of codebook's features. If you're unsure about something, check here first.
 - **Profile**: This is where your coding problems live. Access it via the user navigation menu located on the right end of the navbar.
@@ -76,6 +77,7 @@ To submit a solution to codebook's server for grading, click the big "Submit" bu
 After your submission is evaluated, the test result pane displays your verdict.
 
 There are four possible test result verdicts:
+
 - **Accepted**: Your submission passed all of the provided test cases.
 - **Wrong answer**: Your submission failed on at least one of the provided test cases.
 - **Compile error**: The code execution engine was unable to compile your submission due to a compilation error.
@@ -94,6 +96,7 @@ codebook's problem editor allows users to author their own programming problems.
 Every programming problem needs a description. A good description clearly outlines the problem's objectives to the solver.
 
 Generally, an effective description includes:
+
 - A clear task or objective.
 - An explanation of all problem assumptions.
 - Detailed input and output specifications.
@@ -106,7 +109,7 @@ You can use Markdown and LaTeX to format your problem's description. Before publ
 
 Providing starter code is not required. If you choose to omit starter code from your problem, make sure to instruct solvers (via the problem description) to read inputs from `stdin` and write outputs to `stdout`, as this is how codebook's code execution engine evaluates solutions.
 
-Leaving the starter code blank and tasking the user with writing the *entire program* is a style most commonly used in competitive programming. If you want your programming problem to feel more like LeetCode &mdash; where solvers are asked only to implement a single *function* &mdash; you can handle standard I/O for them in your starter code. 
+Leaving the starter code blank and tasking the user with writing the _entire program_ is a style most commonly used in competitive programming. If you want your programming problem to feel more like LeetCode &mdash; where solvers are asked only to implement a single _function_ &mdash; you can handle standard I/O for them in your starter code.
 
 Here is an example of some C++ starter code that demonstrates this pattern:
 
