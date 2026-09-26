@@ -27,7 +27,7 @@ Solving problems on codebook does _not_ require you to be signed in; however, yo
 
 ### Creating an account
 
-Codebook currently supports Google sign-in only.
+codebook currently supports Google sign-in only.
 Click the **Sign in** button in the upper-right corner of this page to navigate to the authentication screen.
 Then, select **Sign in with Google** and enter your credentials when prompted to complete the process.
 
@@ -43,8 +43,8 @@ Navigate codebook using the navbar at the top of the page. Below is a quick over
 
 ### So, where are all the problems?
 
-A new user interested in **solving** programming problems may be confused by codebook's lack of a searchable library of problems.
-This is intentional. codebook is built first and foremost as a tool for users who are interested in **creating** programming problems.
+A new user interested in *solving* programming problems may be confused by codebook's lack of a searchable library of problems.
+This is intentional. codebook is built first and foremost as a tool for users who are interested in *creating* programming problems.
 
 If you're here to grind DSA skills for an upcoming technical interview, then you're in the wrong place. [LeetCode](https://leetcode.com) is a much better-suited tool for that!
 
@@ -73,7 +73,7 @@ In the top right section of the code editor pane, you may also toggle between ke
 
 ### Test result
 
-To submit a solution to codebook's server for grading, click the big "Submit" button at the bottom of the code editor pane.
+To submit a solution to codebook's server for grading, click the **Submit** button at the bottom of the code editor pane.
 After your submission is evaluated, the test result pane displays your verdict.
 
 There are four possible test result verdicts:
@@ -136,9 +136,9 @@ int main() {
 Test cases are used by codebook's judge to evaluate the correctness of a code submission. A good set of test cases generally covers the full range of a problem's constraints
 as well as edge cases.
 
-To add a test case, use the square **Plus** button inside of the **Test Cases** pane. Once a test case is added, you can edit its **Input** and **Expected output**, which are used to evaluate
+To add a test case, use the square **Plus** button inside of the **Test Cases** pane. Once a test case is added, you can edit its **Input** and **Expected Output**, which are used to evaluate
 the correctness of a code submission. The **Input** is passed to the code submission via `stdin` and the output of the program is written to `stdout`.
-This output is then compared against the provided **Expected output** to evaluate the correctness of the submission.
+This output is then compared against the provided **Expected Output** to evaluate the correctness of the submission.
 
 You can toggle whether a test case is **Hidden** using the **Lock** button. A hidden test case's details cannot be viewed by the solver. It is generally a good idea to hide
 trickier test cases from the solver.
