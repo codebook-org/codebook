@@ -275,7 +275,7 @@ export default function ProblemClient({
               <div className="flex text-xs text-monaco-muted pb-4">
                 <h1 className="pr-1">By</h1>
                 <Link href={`/profile/${problemCreator.username}`}>
-                  <h1 className="hover:underline hover:text-blue-500 transition-colors">
+                  <h1 className="text-blue-500 hover:underline hover:text-blue-500 transition-colors">
                     {problemCreator?.displayName ??
                       problemCreator?.username ??
                       "Unknown Author"}
