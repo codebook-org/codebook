@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex w-full h-full mt-16 flex-col items-center bg-background">
-      <div className="w-full max-w-md min-h-[410px] rounded-3xl border border-monaco-light bg-monaco-dark p-8 backdrop-blur-md flex flex-col">
+      <div className="w-full max-w-md min-h-[190px] rounded-3xl border border-monaco-light bg-monaco-dark p-8 backdrop-blur-md flex flex-col">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={mode}
@@ -41,6 +41,7 @@ export default function LoginPage() {
                 </div>
               )}
             </div>
+            {/* commenting this out for now while cred register is under construction...
             {mode == "login" ? <CredSignIn /> : <CredRegister />}
             <div className="text-xs text-monaco-muted text-center mt-2">
               {mode == "login"
@@ -53,6 +54,7 @@ export default function LoginPage() {
                 {mode == "login" ? "Register" : "Sign in"}
               </button>
             </div>
+            */}
             {mode == "login" && (
               <div>
                 <div className="h-[1px] w-full mt-6 mb-9 bg-monaco-mid" />
