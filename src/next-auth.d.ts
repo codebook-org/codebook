@@ -6,14 +6,22 @@ declare module "next-auth" {
     user: {
       username?: string;
       displayName?: string;
+      solvedProblemIds?: number[];
     } & DefaultSession["user"];
-
-    solvedProblemIds: number[];
   }
 
   interface User extends DefaultUser {
     displayName?: string;
     username?: string;
+    solvedProblemIds?: number[];
+  }
+}
+
+declare module "next-auth/adapters" {
+  interface AdapterUser {
+    displayName?: string;
+    username?: string;
+    solvedProblemIds?: number[];
   }
 }
 
