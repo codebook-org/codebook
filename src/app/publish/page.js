@@ -95,12 +95,11 @@ export default function Publish() {
         let probData = await addProblem(
           trimmedTitle,
           trimmedDescription,
-          session.user.id,
           starterCode,
         );
         addAllTestCases(probData);
         toast.success("Problem published!");
-        router.replace(`/solve/${probData}`);
+        router.replace(`/profile/${session.user.username}`);
       } else {
         toast.error(result);
       }
