@@ -30,7 +30,8 @@ export async function addTestCasedb(problemId, input, expectedOut, visible) {
   if (!currentUserId) return null; // unauthorized
 
   // problem to add test case for
-  const problem = await CodebookDatabaseAPI.Problems.getProblemByProblemId(problemId);
+  const problem =
+    await CodebookDatabaseAPI.Problems.getProblemByProblemId(problemId);
   if (!problem) return null; // problem not found
 
   if (problem.userId !== currentUserId) return null; // unauthorized
